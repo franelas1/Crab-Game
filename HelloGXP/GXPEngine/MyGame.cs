@@ -8,6 +8,8 @@ public class MyGame : Game {
 	EasyDraw background;
 	EasyDraw button;
 	EasyDraw information;
+	//add some comments
+	//test1
 
 	// Declare other variables:
 
