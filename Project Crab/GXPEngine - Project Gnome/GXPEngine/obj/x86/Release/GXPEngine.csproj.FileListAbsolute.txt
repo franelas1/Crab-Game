@@ -1,0 +1,4 @@
+C:\Users\seanb\Documents\CMGT GXP\GXP Projects\projects\GXPEngine - Project Gnome\GXPEngine\bin\Release\GXPEngine.exe
+C:\Users\seanb\Documents\CMGT GXP\GXP Projects\projects\GXPEngine - Project Gnome\GXPEngine\obj\x86\Release\GXPEngine.csproj.AssemblyReference.cache
+C:\Users\seanb\Documents\CMGT GXP\GXP Projects\projects\GXPEngine - Project Gnome\GXPEngine\obj\x86\Release\GXPEngine.csproj.CoreCompileInputs.cache
+C:\Users\seanb\Documents\CMGT GXP\GXP Projects\projects\GXPEngine - Project Gnome\GXPEngine\obj\x86\Release\GXPEngine.exe
