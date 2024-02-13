@@ -1,0 +1,6 @@
+C:\Users\Acer\Desktop\Year 1\2 Game Programming\HelloGXP\GXPEngine\bin\Debug\GXPEngine.exe
+C:\Users\Acer\Desktop\Year 1\2 Game Programming\HelloGXP\GXPEngine\bin\Debug\GXPEngine.pdb
+C:\Users\Acer\Desktop\Year 1\2 Game Programming\HelloGXP\GXPEngine\obj\x86\Debug\GXPEngine.csproj.AssemblyReference.cache
+C:\Users\Acer\Desktop\Year 1\2 Game Programming\HelloGXP\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+C:\Users\Acer\Desktop\Year 1\2 Game Programming\HelloGXP\GXPEngine\obj\x86\Debug\GXPEngine.exe
+C:\Users\Acer\Desktop\Year 1\2 Game Programming\HelloGXP\GXPEngine\obj\x86\Debug\GXPEngine.pdb
