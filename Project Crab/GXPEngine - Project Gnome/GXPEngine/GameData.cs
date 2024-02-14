@@ -31,12 +31,14 @@ public static class GameData
 
     public static Platform thePlatform; 
     public static List<Platform> thePlatformList = new List<Platform>();
+    public static List<Platform> thePlatformListSpawned = new List<Platform>();
     public static float playerPlatormColliderValue = 999;
 
     public static Boolean playerIsFallingJump = false;
 
     public static void checkPlat()
     {
+       
         foreach (Platform thePlatform in GameData.thePlatformList)
         {
             if (thePlayer != null)
@@ -48,11 +50,36 @@ public static class GameData
                         GameData.thePlatform = thePlatform;
                         GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
                     }
-
-
                 }
             }
+        }
+      
 
+        foreach (Platform thePlatform in GameData.thePlatformListSpawned)
+        {
+            thePlayer.x -= thePlatform.width / 2;
+            if (thePlayer != null)
+            {
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+
+                    else
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                    }
+                }
+
+                else
+                {
+                    thePlayer.x += thePlatform.width / 2;
+                }
+            }
         }
     }
     public static void CheckNewLevelCleared()
@@ -71,7 +98,8 @@ public static class GameData
     public static void ResetLevelData()
     {
         bossHealth = 6;
-       thePlatformList.Clear();
+        thePlatformList.Clear();
+        thePlatformListSpawned.Clear();
         theLevel = null;
         playerHealth = playerMaxHealth;
         playerDead = false;
