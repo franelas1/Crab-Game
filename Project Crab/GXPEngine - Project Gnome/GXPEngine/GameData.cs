@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,10 +15,6 @@ public static class GameData
     public static Level theLevel; //the level object itself
     public static bool playerDead = false;
 
-    public static int LevelCurrentTime = 0; //the current time past after the level loaded in milliseconds
-    public static decimal LevelCompleteTime = 0; //displaying the time past after the game loaded in second with 2 decimal point accuracy 
-    public static int levelCurrentScore;
-    public static int levelCompleteScore;
     public static int levelCleared = 0;
     public static int theFPS;
 
@@ -34,9 +30,59 @@ public static class GameData
     public static int[] jumpUpgradeList = new int[] { 1, 1, 1, 1, 1 };
     public static int[] speedUpgradeList = new int[] { 1, 1, 1, 1, 1 };
 
+    public static Platform thePlatform;
+    public static Platform thePlatformSpawn;
+    public static Platform thePlatformSpawnOld = null;
+    public static List<Platform> thePlatformList = new List<Platform>();
+    public static List<Platform> thePlatformListSpawned = new List<Platform>();
+    public static float playerPlatormColliderValue = 999;
 
-    public static int bossHealth = 4;
+    public static Boolean playerIsFallingJump = false;
 
+    public static Boolean detectSpawn = false;
+
+    public static void CheckPlat()
+    {
+       
+        foreach (Platform thePlatform in GameData.thePlatformList)
+        {
+            if (thePlayer != null)
+            {
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void CheckPlatSpawned()
+    {
+        foreach (Platform thePlatform in GameData.thePlatformListSpawned)
+        {
+            thePlayer.x -= thePlatform.width / 2;
+            if (thePlayer != null)
+            {
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    thePlayer.x += thePlatform.width / 2;
+                    GameData.thePlatformSpawn = thePlatform;
+                    detectSpawn = true;
+                    GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                }
+
+                else
+                {
+                    thePlayer.x += thePlatform.width / 2;
+                }
+            }
+
+        }
+    }
     public static void CheckNewLevelCleared()
     {
         if (levelCleared == 0 && theLevelName == "map1.tmx")
@@ -53,8 +99,8 @@ public static class GameData
     public static void ResetLevelData()
     {
         bossHealth = 6;
-        LevelCurrentTime = 0;
-        levelCurrentScore = 0;
+        thePlatformList.Clear();
+        thePlatformListSpawned.Clear();
         theLevel = null;
         playerHealth = playerMaxHealth;
         playerDead = false;

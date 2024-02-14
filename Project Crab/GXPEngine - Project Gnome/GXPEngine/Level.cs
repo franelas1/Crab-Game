@@ -5,6 +5,7 @@ using System.Media;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using GXPEngine;
+using GXPEngine.Core;
 using TiledMapParser;
 
 /*
@@ -26,6 +27,9 @@ public class Level : GameObject
     const int PICKUPCHECKTIME = 15;
 
     List<TriggerAction> triggerActionList = new List<TriggerAction>();
+
+
+    int ySapwnValue = 580;
     public Level(string theMapfileName)
     {
         Map mapData = MapParser.ReadMap(theMapfileName);
@@ -67,12 +71,18 @@ public class Level : GameObject
 
             //Manually create some of the game objects to make things working
             SpawnObjects(mapData);
+
+            
+            foreach (Platform thePlatform in FindObjectsOfType<Platform>())
+            {
+                GameData.thePlatformList.Add(thePlatform);
+            }
+            
         }
 
         //Setting up the camera boundary (player at center for these values)
         boundaryValueX = game.width / 2;
         boundaryValueY = game.height / 2;
-
 
     }
 
@@ -126,12 +136,6 @@ public class Level : GameObject
                     //Detecting if the text canvas is one of the specific text canvases
                     switch (theObject.GetStringProperty("f_displayID", ""))
                     {
-                        case "textCavas_displayTime":
-                            theTextCanvas.ChangeText(GameData.LevelCompleteTime.ToString());
-                            break;
-                        case "textCavas_displayScore":
-                            theTextCanvas.ChangeText(GameData.levelCompleteScore.ToString());
-                            break;
                     }
 
                     textCanvasListHash.Add(theObject.GetStringProperty("theTextCanvasID", ""), theTextCanvas);
@@ -187,10 +191,6 @@ public class Level : GameObject
 
     void Update()
     {
-        //Counting how much time based since the level started in milliseconds
-
-        GameData.LevelCurrentTime = Time.time - levelCompleteTimer;
-
         //Use camera if player is found
         if (thePlayer != null)
         {
@@ -201,10 +201,19 @@ public class Level : GameObject
         if (Time.time - pickUpCheckTimer >= PICKUPCHECKTIME)
         {
             pickUpCheckTimer = Time.time;
-            CheckText(); //Updating the time passed and score got to game data
+            
+            
         }
 
         CheckTriggerAction();
+
+        if (Input.GetKeyDown(Key.G))
+        {
+            spawnPlatform(0);
+        }
+
+        CheckPlatFormsSpawn();
+        CheckPlatforms();
     }
 
 
@@ -280,7 +289,7 @@ public class Level : GameObject
                     if (theLayer == 0)
                     {
                         theTile = new Tile(false, theTilesSet.Image.FileName, 1, 1, theTileNumber - theTilesSet.FirstGId,
-                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 1, 10, false, true);
+                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 10, false, true);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
                         AddChild(theTile);
@@ -291,7 +300,7 @@ public class Level : GameObject
                     else if (theLayer == 1)
                     {
                         theTile = new Tile(false, theTilesSet.Image.FileName, 1, 1, theTileNumber - theTilesSet.FirstGId,
-                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 1, 10, false, false);
+                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 10, false, false);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
                         background.AddChild(theTile);
@@ -302,7 +311,7 @@ public class Level : GameObject
                     else if (theLayer == 2)
                     {
                         theTile = new Tile(true, theTilesSet.Image.FileName, 1, 1, theTileNumber - theTilesSet.FirstGId,
-                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 1, 10, false, true);
+                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 10, false, true);
                         theTile.SetFrame(theTileNumber - theTilesSet.FirstGId);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
@@ -314,22 +323,96 @@ public class Level : GameObject
         background.Freeze(); //Freeze all the background tiles by destroying the sprite and their collider. Creating better performance
     }
 
-    //Updating the time passed and score to game data
-    void CheckText()
-    {
-        //Update the time
-        if (textCanvasListHash.ContainsKey("textCavas_displayTime") == true)
-        {
-            textCanvasListHash["textCavas_displayTime"].ChangeText(GameData.LevelCompleteTime.ToString());
-            textCanvasListHash["textCavas_displayTime"].visible = true;
-        }
 
-        //Update the score
-        if (textCanvasListHash.ContainsKey("textCavas_displayScore") == true)
+    void CheckPlatforms()
+    {   
+        foreach (Platform thePlatform in GameData.thePlatformList)
         {
-            textCanvasListHash["textCavas_displayScore"].ChangeText(GameData.levelCompleteScore.ToString());
+            if (thePlayer != null)
+            {
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+                }
+            }
+        }     
+    }
+
+    void CheckPlatFormsSpawn()
+    {
+        foreach (Platform thePlatform in GameData.thePlatformListSpawned)
+        {
+            thePlayer.x -= thePlatform.width / 2;
+            if (thePlayer != null)
+            {
+                // && thePlayer.collider.GetCollisionInfo(thePlatform.collider) != null
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                        GameData.thePlatformSpawn = thePlatform;
+                        GameData.detectSpawn = true;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+
+                    else
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                    }
+                }
+
+                else
+                {
+                    thePlayer.x += thePlatform.width / 2;
+                }
+            }
         }
     }
+
+    //thePlatformListSpawned
+    void spawnPlatform(int theType)
+    {
+        //left:   98 + platform width 
+        //right:  704 - platfrom width
+        Platform theSpawnPlatform = null;
+        
+        float theScale = Utils.Random(0, 8);
+
+        foreach (Platform thePlatform in GameData.thePlatformList)
+        {
+            if (thePlatform.theType == theType)
+            {
+                theSpawnPlatform = new Platform(thePlatform.theFilename, 1, 1, 0 , 64, 48, -1, 0, 30, false, true);
+                //theSpawnPlatform = thePlatform;     
+                theSpawnPlatform.changeFrame(thePlatform.singleFrameID);
+                theSpawnPlatform.changeScaleX(theScale);
+                break;
+            }
+        }
+
+        if (theSpawnPlatform != null)
+        {
+            int theXCrood = (int) Utils.Random(98 + (theSpawnPlatform.width), (704 - (theSpawnPlatform.width) + 1));
+            int theYCrood = Utils.Random(0, 101);
+            ySapwnValue -= theYCrood;
+            //    theSpawnPlatform.SetOrigin(theXCrood, ySapwnValue);
+            theSpawnPlatform.x = theXCrood;
+            theSpawnPlatform.y = ySapwnValue;
+            GameData.thePlatformListSpawned.Add(theSpawnPlatform);
+            AddChild(theSpawnPlatform);
+
+            if (ySapwnValue < 180)
+            {
+                ySapwnValue = 580;
+            }
+        }
+    }
+
 
     void CheckTriggerAction()
     {

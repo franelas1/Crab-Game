@@ -140,11 +140,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 1.5,
+            "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 395.66666666666663,
-                "y": 39
+                "x": 531.3333333333333,
+                "y": 488.6666666666666
             }
         },
         "crabMap1.tmx#Tileset": {
@@ -181,14 +181,14 @@
         },
         "introTextMenu.tmx": {
             "expandedObjectLayers": [
-                3,
                 2,
-                4
+                4,
+                3
             ],
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 722,
+                "x": 719.3333333333333,
                 "y": 319.33333333333337
             }
         },
@@ -198,16 +198,16 @@
         },
         "levelCompletedMenu.tmx": {
             "expandedObjectLayers": [
-                3,
+                5,
                 2,
                 4,
-                5
+                3
             ],
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 522.25,
-                "y": 305.75
+                "x": 521.25,
+                "y": 304.75
             }
         },
         "levelCompletedMenu.tmx#Button": {
@@ -288,15 +288,15 @@
         },
         "mainMenu.tmx": {
             "expandedObjectLayers": [
-                3,
                 2,
-                4
+                4,
+                3
             ],
-            "scale": 0.75,
+            "scale": 0.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 763.3333333333333,
-                "y": 319.33333333333337
+                "x": 382,
+                "y": 282
             }
         },
         "mainMenu.tmx#MainMenu": {
@@ -320,14 +320,14 @@
         },
         "map1.tmx": {
             "expandedObjectLayers": [
-                6,
-                11
+                11,
+                6
             ],
             "scale": 0.25,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 1598,
-                "y": 882
+                "x": 1594,
+                "y": 878
             }
         },
         "map1.tmx#DungeonCrawl_ProjectUtumnoTileset": {
@@ -357,14 +357,14 @@
         },
         "map2.tmx": {
             "expandedObjectLayers": [
-                6,
-                11
+                11,
+                6
             ],
             "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 2271.333333333333,
-                "y": 1047.3333333333333
+                "x": 2267.333333333333,
+                "y": 1044.6666666666665
             }
         },
         "map2.tmx#DungeonCrawl_ProjectUtumnoTileset": {
@@ -394,14 +394,14 @@
         },
         "map3.tmx": {
             "expandedObjectLayers": [
-                6,
-                11
+                11,
+                6
             ],
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 2716.5,
-                "y": 972.5
+                "x": 2715.5,
+                "y": 971.5
             }
         },
         "map3.tmx#DungeonCrawl_ProjectUtumnoTileset": {
@@ -452,14 +452,14 @@
         },
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
-                3,
                 2,
-                4
+                4,
+                3
             ],
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 699.3333333333333,
+                "x": 696.6666666666666,
                 "y": 319.33333333333337
             }
         },
@@ -482,7 +482,7 @@
             "scaleInDock": 1
         }
     },
-    "last.exportedFilePath": "C:/Users/seanb/Documents/Github Projects/LiftOff/Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug",
+    "last.exportedFilePath": "C:/Users/seanb/Documents/Github Projects/LiftOff/Crab-Game/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug",
     "last.externalTilesetPath": "C:/Users/seanb/Documents/CMGT GXP/GXP Projects/projects/GXPEngine - Project Gnome/GXPEngine/bin/Debug",
     "last.imagePath": "C:/Users/seanb/Documents/Github Projects/LiftOff/Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug",
     "map.height": 20,

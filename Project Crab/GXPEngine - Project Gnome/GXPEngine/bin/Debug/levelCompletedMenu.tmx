@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="10" tileheight="10" infinite="0" nextlayerid="6" nextobjectid="30">
  <tileset firstgid="1" name="MenuBackgroundPlaceholder" tilewidth="900" tileheight="617" tilecount="1" columns="1">
-  <image source="MenuBackgroundPlaceholder.jpg" width="900" height="617"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/MenuBackgroundPlaceholder.jpg" width="900" height="617"/>
  </tileset>
  <tileset firstgid="2" name="Button GXP" tilewidth="470" tileheight="150" tilecount="1" columns="1">
-  <image source="Button.png" width="470" height="150"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/Button.png" width="470" height="150"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="80" height="60">
   <data encoding="csv">

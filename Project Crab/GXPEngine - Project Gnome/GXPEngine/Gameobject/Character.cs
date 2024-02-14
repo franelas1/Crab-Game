@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -94,6 +94,20 @@ public class Character : AnimationSpriteCustom
             if (currentSpeedY > -jumpHeightAndSpeed - 10)
             {
                 currentSpeedY = currentSpeedY + 0.15f;
+
+                if (currentSpeedY > 0)
+                {
+                    if (this is Player)
+                    {
+                        GameData.playerIsFallingJump = true;
+                    }
+                }
+
+               else
+                {
+                    GameData.playerIsFallingJump = false;
+                }
+
                 if (currentSpeedY > 30)
                 {
                     currentSpeedY = 20;
@@ -123,7 +137,6 @@ public class Character : AnimationSpriteCustom
         //Collider with wall
         if (CheckIsColliding(1))
         {
-            //doing
             y = oldY;
             Collision gravityCollision = MoveUntilCollision(0, 2);
 
@@ -132,22 +145,72 @@ public class Character : AnimationSpriteCustom
                 if (gravityCollision.normal.y < 0 || canAllowTopJump)
                 {
                     isJumping = false;
+                    y = oldY;
                 }
+            }
+
+            if (this is Player)
+            {
+                GameData.thePlatformSpawn = new Platform("colors.png", 1, 1, 0, 64, 48, -1, 0, 30, false, true);
             }
         }
 
-        if (CheckIsColliding(4))
+
+        if (CheckIsColliding(4) && this is Player)
         {
             Collision gravityCollision = MoveUntilCollision(0, 2);
-            
+
             if (gravityCollision != null)
             {
-                Console.WriteLine(gravityCollision.normal.y);
 
-                if (gravityCollision.normal.y < 0 || canAllowTopJump)
+                if (GameData.thePlatform != null)
                 {
-                    y = oldY;
-                    isJumping = false;
+                    GameData.detectSpawn = false;
+                    GameData.thePlayer.y += 30;
+                    GameData.CheckPlat();
+                    GameData.thePlayer.y -= 30;
+
+                    
+
+                    if (!GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatform.y - (GameData.thePlayer.height / 2)
+                        > GameData.thePlayer.y))
+                    {
+                        isJumping = false;
+                        y = oldY;
+                    }
+
+                }
+
+                if (GameData.thePlatformSpawn != null)
+                {
+
+                    GameData.detectSpawn = false;
+                    GameData.thePlayer.y += 30;
+                    GameData.CheckPlatSpawned();
+                    GameData.thePlayer.y -= 30;
+
+
+                    //       Console.WriteLine("Player Y: {0} | Platform Y: {1}", GameData.thePlayer.y, GameData.thePlatformSpawn.y);
+
+                    Console.WriteLine((GameData.thePlatformSpawnOld != GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null));
+
+                    if (GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatformSpawn.y + GameData.thePlatformSpawn.height
+                        > GameData.thePlayer.y) && (((GameData.thePlatformSpawnOld == GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null))))
+                    {
+                        isJumping = false;
+                        y = oldY;
+                 //      GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
+                    }
+
+                    else
+                    {
+                        GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
+                    }
+
+                    if (GameData.thePlatformListSpawned != null)
+                    {
+                        return;
+                    }
                 }
             }
         }
@@ -187,21 +250,28 @@ public class Character : AnimationSpriteCustom
 
         UpdateCollisions();
 
+        if (CheckIsColliding(1))
+        {
+            x = oldX;
+        }
+
         if (CheckIsColliding(5))
         {
             if (this is Player)
             {
                 SoundChannel theSound = new Sound("playerDead.wav", false, false).Play();
                 GameData.playerDead = true;
+                x = oldX;
                 return;
             }
         }
 
-        if (CheckIsColliding(1) || CheckIsColliding(5) || (this is Player && CheckIsColliding(7)))
+        /*
+        if (CheckIsColliding(4) && this is Player && GameData.playerPlatormColliderValue == 1)
         {
             x = oldX;
         }
-        lastStateX = x;
+        */
     }
 
     public int GetWidth()

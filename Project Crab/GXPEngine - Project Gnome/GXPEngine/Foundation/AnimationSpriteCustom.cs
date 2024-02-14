@@ -18,17 +18,19 @@ public class AnimationSpriteCustom : AnimationSprite
      *Setting singleFrameID to a value not -1 will make the object act like a sprite with the only frame being it's value. 
      *Useful if you want an object that inherits from this acts like a sprite or setup a sprite that has it's image source being a tileset-like image.
      */
-    int singleFrameID; 
+    public int singleFrameID; 
     int nextFrameDelay; //decides how many time the game frame should pass before the next frame
 
     public string id;     //a unique id a gameobject can have (for help finding a specific gameobject)
     public string groupID; //a group id a gameobject can have (for help finding a specific gameobject group)
 
+    public string theFilename;
+
     GameObject[] collisions;
 
 
     public AnimationSpriteCustom(string filenName, float scaleX, float scaleY, int singleFrameID, int columns, int rows,
-        int numberOfFrames, int startFrame, int endFrame, int nextFrameDelay, bool textureKeepInCache, bool hasCollision) : 
+        int numberOfFrames, int startFrame, int nextFrameDelay, bool textureKeepInCache, bool hasCollision) : 
         base (filenName, columns, rows, numberOfFrames, textureKeepInCache, hasCollision)
     {
         this.scaleX = scaleX;
@@ -43,7 +45,7 @@ public class AnimationSpriteCustom : AnimationSprite
 
         else
         {
-            SetAnimationCycle(startFrame, endFrame);
+            SetAnimationCycle(startFrame, numberOfFrames);
         }
     }
 
@@ -56,6 +58,7 @@ public class AnimationSpriteCustom : AnimationSprite
         SetNextFrameDelay(obj.GetIntProperty("i_nextFrameDelay", 1));
         id = obj.GetStringProperty("f_theID", "none");
         groupID = obj.GetStringProperty("f_theGroupID", "");
+        theFilename = obj.GetStringProperty("f_fileName", "");
 
         if (singleFrameID != -1)
         {
@@ -86,6 +89,11 @@ public class AnimationSpriteCustom : AnimationSprite
             return;
         }
         Animate();
+    }
+
+    public void changeFrame(int theFrame)
+    {
+        SetFrame(theFrame);
     }
 
     void SetNextFrameDelay(int delay)
