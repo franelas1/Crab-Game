@@ -23,16 +23,16 @@ public static class GameData
     public static int theFPS;
 
     public static Player thePlayer;
-    public static float playerSpeed = 4;
-    public static float playerJumpHeightAndSpeed = 14;
+    public static float playerSpeed = 2;
+    public static float playerJumpHeightAndSpeed = 10;
 
     public static int playerMaxHealth = 3;
     public static int playerHealth = 3;
 
     public static bool isMenu = true;
 
-    public static int[] jumpUpgradeList = new int[] {1,1,1,1,1};
-    public static int[] speedUpgradeList = new int[] {1,1,1,1,1};
+    public static int[] jumpUpgradeList = new int[] { 1, 1, 1, 1, 1 };
+    public static int[] speedUpgradeList = new int[] { 1, 1, 1, 1, 1 };
 
 
     public static int bossHealth = 4;
