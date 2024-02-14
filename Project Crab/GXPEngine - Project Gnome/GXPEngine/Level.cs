@@ -391,14 +391,12 @@ public class Level : GameObject
                 //theSpawnPlatform = thePlatform;     
                 theSpawnPlatform.changeFrame(thePlatform.singleFrameID);
                 theSpawnPlatform.changeScaleX(theScale);
-                Console.WriteLine("the id: " + theSpawnPlatform.currentFrame);
                 break;
             }
         }
 
         if (theSpawnPlatform != null)
         {
-            Console.WriteLine(theSpawnPlatform.width);
             int theXCrood = (int) Utils.Random(98 + (theSpawnPlatform.width), (704 - (theSpawnPlatform.width) + 1));
             int theYCrood = Utils.Random(0, 101);
             ySapwnValue -= theYCrood;

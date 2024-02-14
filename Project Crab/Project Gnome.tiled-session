@@ -143,8 +143,8 @@
             "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 256.66666666666663,
-                "y": 290
+                "x": 531.3333333333333,
+                "y": 488.6666666666666
             }
         },
         "crabMap1.tmx#Tileset": {
@@ -295,8 +295,8 @@
             "scale": 0.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 1003,
-                "y": 453
+                "x": 382,
+                "y": 282
             }
         },
         "mainMenu.tmx#MainMenu": {

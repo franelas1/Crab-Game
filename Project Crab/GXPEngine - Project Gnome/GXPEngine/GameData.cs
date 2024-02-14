@@ -31,6 +31,7 @@ public static class GameData
 
     public static Platform thePlatform;
     public static Platform thePlatformSpawn;
+    public static Platform thePlatformSpawnOld = null;
     public static List<Platform> thePlatformList = new List<Platform>();
     public static List<Platform> thePlatformListSpawned = new List<Platform>();
     public static float playerPlatormColliderValue = 999;
@@ -62,13 +63,11 @@ public static class GameData
     {
         foreach (Platform thePlatform in GameData.thePlatformListSpawned)
         {
-            Console.WriteLine("looping");
             thePlayer.x -= thePlatform.width / 2;
             if (thePlayer != null)
             {
                 if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
                 {
-                    Console.WriteLine("spawn touched");
                     thePlayer.x += thePlatform.width / 2;
                     GameData.thePlatformSpawn = thePlatform;
                     detectSpawn = true;

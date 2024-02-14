@@ -142,6 +142,11 @@ public class Character : AnimationSpriteCustom
                     y = oldY;
                 }
             }
+
+            if (this is Player)
+            {
+                GameData.thePlatformSpawn = new Platform("colors.png", 1, 1, 0, 64, 48, -1, 0, 30, false, true);
+            }
         }
 
 
@@ -177,15 +182,23 @@ public class Character : AnimationSpriteCustom
                     GameData.thePlayer.y += 30;
                     GameData.CheckPlatSpawned();
                     GameData.thePlayer.y -= 30;
-                    Console.WriteLine(GameData.thePlatformSpawn.y);
 
 
+                    //       Console.WriteLine("Player Y: {0} | Platform Y: {1}", GameData.thePlayer.y, GameData.thePlatformSpawn.y);
 
-                    if (GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatformSpawn.y + (GameData.thePlayer.height / 2)
-                        > GameData.thePlayer.y))
+                    Console.WriteLine((GameData.thePlatformSpawnOld != GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null));
+
+                    if (GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatformSpawn.y + GameData.thePlatformSpawn.height
+                        > GameData.thePlayer.y) && (((GameData.thePlatformSpawnOld == GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null))))
                     {
                         isJumping = false;
                         y = oldY;
+                 //      GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
+                    }
+
+                    else
+                    {
+                        GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
                     }
 
                     if (GameData.thePlatformListSpawned != null)
