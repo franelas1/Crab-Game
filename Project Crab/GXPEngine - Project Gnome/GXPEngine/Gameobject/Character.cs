@@ -151,20 +151,47 @@ public class Character : AnimationSpriteCustom
 
             if (gravityCollision != null)
             {
+
                 if (GameData.thePlatform != null)
                 {
-
+                    GameData.detectSpawn = false;
                     GameData.thePlayer.y += 30;
-                    GameData.checkPlat();
+                    GameData.CheckPlat();
                     GameData.thePlayer.y -= 30;
 
-                    if (GameData.playerIsFallingJump && (GameData.thePlatform.y - (GameData.thePlayer.height / 2)
+                    
+
+                    if (!GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatform.y - (GameData.thePlayer.height / 2)
                         > GameData.thePlayer.y))
                     {
                         isJumping = false;
                         y = oldY;
                     }
 
+                }
+
+                if (GameData.thePlatformSpawn != null)
+                {
+
+                    GameData.detectSpawn = false;
+                    GameData.thePlayer.y += 30;
+                    GameData.CheckPlatSpawned();
+                    GameData.thePlayer.y -= 30;
+                    Console.WriteLine(GameData.thePlatformSpawn.y);
+
+
+
+                    if (GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatformSpawn.y + (GameData.thePlayer.height / 2)
+                        > GameData.thePlayer.y))
+                    {
+                        isJumping = false;
+                        y = oldY;
+                    }
+
+                    if (GameData.thePlatformListSpawned != null)
+                    {
+                        return;
+                    }
                 }
             }
         }

@@ -29,14 +29,17 @@ public static class GameData
 
     public static int bossHealth = 4;
 
-    public static Platform thePlatform; 
+    public static Platform thePlatform;
+    public static Platform thePlatformSpawn;
     public static List<Platform> thePlatformList = new List<Platform>();
     public static List<Platform> thePlatformListSpawned = new List<Platform>();
     public static float playerPlatormColliderValue = 999;
 
     public static Boolean playerIsFallingJump = false;
 
-    public static void checkPlat()
+    public static Boolean detectSpawn = false;
+
+    public static void CheckPlat()
     {
        
         foreach (Platform thePlatform in GameData.thePlatformList)
@@ -53,26 +56,23 @@ public static class GameData
                 }
             }
         }
-      
+    }
 
+    public static void CheckPlatSpawned()
+    {
         foreach (Platform thePlatform in GameData.thePlatformListSpawned)
         {
+            Console.WriteLine("looping");
             thePlayer.x -= thePlatform.width / 2;
             if (thePlayer != null)
             {
                 if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
                 {
-                    if (thePlatform.collider != null)
-                    {
-                        thePlayer.x += thePlatform.width / 2;
-                        GameData.thePlatform = thePlatform;
-                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
-                    }
-
-                    else
-                    {
-                        thePlayer.x += thePlatform.width / 2;
-                    }
+                    Console.WriteLine("spawn touched");
+                    thePlayer.x += thePlatform.width / 2;
+                    GameData.thePlatformSpawn = thePlatform;
+                    detectSpawn = true;
+                    GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
                 }
 
                 else
@@ -80,6 +80,7 @@ public static class GameData
                     thePlayer.x += thePlatform.width / 2;
                 }
             }
+
         }
     }
     public static void CheckNewLevelCleared()

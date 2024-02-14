@@ -191,7 +191,6 @@ public class Level : GameObject
 
     void Update()
     {
-
         //Use camera if player is found
         if (thePlayer != null)
         {
@@ -202,7 +201,8 @@ public class Level : GameObject
         if (Time.time - pickUpCheckTimer >= PICKUPCHECKTIME)
         {
             pickUpCheckTimer = Time.time;
-            CheckPlatforms();
+            
+            
         }
 
         CheckTriggerAction();
@@ -211,6 +211,9 @@ public class Level : GameObject
         {
             spawnPlatform(0);
         }
+
+        CheckPlatFormsSpawn();
+        CheckPlatforms();
     }
 
 
@@ -322,24 +325,25 @@ public class Level : GameObject
 
 
     void CheckPlatforms()
+    {   
+        foreach (Platform thePlatform in GameData.thePlatformList)
+        {
+            if (thePlayer != null)
+            {
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+                }
+            }
+        }     
+    }
+
+    void CheckPlatFormsSpawn()
     {
-        
-        foreach (Platform thePlatform in GameData.thePlatformList)
-        {
-            if (thePlayer != null)
-            {
-                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
-                {
-                    if (thePlatform.collider != null)
-                    {
-                        GameData.thePlatform = thePlatform;
-                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
-                    }
-                }
-            }
-        }
-    
-
         foreach (Platform thePlatform in GameData.thePlatformListSpawned)
         {
             thePlayer.x -= thePlatform.width / 2;
@@ -351,50 +355,8 @@ public class Level : GameObject
                     if (thePlatform.collider != null)
                     {
                         thePlayer.x += thePlatform.width / 2;
-                        GameData.thePlatform = thePlatform;
-                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
-                    }
-
-                    else
-                    {
-                        thePlayer.x += thePlatform.width / 2;
-                    }
-                }
-
-                else
-                {
-                    thePlayer.x += thePlatform.width / 2;
-                }
-            }
-        }        
-        foreach (Platform thePlatform in GameData.thePlatformList)
-        {
-            if (thePlayer != null)
-            {
-                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
-                {
-                    if (thePlatform.collider != null)
-                    {
-                        GameData.thePlatform = thePlatform;
-                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
-                    }
-                }
-            }
-        }
-    
-
-        foreach (Platform thePlatform in GameData.thePlatformListSpawned)
-        {
-            thePlayer.x -= thePlatform.width / 2;
-            if (thePlayer != null)
-            {
-                // && thePlayer.collider.GetCollisionInfo(thePlatform.collider) != null
-                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
-                {
-                    if (thePlatform.collider != null)
-                    {
-                        thePlayer.x += thePlatform.width / 2;
-                        GameData.thePlatform = thePlatform;
+                        GameData.thePlatformSpawn = thePlatform;
+                        GameData.detectSpawn = true;
                         GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
                     }
 
