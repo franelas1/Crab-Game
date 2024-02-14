@@ -55,6 +55,11 @@ public class MyGame : Game
             GameData.isMenu = true;
             GameData.playerDead = true;
         }
+
+        if (Input.GetKeyDown(Key.G))
+        {
+            Console.WriteLine(this.GetDiagnostics());
+        }
     }
 
     //Main() is the first method that's called when the program is run.

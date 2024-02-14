@@ -28,8 +28,8 @@ public static class GameData
     public static bool isMenu = true;
 
     public static int bossHealth = 4;
-    
-    public static Platform thePlatform = null;
+
+    public static Platform thePlatform; 
     public static List<Platform> thePlatformList = new List<Platform>();
     public static float playerPlatormColliderValue = 999;
 
@@ -47,7 +47,6 @@ public static class GameData
                     {
                         GameData.thePlatform = thePlatform;
                         GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
-                        Console.WriteLine(GameData.playerPlatormColliderValue);
                     }
 
 

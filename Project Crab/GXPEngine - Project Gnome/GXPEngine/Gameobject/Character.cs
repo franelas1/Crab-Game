@@ -153,15 +153,18 @@ public class Character : AnimationSpriteCustom
             {
                 if (GameData.thePlatform != null)
                 {
+
                     GameData.thePlayer.y += 30;
                     GameData.checkPlat();
                     GameData.thePlayer.y -= 30;
+
                     if (GameData.playerIsFallingJump && (GameData.thePlatform.y - (GameData.thePlayer.height / 2)
                         > GameData.thePlayer.y))
                     {
                         isJumping = false;
                         y = oldY;
                     }
+
                 }
             }
         }

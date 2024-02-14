@@ -5,6 +5,7 @@ using System.Media;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using GXPEngine;
+using GXPEngine.Core;
 using TiledMapParser;
 
 /*
@@ -26,6 +27,11 @@ public class Level : GameObject
     const int PICKUPCHECKTIME = 15;
 
     List<TriggerAction> triggerActionList = new List<TriggerAction>();
+
+    List<Platform> thePlatformListSpawned = new List<Platform>();
+
+
+    int ySapwnValue = 580;
     public Level(string theMapfileName)
     {
         Map mapData = MapParser.ReadMap(theMapfileName);
@@ -202,6 +208,11 @@ public class Level : GameObject
         }
 
         CheckTriggerAction();
+
+        if (Input.GetKeyDown(Key.G))
+        {
+            spawnPlatform(0);
+        }
     }
 
 
@@ -277,7 +288,7 @@ public class Level : GameObject
                     if (theLayer == 0)
                     {
                         theTile = new Tile(false, theTilesSet.Image.FileName, 1, 1, theTileNumber - theTilesSet.FirstGId,
-                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 1, 10, false, true);
+                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 10, false, true);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
                         AddChild(theTile);
@@ -288,7 +299,7 @@ public class Level : GameObject
                     else if (theLayer == 1)
                     {
                         theTile = new Tile(false, theTilesSet.Image.FileName, 1, 1, theTileNumber - theTilesSet.FirstGId,
-                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 1, 10, false, false);
+                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 10, false, false);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
                         background.AddChild(theTile);
@@ -299,7 +310,7 @@ public class Level : GameObject
                     else if (theLayer == 2)
                     {
                         theTile = new Tile(true, theTilesSet.Image.FileName, 1, 1, theTileNumber - theTilesSet.FirstGId,
-                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 1, 10, false, true);
+                            theTilesSet.Columns, theTilesSet.Rows, -1, 1, 10, false, true);
                         theTile.SetFrame(theTileNumber - theTilesSet.FirstGId);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
@@ -314,6 +325,7 @@ public class Level : GameObject
 
     void CheckPlatforms()
     {
+        
         foreach (Platform thePlatform in GameData.thePlatformList)
         {
             if (thePlayer != null)
@@ -327,9 +339,82 @@ public class Level : GameObject
                     }
                 }
             }
-
         }
         
+
+
+        foreach (Platform thePlatform in thePlatformListSpawned)
+        {
+            thePlayer.x -= thePlatform.width / 2;
+            if (thePlayer != null)
+            {
+                // && thePlayer.collider.GetCollisionInfo(thePlatform.collider) != null
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+
+                    else
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                    }
+                }
+
+                else
+                {
+                    thePlayer.x += thePlatform.width / 2;
+                }
+            }
+
+           
+        }
+
+    }
+
+    //thePlatformListSpawned
+    void spawnPlatform(int theType)
+    {
+        //left:   98 + platform width 
+        //right:  704 - platfrom width
+        Platform theSpawnPlatform = null;
+        
+        float theScale = Utils.Random(0, 8);
+
+        foreach (Platform thePlatform in GameData.thePlatformList)
+        {
+            if (thePlatform.theType == theType)
+            {
+                theSpawnPlatform = new Platform(thePlatform.theFilename, 1, 1, 0 , 64, 48, -1, 0, 30, false, true);
+                //theSpawnPlatform = thePlatform;
+              
+                theSpawnPlatform.changeFrame(thePlatform.singleFrameID);
+                theSpawnPlatform.changeScaleX(theScale);
+                Console.WriteLine("the id: " + theSpawnPlatform.currentFrame);
+                break;
+            }
+        }
+
+        if (theSpawnPlatform != null)
+        {
+            Console.WriteLine(theSpawnPlatform.width);
+            int theXCrood = (int) Utils.Random(98 + (theSpawnPlatform.width), (704 - (theSpawnPlatform.width) + 1));
+            int theYCrood = Utils.Random(0, 101);
+            ySapwnValue -= theYCrood;
+            //    theSpawnPlatform.SetOrigin(theXCrood, ySapwnValue);
+            theSpawnPlatform.x = theXCrood;
+            theSpawnPlatform.y = ySapwnValue;
+            thePlatformListSpawned.Add(theSpawnPlatform);
+            AddChild(theSpawnPlatform);
+
+            if (ySapwnValue < 180)
+            {
+                ySapwnValue = 580;
+            }
+        }
     }
 
 
