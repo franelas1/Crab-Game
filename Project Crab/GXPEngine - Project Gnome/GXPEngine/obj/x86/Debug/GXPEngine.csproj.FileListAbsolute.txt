@@ -22,3 +22,9 @@ C:\Users\seanb\Documents\Github Projects\LiftOff\Boiled-Crabs\Project Crab\GXPEn
 C:\Users\seanb\Documents\Github Projects\LiftOff\Boiled-Crabs\Project Crab\GXPEngine - Project Gnome\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
 C:\Users\seanb\Documents\Github Projects\LiftOff\Boiled-Crabs\Project Crab\GXPEngine - Project Gnome\GXPEngine\obj\x86\Debug\GXPEngine.exe
 C:\Users\seanb\Documents\Github Projects\LiftOff\Boiled-Crabs\Project Crab\GXPEngine - Project Gnome\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\Project Crab\GXPEngine - Project Gnome\GXPEngine\bin\Debug\GXPEngine.exe
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\Project Crab\GXPEngine - Project Gnome\GXPEngine\bin\Debug\GXPEngine.pdb
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\Project Crab\GXPEngine - Project Gnome\GXPEngine\obj\x86\Debug\GXPEngine.csproj.AssemblyReference.cache
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\Project Crab\GXPEngine - Project Gnome\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\Project Crab\GXPEngine - Project Gnome\GXPEngine\obj\x86\Debug\GXPEngine.exe
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\Project Crab\GXPEngine - Project Gnome\GXPEngine\obj\x86\Debug\GXPEngine.pdb

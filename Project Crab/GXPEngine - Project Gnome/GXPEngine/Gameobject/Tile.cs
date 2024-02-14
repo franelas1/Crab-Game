@@ -12,9 +12,9 @@ public class Tile : AnimationSpriteCustom
 
     bool isDeadly; //if true, player would die if the player touches this
     public Tile(bool isDeadly, string theImageName, float scaleX, float scaleY, int singleFrameID, int columns, int rows,
-        int numberOfFrame, int startFrame, int endFrame, int nextFrameDelay, bool textureKeepInCache, bool hasCollision) :
+        int numberOfFrame, int startFrame, int nextFrameDelay, bool textureKeepInCache, bool hasCollision) :
         base(theImageName, scaleX, scaleY, singleFrameID, columns, rows,
-         numberOfFrame, startFrame, endFrame, nextFrameDelay, textureKeepInCache, hasCollision)
+         numberOfFrame, startFrame, nextFrameDelay, textureKeepInCache, hasCollision)
     {
         this.isDeadly = isDeadly;
     }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="10" tileheight="10" infinite="0" nextlayerid="6" nextobjectid="12">
  <tileset firstgid="1" name="MainMenu" tilewidth="1920" tileheight="1080" tilecount="1" columns="1">
-  <image source="MainMenu.png" width="1920" height="1080"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/MainMenu.png" width="1920" height="1080"/>
  </tileset>
  <tileset firstgid="2" name="StartButton" tilewidth="470" tileheight="150" tilecount="1" columns="1">
-  <image source="Start.png" width="470" height="150"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/Start.png" width="470" height="150"/>
  </tileset>
  <tileset firstgid="3" name="Options Button" tilewidth="344" tileheight="96" tilecount="1" columns="1">
-  <image source="Options.png" width="344" height="96"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/Options.png" width="344" height="96"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="80" height="60">
   <data encoding="csv">
