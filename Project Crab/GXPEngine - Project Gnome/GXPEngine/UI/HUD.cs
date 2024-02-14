@@ -33,8 +33,6 @@ class HUD : Canvas
     void Update()
     {
         scoreDisplayCanvas.Clear(252, 186, 3);
-        scoreDisplayCanvas.Text("Score: " + GameData.levelCurrentScore, 50, 15);
-        scoreDisplayCanvas.Text("Health: " + GameData.playerHealth, 50, 35);
         //  graphics.Clear(Color.Empty);
         // graphics.DrawString("Score: " + MyGame.theGameData.TheScore, SystemFonts.DefaultFont, Brushes.White, 20, 50);
       //  fpsDisplay.Clear(252, 186, 3);

@@ -67,12 +67,18 @@ public class Level : GameObject
 
             //Manually create some of the game objects to make things working
             SpawnObjects(mapData);
+
+            
+            foreach (Platform thePlatform in FindObjectsOfType<Platform>())
+            {
+                GameData.thePlatformList.Add(thePlatform);
+            }
+            
         }
 
         //Setting up the camera boundary (player at center for these values)
         boundaryValueX = game.width / 2;
         boundaryValueY = game.height / 2;
-
 
     }
 
@@ -126,12 +132,6 @@ public class Level : GameObject
                     //Detecting if the text canvas is one of the specific text canvases
                     switch (theObject.GetStringProperty("f_displayID", ""))
                     {
-                        case "textCavas_displayTime":
-                            theTextCanvas.ChangeText(GameData.LevelCompleteTime.ToString());
-                            break;
-                        case "textCavas_displayScore":
-                            theTextCanvas.ChangeText(GameData.levelCompleteScore.ToString());
-                            break;
                     }
 
                     textCanvasListHash.Add(theObject.GetStringProperty("theTextCanvasID", ""), theTextCanvas);
@@ -187,9 +187,6 @@ public class Level : GameObject
 
     void Update()
     {
-        //Counting how much time based since the level started in milliseconds
-
-        GameData.LevelCurrentTime = Time.time - levelCompleteTimer;
 
         //Use camera if player is found
         if (thePlayer != null)
@@ -201,7 +198,7 @@ public class Level : GameObject
         if (Time.time - pickUpCheckTimer >= PICKUPCHECKTIME)
         {
             pickUpCheckTimer = Time.time;
-            CheckText(); //Updating the time passed and score got to game data
+            CheckPlatforms();
         }
 
         CheckTriggerAction();
@@ -314,22 +311,27 @@ public class Level : GameObject
         background.Freeze(); //Freeze all the background tiles by destroying the sprite and their collider. Creating better performance
     }
 
-    //Updating the time passed and score to game data
-    void CheckText()
-    {
-        //Update the time
-        if (textCanvasListHash.ContainsKey("textCavas_displayTime") == true)
-        {
-            textCanvasListHash["textCavas_displayTime"].ChangeText(GameData.LevelCompleteTime.ToString());
-            textCanvasListHash["textCavas_displayTime"].visible = true;
-        }
 
-        //Update the score
-        if (textCanvasListHash.ContainsKey("textCavas_displayScore") == true)
+    void CheckPlatforms()
+    {
+        foreach (Platform thePlatform in GameData.thePlatformList)
         {
-            textCanvasListHash["textCavas_displayScore"].ChangeText(GameData.levelCompleteScore.ToString());
+            if (thePlayer != null)
+            {
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+                }
+            }
+
         }
+        
     }
+
 
     void CheckTriggerAction()
     {

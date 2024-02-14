@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="150" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="19" nextobjectid="226">
+ <editorsettings>
+  <export target="../../../../../../CMGT GXP/GXP Projects/projects/GXPEngine - Project Gnome/GXPEngine/bin/Debug/map2.tmx" format="tmx"/>
+ </editorsettings>
  <tileset firstgid="1" name="coin" tilewidth="162" tileheight="137" tilecount="7" columns="7">
-  <image source="coin.png" width="1138" height="137"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/coin.png" width="1138" height="137"/>
  </tileset>
  <tileset firstgid="8" name="playerSpritesheet" tilewidth="417" tileheight="600" tilecount="4" columns="4">
-  <image source="playerSpritesheet.png" width="1672" height="600"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/playerSpritesheet.png" width="1672" height="600"/>
  </tileset>
  <tileset firstgid="12" name="Tileset" tilewidth="32" tileheight="32" tilecount="3072" columns="64">
-  <image source="Tileset.png" width="2048" height="1536"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/Tileset.png" width="2048" height="1536"/>
  </tileset>
  <tileset firstgid="3084" name="healthPickup" tilewidth="225" tileheight="225" tilecount="1" columns="1">
-  <image source="healthPickup.png" width="225" height="225"/>
+  <image source="../../../../../../Boiled-Crabs/Project Crab/GXPEngine - Project Gnome/GXPEngine/bin/Debug/healthPickup.png" width="225" height="225"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" class="Tile" width="150" height="60">
   <data encoding="csv">
