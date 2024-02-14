@@ -23,7 +23,7 @@ public static class GameData
     public static int theFPS;
 
     public static Player thePlayer;
-    public static float playerSpeed = 2;
+    public static float playerSpeed = 0.5f;
     public static float playerJumpHeightAndSpeed = 10;
 
     public static int playerMaxHealth = 3;

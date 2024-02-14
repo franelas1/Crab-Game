@@ -26,7 +26,7 @@ public class Character : AnimationSpriteCustom
     int temp = 0;
     bool lastState;
     float lastStateX;
-    float acceleration = 1;
+    protected float acceleration = 1;
     float moveAmount;
 
     public Character(string theImageName, int columns, int rows, TiledObject obj=null) :
@@ -83,13 +83,14 @@ public class Character : AnimationSpriteCustom
                 SoundChannel newSound = new Sound("hop.wav", false, false).Play();
             }
 
-            currentSpeedY = -moveAmount * 1.5f; //CurrentSpeedY helps with gravity and will decrease over time until a certain threshold
+            currentSpeedY = -moveAmount * 1.3f - 5; //CurrentSpeedY helps with gravity and will decrease over time until a certain threshold
         }
 
         //When player is jumping
         if (isJumping)
         {
-            y += currentSpeedY; 
+            //float moveAmountY = moveAmount;
+            y += currentSpeedY;  //moveAmountY;  //currentSpeedY; 
             if (currentSpeedY > -jumpHeightAndSpeed - 10)
             {
                 currentSpeedY = currentSpeedY + 0.15f;
@@ -170,7 +171,7 @@ public class Character : AnimationSpriteCustom
         }
         else
         {
-            if (acceleration < 4) acceleration *= 1.01f;
+            if (acceleration < 3) acceleration *= 1.02f;
         }
 
         if (isRight)
