@@ -36,7 +36,7 @@ public class SpriteCustom : Sprite
             {
                 Tile theTile = (Tile)theCollision;
 
-                if (theTile.GetisDeadly() && this is Player)
+                if (theTile.GetisDeadly())
                 {
                     return 5;
                 }

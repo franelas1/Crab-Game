@@ -23,6 +23,11 @@ public class Character : AnimationSpriteCustom
     protected bool isMovingHoz = false;
     List<Behavior> behaviorList = new List<Behavior>(); //storing all behaviors (tasks) the character has
     TiledObject obj = null; //Map parser data
+    int temp = 0;
+    bool lastState;
+    float lastStateX;
+    protected float acceleration = 1;
+    float moveAmount;
 
     public Character(string theImageName, int columns, int rows, TiledObject obj=null) :
     base(theImageName, columns, rows, obj)
@@ -78,16 +83,17 @@ public class Character : AnimationSpriteCustom
                 SoundChannel newSound = new Sound("hop.wav", false, false).Play();
             }
 
-            currentSpeedY = -jumpHeightAndSpeed; //CurrentSpeedY helps with gravity and will decrease over time until a certain threshold
+            currentSpeedY = -moveAmount * 1.3f - 5; //CurrentSpeedY helps with gravity and will decrease over time until a certain threshold
         }
 
         //When player is jumping
         if (isJumping)
         {
-            y += currentSpeedY; 
+            //float moveAmountY = moveAmount;
+            y += currentSpeedY;  //moveAmountY;  //currentSpeedY; 
             if (currentSpeedY > -jumpHeightAndSpeed - 10)
             {
-                currentSpeedY = currentSpeedY + 0.75f;
+                currentSpeedY = currentSpeedY + 0.15f;
                 if (currentSpeedY > 30)
                 {
                     currentSpeedY = 20;
@@ -148,19 +154,35 @@ public class Character : AnimationSpriteCustom
     }
 
     public void HozMovement(bool isRight)
-    {
-        isMovingHoz = true;
+    { 
+        if (temp == 0)
+        {
+            lastState = isRight;
+            temp = 1;
+        }
 
+        isMovingHoz = true;
         float oldX = x;
+
+        if (lastState != isRight || !isMovingHoz && !isJumping)
+        {
+            acceleration = 1; 
+            lastState = isRight;
+        }
+        else
+        {
+            if (acceleration < 3) acceleration *= 1.02f;
+        }
 
         if (isRight)
         {
-            x += currentSpeedX;
+            moveAmount = currentSpeedX + acceleration;
+            x += moveAmount; 
         }
-
         else
         {
-            x -= currentSpeedX;
+            moveAmount = currentSpeedX + acceleration;
+            x -= moveAmount;
         }
 
         UpdateCollisions();
@@ -179,6 +201,7 @@ public class Character : AnimationSpriteCustom
         {
             x = oldX;
         }
+        lastStateX = x;
     }
 
     public int GetWidth()
@@ -189,13 +212,6 @@ public class Character : AnimationSpriteCustom
     public int GetHeight()
     {
         return height;
-    }
-
-    public void AddBehaviorByName(string theName)
-    {
-        switch (theName)
-        {
-        }
     }
 
 }

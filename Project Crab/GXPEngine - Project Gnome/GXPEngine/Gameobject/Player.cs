@@ -81,13 +81,18 @@ public class Player : Character
         }
 
         //        if ((Input.GetKey(Key.SPACE) || Input.GetKey('W')) && ableToJump)
-        if ((Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown('W')))
+        if (Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown('W') || Input.GetKeyDown(Key.UP))
         {
             VerticalMovement(true);
 
             ableToJump = false;
             jumpTimer = Time.time;
 
+        }
+
+        if(Input.GetKeyUp(Key.LEFT) || Input.GetKeyUp('A') || Input.GetKeyUp(Key.RIGHT) || Input.GetKeyUp('D'))
+        {
+            acceleration = 1;
         }
 
 

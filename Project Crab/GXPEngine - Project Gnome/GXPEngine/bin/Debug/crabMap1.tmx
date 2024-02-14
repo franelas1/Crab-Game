@@ -87,8 +87,10 @@
     <property name="a_jumpStartFrame" type="int" value="1"/>
     <property name="a_runNumberOfFrames" type="int" value="2"/>
     <property name="a_runStartFrame" type="int" value="2"/>
+    <property name="f_jumpHeightAndSpeed" value="20"/>
     <property name="f_theGroupID" value="Player"/>
     <property name="f_theID" value="Player"/>
+    <property name="f_theSpeed" value="6"/>
     <property name="i_nextFrameDelay" type="int" value="30"/>
     <property name="i_numberOfFrame" type="int" value="-1"/>
     <property name="i_singleFrameID" type="int" value="-1"/>
