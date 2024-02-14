@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="15">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="25">
  <editorsettings>
   <export target="GXPEngine - Project Gnome/GXPEngine/bin/Debug/crabMap1.tmx" format="tmx"/>
  </editorsettings>
@@ -25,7 +25,7 @@
 0,0,914,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,914,0,0,
 0,0,914,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,914,0,0,
 0,0,914,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,914,0,0,
-0,0,914,0,0,0,0,0,0,0,0,0,0,0,811,0,0,0,0,0,0,0,914,0,0,
+0,0,914,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,914,0,0,
 0,0,914,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,914,0,0,
 0,0,914,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,914,0,0,
 0,0,914,0,0,0,0,0,0,0,0,0,0,0,0,0,0,855,855,855,855,855,914,0,0,
@@ -82,7 +82,52 @@
 </data>
  </layer>
  <objectgroup id="3" name="Object Layer 1">
-  <object id="1" name="Player" type="Player" gid="3073" x="357.726" y="575.153" width="43.2155" height="83.6936">
+  <object id="9" name="Platform" type="Platform" gid="1097" x="-165.667" y="141.788" width="10" height="32">
+   <properties>
+    <property name="f_fileName" value="Tileset.png"/>
+    <property name="f_theLength" type="int" value="14"/>
+    <property name="f_theType" type="int" value="0"/>
+    <property name="i_nextFrameDelay" type="int" value="30"/>
+    <property name="i_numberOfFrame" type="int" value="-1"/>
+    <property name="i_singleFrameID" type="int" value="1096"/>
+    <property name="i_startFrame" type="int" value="0"/>
+    <property name="i_startNumberOfFrames" type="int" value="1"/>
+    <property name="i_textureKeepInCache" type="bool" value="false"/>
+    <property name="p_hasCollision" type="bool" value="true"/>
+    <property name="p_isTrigger" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="13" name="Platform" type="Platform" gid="1097" x="540.166" y="459.333" width="140" height="32">
+   <properties>
+    <property name="f_fileName" value="Tileset.png"/>
+    <property name="f_theLength" type="int" value="14"/>
+    <property name="f_theType" type="int" value="0"/>
+    <property name="i_nextFrameDelay" type="int" value="30"/>
+    <property name="i_numberOfFrame" type="int" value="-1"/>
+    <property name="i_singleFrameID" type="int" value="1096"/>
+    <property name="i_startFrame" type="int" value="0"/>
+    <property name="i_startNumberOfFrames" type="int" value="1"/>
+    <property name="i_textureKeepInCache" type="bool" value="false"/>
+    <property name="p_hasCollision" type="bool" value="true"/>
+    <property name="p_isTrigger" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="14" name="Platform" type="Platform" gid="1097" x="273.333" y="451.333" width="214.5" height="32">
+   <properties>
+    <property name="f_fileName" value="Tileset.png"/>
+    <property name="f_theLength" type="float" value="14"/>
+    <property name="f_theType" type="int" value="0"/>
+    <property name="i_nextFrameDelay" type="int" value="30"/>
+    <property name="i_numberOfFrame" type="int" value="-1"/>
+    <property name="i_singleFrameID" type="int" value="1096"/>
+    <property name="i_startFrame" type="int" value="0"/>
+    <property name="i_startNumberOfFrames" type="int" value="1"/>
+    <property name="i_textureKeepInCache" type="bool" value="false"/>
+    <property name="p_hasCollision" type="bool" value="true"/>
+    <property name="p_isTrigger" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="17" name="Player" type="Player" gid="3073" x="333.725" y="180" width="43.2155" height="83.6936">
    <properties>
     <property name="a_idleNumberOfFrames" type="int" value="2"/>
     <property name="a_idleStartFrame" type="int" value="0"/>
@@ -100,38 +145,14 @@
     <property name="p_isTrigger" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="9" name="Platform" type="Platform" gid="1097" x="-165.667" y="141.788" width="10" height="32">
+  <object id="22" name="Platform" type="Platform" gid="874" x="-137.25" y="143" width="10" height="32">
    <properties>
-    <property name="f_theType" type="int" value="0"/>
-    <property name="i_nextFrameDelay" type="int" value="30"/>
-    <property name="i_numberOfFrame" type="int" value="-1"/>
-    <property name="i_singleFrameID" type="int" value="1096"/>
-    <property name="i_startFrame" type="int" value="0"/>
-    <property name="i_startNumberOfFrames" type="int" value="1"/>
-    <property name="i_textureKeepInCache" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="13" name="Platform" type="Platform" gid="1097" x="118.833" y="560.666" width="140" height="32">
-   <properties>
+    <property name="f_fileName" value="Tileset.png"/>
     <property name="f_theLength" type="int" value="14"/>
-    <property name="f_theType" type="int" value="0"/>
+    <property name="f_theType" type="int" value="1"/>
     <property name="i_nextFrameDelay" type="int" value="30"/>
     <property name="i_numberOfFrame" type="int" value="-1"/>
-    <property name="i_singleFrameID" type="int" value="1096"/>
-    <property name="i_startFrame" type="int" value="0"/>
-    <property name="i_startNumberOfFrames" type="int" value="1"/>
-    <property name="i_textureKeepInCache" type="bool" value="false"/>
-    <property name="p_hasCollision" type="bool" value="true"/>
-    <property name="p_isTrigger" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="14" name="Platform" type="Platform" gid="1097" x="271.667" y="438" width="140" height="32">
-   <properties>
-    <property name="f_theLength" type="int" value="14"/>
-    <property name="f_theType" type="int" value="0"/>
-    <property name="i_nextFrameDelay" type="int" value="30"/>
-    <property name="i_numberOfFrame" type="int" value="-1"/>
-    <property name="i_singleFrameID" type="int" value="1096"/>
+    <property name="i_singleFrameID" type="int" value="873"/>
     <property name="i_startFrame" type="int" value="0"/>
     <property name="i_startNumberOfFrames" type="int" value="1"/>
     <property name="i_textureKeepInCache" type="bool" value="false"/>
