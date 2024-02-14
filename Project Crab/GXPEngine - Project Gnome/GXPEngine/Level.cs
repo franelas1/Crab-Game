@@ -28,8 +28,6 @@ public class Level : GameObject
 
     List<TriggerAction> triggerActionList = new List<TriggerAction>();
 
-    List<Platform> thePlatformListSpawned = new List<Platform>();
-
 
     int ySapwnValue = 580;
     public Level(string theMapfileName)
@@ -340,10 +338,9 @@ public class Level : GameObject
                 }
             }
         }
-        
+    
 
-
-        foreach (Platform thePlatform in thePlatformListSpawned)
+        foreach (Platform thePlatform in GameData.thePlatformListSpawned)
         {
             thePlayer.x -= thePlatform.width / 2;
             if (thePlayer != null)
@@ -369,10 +366,50 @@ public class Level : GameObject
                     thePlayer.x += thePlatform.width / 2;
                 }
             }
-
-           
+        }        
+        foreach (Platform thePlatform in GameData.thePlatformList)
+        {
+            if (thePlayer != null)
+            {
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+                }
+            }
         }
+    
 
+        foreach (Platform thePlatform in GameData.thePlatformListSpawned)
+        {
+            thePlayer.x -= thePlatform.width / 2;
+            if (thePlayer != null)
+            {
+                // && thePlayer.collider.GetCollisionInfo(thePlatform.collider) != null
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                        GameData.thePlatform = thePlatform;
+                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                    }
+
+                    else
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                    }
+                }
+
+                else
+                {
+                    thePlayer.x += thePlatform.width / 2;
+                }
+            }
+        }
     }
 
     //thePlatformListSpawned
@@ -389,8 +426,7 @@ public class Level : GameObject
             if (thePlatform.theType == theType)
             {
                 theSpawnPlatform = new Platform(thePlatform.theFilename, 1, 1, 0 , 64, 48, -1, 0, 30, false, true);
-                //theSpawnPlatform = thePlatform;
-              
+                //theSpawnPlatform = thePlatform;     
                 theSpawnPlatform.changeFrame(thePlatform.singleFrameID);
                 theSpawnPlatform.changeScaleX(theScale);
                 Console.WriteLine("the id: " + theSpawnPlatform.currentFrame);
@@ -407,7 +443,7 @@ public class Level : GameObject
             //    theSpawnPlatform.SetOrigin(theXCrood, ySapwnValue);
             theSpawnPlatform.x = theXCrood;
             theSpawnPlatform.y = ySapwnValue;
-            thePlatformListSpawned.Add(theSpawnPlatform);
+            GameData.thePlatformListSpawned.Add(theSpawnPlatform);
             AddChild(theSpawnPlatform);
 
             if (ySapwnValue < 180)
