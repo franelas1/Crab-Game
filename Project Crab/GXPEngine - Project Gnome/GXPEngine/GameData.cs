@@ -98,7 +98,6 @@ public static class GameData
 
     public static void ResetLevelData()
     {
-        bossHealth = 6;
         thePlatformList.Clear();
         thePlatformListSpawned.Clear();
         theLevel = null;

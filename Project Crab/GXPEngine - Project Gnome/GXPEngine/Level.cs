@@ -134,9 +134,10 @@ public class Level : GameObject
                     theTextCanvas.visible = theObject.GetBoolProperty("visibleAtStart", false);
 
                     //Detecting if the text canvas is one of the specific text canvases
-                    switch (theObject.GetStringProperty("f_displayID", ""))
+/*                    switch (theObject.GetStringProperty("f_displayID", ""))
                     {
-                    }
+
+                    }*/
 
                     textCanvasListHash.Add(theObject.GetStringProperty("theTextCanvasID", ""), theTextCanvas);
                     nextGameObject = theTextCanvas;
