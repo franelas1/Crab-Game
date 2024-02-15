@@ -15,8 +15,8 @@ using TiledMapParser;
 public class Level : GameObject
 {
     TiledLoader loader;
-    Player thePlayer;
-
+    Player player1;
+    Player player2;
 
     //Determine the position the player will be displayed in the game camera
     float boundaryValueX; //Should be width / 2 to display the player at the center of the screen
@@ -27,7 +27,6 @@ public class Level : GameObject
 
     const int PICKUPCHECKTIME = 15;
     const int PLATFORMGENMIN = 1670;
-    const int PLATFORMGENMAX = 1054;
 
     int ySapwnValue = PLATFORMGENMIN;
 
@@ -68,11 +67,7 @@ public class Level : GameObject
             loader.LoadImageLayers();
             loader.LoadObjectGroups(0);
 
-            //A game level should have a player, so find the player and allowing the program to reference it via gamedata
-            thePlayer = FindObjectOfType<Player>();
-            GameData.thePlayer = thePlayer;
-            thePlayer.setSpeed(GameData.playerSpeed);
-            thePlayer.setJumpHeightAndSpeed(GameData.playerJumpHeightAndSpeed);
+            GameData.playerAll = new Player("playerFile.png", 1, 1, 0, 64, 48, -1, 0, 30, false, true);
 
             //Manually create some of the game objects to make things working
             SpawnObjects(mapData);
@@ -81,6 +76,29 @@ public class Level : GameObject
             foreach (Platform thePlatform in FindObjectsOfType<Platform>())
             {
                 GameData.thePlatformList.Add(thePlatform);
+            }
+
+            foreach (Player thePlayer in FindObjectsOfType<Player>())
+            {
+                if (thePlayer.id == "Player1")
+                {
+                    player1 = thePlayer;
+                    player1.setSpeed(GameData.playerSpeed);
+                    player1.setJumpHeightAndSpeed(GameData.playerJumpHeightAndSpeed);
+                    GameData.player1 = player1;
+                }
+
+                if (thePlayer.id == "Player2")
+                {
+                    player2 = thePlayer;
+                    player2.setSpeed(GameData.playerSpeed);
+                    player2.setJumpHeightAndSpeed(GameData.playerJumpHeightAndSpeed);
+                    GameData.player2 = player2;
+                }
+            }
+
+            if (player1 != null && player2 != null)
+            {
             }
             
         }
@@ -142,19 +160,27 @@ public class Level : GameObject
     void Update()
     {
         //Use camera if player is found
-        if (thePlayer != null)
+        if (GameData.playerAll != null)
         {
             UseCamera();
         }
 
-        CheckPlatFormsSpawn(); //check collision of generated platforms
-        CheckPlatforms(); //check collision of placed platforms
+        if (player1 != null && player2 != null && !GameData.isMenu)
+        {
+            GameData.playerAll.x = (player1.x + player2.x) / 2;
+            GameData.playerAll.y = (player1.y + player2.y) / 2;
+        }
+
+        CheckPlatFormsSpawn(1); //check collision of generated platforms
+        CheckPlatforms(1); //check collision of placed platforms
+        CheckPlatFormsSpawn(2); //check collision of generated platforms
+        CheckPlatforms(2); //check collision of placed platforms
 
         //Check if player touches a coin, enters a door, and other things. With some cooldown.
         if (Time.time - pickUpCheckTimer >= PICKUPCHECKTIME)
         {
             pickUpCheckTimer = Time.time;
-            if (GameData.thePlatformList != null && GameData.thePlayer != null)
+            if (GameData.thePlatformList != null && GameData.playerAll != null)
             {
 
                 if (GameData.platformSpawnAmount > 0)
@@ -165,55 +191,64 @@ public class Level : GameObject
             }
         }
 
-        if (thePlayer != null && GameData.oldPlayerY != -1)
+        if (GameData.playerAll != null && GameData.oldPlayerY != -1)
         {
-            //            if (thePlayer.isJumping && !GameData.playerIsFallingJump)
-            if (thePlayer.isJumping && !GameData.playerIsFallingJump)
+            if (GameData.player1.isJumping && !GameData.playerIsFallingJump1)
             {
-                Console.WriteLine("Increaing: {0}", thePlayer.y - GameData.oldPlayerY);
-                GameData.theBackground.y -= Math.Abs(thePlayer.y - GameData.oldPlayerY);
+                GameData.theBackground.y -= Math.Abs(GameData.player1.y - GameData.oldPlayerY);
             }
-
-            if (GameData.oldPlayerY < thePlayer.y)
+            
+            if (GameData.oldPlayerY < GameData.player1.y)
             {
-                Console.WriteLine("decreasing: {0}", GameData.oldPlayerY - thePlayer.y);
-                GameData.theBackground.y += Math.Abs(GameData.oldPlayerY - thePlayer.y);
+                GameData.theBackground.y += Math.Abs(GameData.oldPlayerY - GameData.player1.y);
             }
         }
-        
-    }
+
+            /*
+            if (GameData.playerAll != null && GameData.oldPlayerY != -1)
+            {
+                if (GameData.playerAll.isJumping && (!GameData.playerIsFallingJump1 || !GameData.playerIsFallingJump2))
+                {
+                    GameData.theBackground.y -= Math.Abs(GameData.playerAll.y - GameData.oldPlayerY) / 2;
+                }
+
+                if (player1.y > player2.y)
+                {
+                    if (GameData.oldPlayerY < player1.y)
+                    {
+                        GameData.theBackground.y += Math.Abs(GameData.oldPlayerY - GameData.playerAll.y) / 2;
+                    }
+                }
+
+                else
+                {
+                    if (GameData.oldPlayerY < player2.y)
+                    {
+                        GameData.theBackground.y += Math.Abs(GameData.oldPlayerY - GameData.playerAll.y) / 2;
+                    }
+                }
+
+            }
+            */
+        }
 
 
     //Sets the game area player can look. AKA the game camera
     //Can set how far right and down player can see. (left stops at x < 0, top stops at y < 0)
     void UseCamera()
     {
-        //first determine if the camera moves, then determine the max distance the camera can move
-        //handling player moving right
-        if (thePlayer.x + x > boundaryValueX && x > -1 * ((game.width * 6) - 800))
-        {
-            x = boundaryValueX - thePlayer.x;
-        }
-
-        //handling player moving left
-        if (thePlayer.x + x < game.width - boundaryValueX && x < 0)
-        {
-            x = game.width - boundaryValueX - thePlayer.x;
-        }
-
         //handling player moving up
-        if (thePlayer.y + y < game.height - boundaryValueY && y < 999999999999)
+        if (GameData.playerAll.y + y < game.height - boundaryValueY && y < 999999999999)
         {
-            y = game.height - boundaryValueY - thePlayer.y;
+            y = game.height - boundaryValueY - GameData.playerAll.y;
         }
 
         //handling player moving down
-        if (thePlayer.y + y > boundaryValueY && y > -1 - (game.height * 2) - 100)
+        if (GameData.playerAll.y + y > boundaryValueY && y > -1 - (game.height * 2) - 100)
         {
-            y = boundaryValueY - thePlayer.y;
+            y = boundaryValueY - GameData.playerAll.y;
         }
     }
-
 
     //Spawns all the Tiles of the level
     void CreateTile(Map mapData, int theLayer)
@@ -290,8 +325,20 @@ public class Level : GameObject
     }
 
 
-    void CheckPlatforms()
-    {   
+    void CheckPlatforms(int thePlayerNumber)
+    {
+        Player thePlayer = null;
+
+        if (thePlayerNumber == 1)
+        {
+            thePlayer = GameData.player1;
+        }
+
+        else
+        {
+            thePlayer = GameData.player2;
+        }
+
         foreach (Platform thePlatform in GameData.thePlatformList)
         {
             if (thePlayer != null)
@@ -300,16 +347,35 @@ public class Level : GameObject
                 {
                     if (thePlatform.collider != null)
                     {
-                        GameData.thePlatformSpawn = thePlatform;
-                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+                        if (thePlayerNumber == 1)
+                        {
+                            GameData.thePlatform1 = thePlatform;
+                        }
+
+                        else
+                        {
+                            GameData.thePlatform2 = thePlatform;
+                        }
                     }
                 }
             }
         }     
     }
 
-    void CheckPlatFormsSpawn()
+    void CheckPlatFormsSpawn(int thePlayerNumber)
     {
+        Player thePlayer = null;
+
+        if (thePlayerNumber == 1)
+        {
+            thePlayer = GameData.player1;
+        }
+
+        else
+        {
+            thePlayer = GameData.player2;
+        }
+
         foreach (Platform thePlatform in GameData.thePlatformListSpawned)
         {
             thePlayer.x -= thePlatform.width / 2;
@@ -320,11 +386,20 @@ public class Level : GameObject
                 {
                     if (thePlatform.collider != null)
                     {
-                        thePlayer.x += thePlatform.width / 2;
-                        GameData.thePlatformSpawn = thePlatform;
-                        GameData.detectSpawn = true;
-                    }
+                        if (thePlayerNumber == 1)
+                        {
+                            GameData.detectSpawn1 = true;
+                            GameData.thePlatformSpawn1 = thePlatform;
+                            thePlayer.x += thePlatform.width / 2;
+                        }
 
+                        else
+                        {
+                            GameData.detectSpawn2 = true;
+                            GameData.thePlatformSpawn2 = thePlatform;
+                            thePlayer.x += thePlatform.width / 2;
+                        }
+                    }
                     else
                     {
                         thePlayer.x += thePlatform.width / 2;

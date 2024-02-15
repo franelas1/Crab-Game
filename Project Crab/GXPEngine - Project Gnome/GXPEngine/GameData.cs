@@ -6,7 +6,7 @@ using GXPEngine;
 
 /*
  * Holds all kind of data all other classes can access and edit
- * thid holds dataS
+ * thid holds data
  */
 public static class GameData
 {
@@ -19,7 +19,10 @@ public static class GameData
     public static int levelCleared = 0;
     public static int theFPS;
 
-    public static Player thePlayer;
+    public static Player playerAll;
+    public static Player player1;
+    public static Player player2;
+
     public static float playerSpeed = 0.5f;
     public static float playerJumpHeightAndSpeed = 10;
 
@@ -31,16 +34,21 @@ public static class GameData
     public static int[] jumpUpgradeList = new int[] { 1, 1, 1, 1, 1 };
     public static int[] speedUpgradeList = new int[] { 1, 1, 1, 1, 1 };
 
-    public static Platform thePlatform;
-    public static Platform thePlatformSpawn;
-    public static Platform thePlatformSpawnOld;
+    public static Platform thePlatform1;
+    public static Platform thePlatformSpawn1;
+    public static Platform thePlatform2;
+    public static Platform thePlatformSpawn2;
+
+    public static Platform thePlatformSpawnOld1;
+    public static Platform thePlatformSpawnOld2;
     public static List<Platform> thePlatformList = new List<Platform>();
-    public static List<Platform> thePlatformListSpawned = new List<Platform>();
-    public static float playerPlatormColliderValue = 999;
+    public static List<Platform> thePlatformListSpawned = new List<Platform>(); 
 
-    public static Boolean playerIsFallingJump = false;
+    public static Boolean playerIsFallingJump1 = false;
+    public static Boolean playerIsFallingJump2 = false;
 
-    public static Boolean detectSpawn = false;
+    public static Boolean detectSpawn1 = false;
+    public static Boolean detectSpawn2 = false;
 
     public static int theNumberReached = 0;
     public static int theNumberSpawn = 0;
@@ -54,47 +62,39 @@ public static class GameData
     public static int platformSpawnAmount = 7;
 
     public static float oldPlayerY = -1;
-    public static void CheckPlat()
+    public static void CheckPlat(int thePlayerNumber)
     {
-       
-        foreach (Platform thePlatform in GameData.thePlatformList)
-        {
-            if (thePlayer != null)
-            {
-                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
-                {
-                    if (thePlatform.collider != null)
-                    {
-                        GameData.thePlatform = thePlatform;
-                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
-                    }
-                }
-            }
-        }
-    }
+        Player thePlayer = null;
 
-    public static void CheckPlatSpawned()
-    {
+        if (thePlayerNumber == 1)
+        {
+            thePlayer = GameData.player1;
+        }
+
+        else
+        {
+            thePlayer = GameData.player2;
+        }
+
         foreach (Platform thePlatform in GameData.thePlatformListSpawned)
         {
             thePlayer.x -= thePlatform.width / 2;
             if (thePlayer != null)
             {
+                // && thePlayer.collider.GetCollisionInfo(thePlatform.collider) != null
                 if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
                 {
-                    thePlayer.x += thePlatform.width / 2;
-                    GameData.thePlatformSpawn = thePlatform;
-                    detectSpawn = true;
-
-    
-
-                    if (GameData.thePlatformSpawn.theNumber > GameData.theNumberReached)
+                    if (thePlatform.collider != null)
                     {
-                        
-                        platformSpawnAmount = thePlatformSpawn.theNumber - theNumberReached;
-                     //   Console.WriteLine(thePlatformSpawn);
-                        GameData.theNumberReached = GameData.thePlatformSpawn.theNumber;
-                        
+                        if (thePlayerNumber == 1)
+                        {
+                            GameData.thePlatform1 = thePlatform;
+                        }
+
+                        else
+                        {
+                            GameData.thePlatform2 = thePlatform;
+                        }
                     }
                 }
 
@@ -103,7 +103,59 @@ public static class GameData
                     thePlayer.x += thePlatform.width / 2;
                 }
             }
+        }
+    }
 
+    public static void CheckPlatSpawned(int thePlayerNumber)
+    {
+        Player thePlayer = null;
+
+        if (thePlayerNumber == 1)
+        {
+            thePlayer = GameData.player1;
+        }
+
+        else
+        {
+            thePlayer = GameData.player2;
+        }
+
+        foreach (Platform thePlatform in GameData.thePlatformListSpawned)
+        {
+            thePlayer.x -= thePlatform.width / 2;
+            if (thePlayer != null)
+            {
+                // && thePlayer.collider.GetCollisionInfo(thePlatform.collider) != null
+                if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
+                {
+                    if (thePlatform.collider != null)
+                    {
+                        if (thePlayerNumber == 1)
+                        {
+                            GameData.thePlatformSpawn1 = thePlatform;
+                            thePlayer.x += thePlatform.width / 2;
+                            GameData.detectSpawn1 = true;
+                        }
+
+                        else
+                        {
+                            GameData.thePlatformSpawn2 = thePlatform;
+                            thePlayer.x += thePlatform.width / 2;
+                            GameData.detectSpawn2 = true;
+                        }
+                    }
+
+                    else
+                    {
+                        thePlayer.x += thePlatform.width / 2;
+                    }
+                }
+
+                else
+                {
+                    thePlayer.x += thePlatform.width / 2;
+                }
+            }
         }
     }
     public static void CheckNewLevelCleared()
@@ -126,15 +178,20 @@ public static class GameData
         deathY = 2274 + (80 * 7);
         thePlatformList.Clear();
         thePlatformListSpawned.Clear();
-        thePlatformSpawn = null;
-        thePlatform = null;
+        thePlatformSpawn1 = null;
+        thePlatform1 = null;
+        thePlatformSpawn2 = null;
+        thePlatform2 = null;
         theLevel = null;
         playerHealth = playerMaxHealth;
         playerDead = false;
-        thePlayer = null;
+        player1 = null;
+        player2 = null;
+        playerAll = null;
         theNumberReached = 0;
         theNumberSpawn = 0;
-        detectSpawn = false;
+        detectSpawn1 = false;
+        detectSpawn2 = false;
         platformSpawnAmount = 7;
         theBackground = null;
         oldPlayerY = -1;

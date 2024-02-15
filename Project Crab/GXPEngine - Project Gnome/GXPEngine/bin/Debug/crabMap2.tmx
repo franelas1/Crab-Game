@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="24">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="25">
  <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32" tilecount="3072" columns="64">
   <image source="Tileset.png" width="2048" height="1536"/>
  </tileset>
@@ -275,7 +275,7 @@
     <property name="p_isTrigger" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="20" name="Player" type="Player" gid="3073" x="363.059" y="1711.49" width="43.2155" height="83.6936">
+  <object id="20" name="Player 1" type="Player" gid="3073" x="238.393" y="1766.15" width="43.2155" height="83.6936">
    <properties>
     <property name="a_idleNumberOfFrames" type="int" value="2"/>
     <property name="a_idleStartFrame" type="int" value="0"/>
@@ -285,7 +285,7 @@
     <property name="a_runStartFrame" type="int" value="2"/>
     <property name="f_jumpHeightAndSpeed" value="20"/>
     <property name="f_theGroupID" value="Player"/>
-    <property name="f_theID" value="Player"/>
+    <property name="f_theID" value="Player1"/>
     <property name="f_theSpeed" value="6"/>
     <property name="i_nextFrameDelay" type="int" value="30"/>
     <property name="i_numberOfFrame" type="int" value="-1"/>
@@ -320,6 +320,26 @@
     <property name="i_singleFrameID" type="int" value="873"/>
     <property name="i_startFrame" type="int" value="0"/>
     <property name="i_startNumberOfFrames" type="int" value="1"/>
+    <property name="i_textureKeepInCache" type="bool" value="false"/>
+    <property name="p_hasCollision" type="bool" value="true"/>
+    <property name="p_isTrigger" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="24" name="Player 2" type="Player" gid="3073" x="510.392" y="1759.15" width="43.2155" height="83.6936">
+   <properties>
+    <property name="a_idleNumberOfFrames" type="int" value="2"/>
+    <property name="a_idleStartFrame" type="int" value="0"/>
+    <property name="a_jumpNumberOfFrames" type="int" value="1"/>
+    <property name="a_jumpStartFrame" type="int" value="1"/>
+    <property name="a_runNumberOfFrames" type="int" value="2"/>
+    <property name="a_runStartFrame" type="int" value="2"/>
+    <property name="f_jumpHeightAndSpeed" value="20"/>
+    <property name="f_theGroupID" value="Player"/>
+    <property name="f_theID" value="Player2"/>
+    <property name="f_theSpeed" value="6"/>
+    <property name="i_nextFrameDelay" type="int" value="30"/>
+    <property name="i_numberOfFrame" type="int" value="-1"/>
+    <property name="i_singleFrameID" type="int" value="-1"/>
     <property name="i_textureKeepInCache" type="bool" value="false"/>
     <property name="p_hasCollision" type="bool" value="true"/>
     <property name="p_isTrigger" type="bool" value="false"/>

@@ -40,6 +40,12 @@ public class Character : AnimationSpriteCustom
         this.obj = obj;
     }
 
+    public Character(string filenName, float scaleX, float scaleY, int singleFrameID, int columns, int rows,
+    int numberOfFrames, int startFrame, int nextFrameDelay, bool textureKeepInCache, bool hasCollision) :
+    base(filenName, scaleX, scaleY, singleFrameID, columns, rows,
+     numberOfFrames, startFrame, nextFrameDelay, textureKeepInCache, hasCollision)
+    {
+    }
 
     //Setting the moving left and right speed
     public void setSpeed(float theSpeed)
@@ -73,7 +79,7 @@ public class Character : AnimationSpriteCustom
             }
         }
     }
-    public virtual void VerticalMovement(bool hasJumpIntent)
+    public virtual void VerticalMovement(bool hasJumpIntent, int thePlayernumber)
     {
         float oldY = y;
 
@@ -103,14 +109,31 @@ public class Character : AnimationSpriteCustom
                 {
                     if (this is Player)
                     {
-                        GameData.playerIsFallingJump = true;
-                        trueJumpFalling = true;
+                        if (id == "Player1")
+                        {
+                            GameData.playerIsFallingJump1 = true;
+                            trueJumpFalling = true;
+                        }
+                        if (id == "Player2")
+                        {
+                            GameData.playerIsFallingJump2 = true;
+                            trueJumpFalling = true;
+                        }
+
                     }
                 }
 
                 else
                 {
-                    GameData.playerIsFallingJump = false;
+                    if (id == "Player1")
+                    {
+                        GameData.playerIsFallingJump1 = false;
+                    }
+
+                    if (id == "Player2")
+                    {
+                        GameData.playerIsFallingJump2 = false;
+                    }
                 }
 
                 if (currentSpeedY > 30)
@@ -147,7 +170,16 @@ public class Character : AnimationSpriteCustom
 
             if (this is Player)
             {
-                GameData.thePlatformSpawn = new Platform("colors.png", 1, 1, 0, 64, 48, -1, 0, 30, false, true);
+                if (id == "Player1")
+                {
+                    GameData.thePlatformSpawn1 = new Platform("colors.png", 1, 1, 0, 64, 48, -1, 0, 30, false, true);
+                }
+
+                if (id == "Player2")
+                {
+                    GameData.thePlatformSpawn2 = new Platform("colors.png", 1, 1, 0, 64, 48, -1, 0, 30, false, true);
+                }
+
             }
         }
 
@@ -158,54 +190,119 @@ public class Character : AnimationSpriteCustom
 
             if (gravityCollision != null)
             {
-
-                if (GameData.thePlatform != null)
+                if (thePlayernumber == 1)
                 {
-                    GameData.detectSpawn = false;
-                    GameData.thePlayer.y += 30;
-                    GameData.CheckPlat();
-                    GameData.thePlayer.y -= 30;
-
-                    
-
-                    if (!GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatform.y - (GameData.thePlayer.height / 2)
-                        > GameData.thePlayer.y))
+                    if (GameData.thePlatform1 != null)
                     {
-                        isJumping = false;
-                        y = oldY;
+                        GameData.detectSpawn1 = false;
+                        GameData.player1.y += 30;
+                        GameData.CheckPlat(1);
+                        GameData.player1.y -= 30;
+
+                        if (!GameData.detectSpawn1 && GameData.playerIsFallingJump1 && (GameData.thePlatform1.y - (GameData.player1.height / 2)
+                            > GameData.player1.y))
+                        {
+                            isJumping = false;
+                            y = oldY;
+                        }
                     }
 
+                    if (GameData.thePlatformSpawn1 != null)
+                    {
+
+                        GameData.detectSpawn1 = false;
+                        GameData.player1.y += 30;
+                        GameData.CheckPlatSpawned(1);
+                        GameData.player1.y -= 30;
+
+
+                        //       Console.WriteLine("Player Y: {0} | Platform Y: {1}", GameData.thePlayer.y, GameData.thePlatformSpawn.y);
+
+                        //      Console.WriteLine((GameData.thePlatformSpawnOld != GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null));
+
+                        Console.WriteLine("---------------------");
+                        Console.WriteLine(GameData.detectSpawn1);
+                        Console.WriteLine(GameData.playerIsFallingJump1);
+                        Console.WriteLine((GameData.thePlatformSpawn1.y + GameData.thePlatformSpawn1.height
+                            > GameData.player1.y));
+                        Console.WriteLine(((GameData.thePlatformSpawnOld1 == GameData.thePlatformSpawn1) || (GameData.thePlatformSpawnOld1 == null)));
+                        Console.WriteLine("----------------------");
+
+
+                        if (GameData.detectSpawn1 && GameData.playerIsFallingJump1 && (GameData.thePlatformSpawn1.y + GameData.thePlatformSpawn1.height
+                            > GameData.player1.y) && (((GameData.thePlatformSpawnOld1 == GameData.thePlatformSpawn1) || (GameData.thePlatformSpawnOld1 == null))))
+                        {
+                            isJumping = false;
+                            y = oldY;
+                            //      GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
+
+                            if (GameData.theNumberReached < GameData.thePlatformSpawn1.theNumber)
+                            {
+                                GameData.platformSpawnAmount = GameData.thePlatformSpawn1.theNumber - GameData.theNumberReached;
+                                GameData.theNumberReached = GameData.thePlatformSpawn1.theNumber;
+                            }
+                        }
+
+                        else
+                        {
+                            GameData.thePlatformSpawnOld1 = GameData.thePlatformSpawn1;
+                        }
+
+                        if (GameData.thePlatformListSpawned != null)
+                        {
+                            return;
+                        }
+                    }
                 }
 
-                if (GameData.thePlatformSpawn != null)
+                else
                 {
-
-                    GameData.detectSpawn = false;
-                    GameData.thePlayer.y += 30;
-                    GameData.CheckPlatSpawned();
-                    GameData.thePlayer.y -= 30;
-
-
-                    //       Console.WriteLine("Player Y: {0} | Platform Y: {1}", GameData.thePlayer.y, GameData.thePlatformSpawn.y);
-
-              //      Console.WriteLine((GameData.thePlatformSpawnOld != GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null));
-
-                    if (GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatformSpawn.y + GameData.thePlatformSpawn.height
-                        > GameData.thePlayer.y) && (((GameData.thePlatformSpawnOld == GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null))))
+                    if (GameData.thePlatform2 != null)
                     {
-                        isJumping = false;
-                        y = oldY;
-                 //      GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
+                        GameData.detectSpawn2 = false;
+                        GameData.player2.y += 30;
+                        GameData.CheckPlat(2);
+                        GameData.player2.y -= 30;
+
+                        if (!GameData.detectSpawn2 && GameData.playerIsFallingJump2 && (GameData.thePlatform2.y - (GameData.player2.height / 2)
+                            > GameData.player2.y))
+                        {
+                            isJumping = false;
+                            y = oldY;
+                        }
                     }
 
-                    else
+                    if (GameData.thePlatformSpawn2 != null)
                     {
-                        GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
-                    }
 
-                    if (GameData.thePlatformListSpawned != null)
-                    {
-                        return;
+                        GameData.detectSpawn2 = false;
+                        GameData.player2.y += 30;
+                        GameData.CheckPlatSpawned(2);
+                        GameData.player2.y -= 30;
+
+                        if (GameData.detectSpawn2 && GameData.playerIsFallingJump2 && (GameData.thePlatformSpawn2.y + GameData.thePlatformSpawn2.height
+                            > GameData.player2.y) && (((GameData.thePlatformSpawnOld2 == GameData.thePlatformSpawn2) || (GameData.thePlatformSpawnOld2 == null))))
+                        {
+                            isJumping = false;
+                            y = oldY;
+                            //      GameData.thePlatformSpawnOld = GameData.thePlatformSpawn;
+
+                            if (GameData.theNumberReached < GameData.thePlatformSpawn2.theNumber)
+                            {
+                                GameData.platformSpawnAmount = GameData.thePlatformSpawn2.theNumber - GameData.theNumberReached;
+                                GameData.theNumberReached = GameData.thePlatformSpawn2.theNumber;
+                            }
+                        }
+
+                        else
+                        {
+                            GameData.thePlatformSpawnOld2 = GameData.thePlatformSpawn2;
+                        }
+
+                        if (GameData.thePlatformListSpawned != null)
+                        {
+                            return;
+                        }
                     }
                 }
             }

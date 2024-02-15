@@ -34,9 +34,31 @@ public class Player : Character
         GameData.theLevel.AddChild(this);
     }
 
+    public Player(string filenName, float scaleX, float scaleY, int singleFrameID, int columns, int rows,
+    int numberOfFrames, int startFrame, int nextFrameDelay, bool textureKeepInCache, bool hasCollision) :
+    base(filenName, scaleX, scaleY, singleFrameID, columns, rows,
+     numberOfFrames, startFrame, nextFrameDelay, textureKeepInCache, hasCollision)
+    {
+    }
+
     protected override void Update()
     {
-        GameData.oldPlayerY = y;
+        if (id == "Player1")
+        {
+            GameData.oldPlayerY = y;
+        }
+        /*
+        if (GameData.player1.y >= GameData.player2.y)
+        {
+            GameData.oldPlayerY = GameData.player1.y;
+        }
+
+        else
+        {
+            GameData.oldPlayerY = GameData.player2.y;
+        }
+        */
+        
         base.Update();
         CheckPlayerControl();
 
@@ -71,40 +93,72 @@ public class Player : Character
 
         isMovingHoz = false;
 
-        if (Input.GetKey(Key.RIGHT) || Input.GetKey('D'))
+        if (id == "Player1")
         {
-            HozMovement(true);
-        }
-
-        if (Input.GetKey(Key.LEFT) || Input.GetKey('A'))
-        {
-            HozMovement(false);
-        }
-
-        //        if ((Input.GetKey(Key.SPACE) || Input.GetKey('W')) && ableToJump)
-        if (Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown('W') || Input.GetKeyDown(Key.UP))
-        {
-            VerticalMovement(true);
-
-            ableToJump = false;
-            jumpTimer = Time.time;
-
-        }
-
-        if(Input.GetKeyUp(Key.LEFT) || Input.GetKeyUp('A') || Input.GetKeyUp(Key.RIGHT) || Input.GetKeyUp('D'))
-        {
-            acceleration = 1;
-        }
-
-
-        else
-        {
-            if (!CheckIsColliding(2))
+            if (Input.GetKey(Key.RIGHT) || Input.GetKey('D'))
             {
-                VerticalMovement(false);
+                HozMovement(true);
+            }
+            
+            if (Input.GetKey(Key.LEFT) || Input.GetKey('A'))
+            {
+                HozMovement(false);
+            }
+            
+            if (Input.GetKeyDown('W') || Input.GetKeyDown(Key.UP))
+            {
+                VerticalMovement(true, 1);
+                ableToJump = false;
+                jumpTimer = Time.time;
+            }
+            
+            if (Input.GetKeyUp(Key.LEFT) || Input.GetKeyUp('A') || Input.GetKeyUp(Key.RIGHT) || Input.GetKeyUp('D'))
+            {
+                acceleration = 1;
+            }
+            
+            else
+            {
+                if (!CheckIsColliding(2))
+                {
+                    VerticalMovement(false, 1);
+                }
+            }
+        }
+
+        if (id == "Player2")
+        {
+            if (Input.GetKey('L'))
+            {
+                HozMovement(true);
             }
 
+            if (Input.GetKey('J'))
+            {
+                HozMovement(false);
+            }
+
+            if (Input.GetKeyDown('I'))
+            {
+                VerticalMovement(true, 2);
+                ableToJump = false;
+                jumpTimer = Time.time;
+            }
+
+            if (Input.GetKeyUp('J') || Input.GetKeyUp('L'))
+            {
+                acceleration = 1;
+            }
+
+            else
+            {
+                if (!CheckIsColliding(2))
+                {
+                    VerticalMovement(false, 2);
+                }
+            }
         }
+
 
         //If player got stuck into wall (from stomping enemy)
         if (CheckIsColliding(1))
@@ -113,8 +167,19 @@ public class Player : Character
         }
     }
 
-    public override void VerticalMovement(bool hasJumpIntent)
+    public override void VerticalMovement(bool hasJumpIntent, int thePlayerNumber)
     {
+
+        if (id == "Player1")
+        {
+            thePlayerNumber = 1;
+        }
+
+        if (id == "Player2")
+        {
+            thePlayerNumber = 2;
+        }
+
         if (isJumping && isJumping != isJumpPrev)
         {
             SetAnimationCycle(jumpStartFrame, jumpAmountOfFrames);
@@ -142,7 +207,7 @@ public class Player : Character
             SetAnimationCycle(idleStartFrame, idleAmountOfFrames);
         }
 
-        base.VerticalMovement(hasJumpIntent);
+        base.VerticalMovement(hasJumpIntent, thePlayerNumber);
     }
 
 }

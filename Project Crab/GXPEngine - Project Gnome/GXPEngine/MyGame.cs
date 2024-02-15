@@ -15,7 +15,6 @@ public class MyGame : Game
     const int RESETTIME = 1000;
     int resetTimer = Time.time;
     bool isResetting = false;
-
     public MyGame() : base(800, 640, false, false)     // Create a window that's 800x600 and NOT fullscreen
 	{
         targetFps = 60;
