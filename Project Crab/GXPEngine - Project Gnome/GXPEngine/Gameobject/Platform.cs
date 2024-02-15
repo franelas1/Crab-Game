@@ -43,7 +43,7 @@ public class Platform : AnimationSpriteCustom
         if (GameData.theNumberReached - theNumber > 5)
         {
             y += 2;
-            if (y > 2274)
+            if (y > GameData.deathY)
             {
                 LateDestroy();
             }

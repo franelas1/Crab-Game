@@ -143,8 +143,8 @@
             "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 190,
-                "y": 767
+                "x": 400,
+                "y": 321
             }
         },
         "crabMap1.tmx#Tileset": {
@@ -158,11 +158,11 @@
             "expandedObjectLayers": [
                 4
             ],
-            "scale": 1,
+            "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 18,
-                "y": 1339.5
+                "x": 296,
+                "y": 1641
             }
         },
         "crabMap2.tmx#Tileset": {
@@ -319,15 +319,15 @@
         },
         "mainMenu.tmx": {
             "expandedObjectLayers": [
-                4,
                 2,
+                4,
                 3
             ],
-            "scale": 1,
-            "selectedLayer": 1,
+            "scale": 0.75,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 240,
-                "y": 215.5
+                "x": 207.99999999999994,
+                "y": 368.6666666666667
             }
         },
         "mainMenu.tmx#Button Look": {
@@ -486,14 +486,14 @@
         },
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
-                3,
+                2,
                 4,
-                2
+                3
             ],
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 400,
+                "x": 398.66666666666663,
                 "y": 299.33333333333337
             }
         },

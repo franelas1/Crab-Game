@@ -14,9 +14,9 @@ using TiledMapParser;
  */
 public class Character : AnimationSpriteCustom
 {
-    float theSpeed;
+    protected float theSpeed;
     float currentSpeedX;
-    float currentSpeedY; 
+    protected float currentSpeedY; 
     protected bool canAllowTopJump = false; //Can jump to ceiling and keep jumping into the ceiling if holding jump (not working anymore)
     protected bool isJumping = false;
     float jumpHeightAndSpeed;
@@ -27,7 +27,9 @@ public class Character : AnimationSpriteCustom
     bool lastState;
     float lastStateX;
     protected float acceleration = 1;
-    float moveAmount;
+    protected float moveAmount;
+
+    protected bool trueJumpFalling = false;
 
     public Character(string theImageName, int columns, int rows, TiledObject obj=null) :
     base(theImageName, columns, rows, obj)
@@ -63,7 +65,7 @@ public class Character : AnimationSpriteCustom
             b.Action();
         }
 
-        if (y > 1934)
+        if (y > GameData.deathYPlayer)
         {
             if (this is Player)
             {
@@ -114,10 +116,11 @@ public class Character : AnimationSpriteCustom
                     if (this is Player)
                     {
                         GameData.playerIsFallingJump = true;
+                        trueJumpFalling = true;
                     }
                 }
 
-               else
+                else
                 {
                     GameData.playerIsFallingJump = false;
                 }
@@ -132,6 +135,7 @@ public class Character : AnimationSpriteCustom
         //If player isn't jumping, adding more value to y would fix player floating (whening moving left and right)
         else
         {
+            trueJumpFalling = false;
             currentSpeedY = theSpeed;
             y += jumpHeightAndSpeed;
         }
@@ -226,7 +230,6 @@ public class Character : AnimationSpriteCustom
                 y = oldY;
             }
         }
-
     }
 
     public void HozMovement(bool isRight)

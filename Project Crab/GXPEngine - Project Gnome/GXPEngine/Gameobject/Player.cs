@@ -46,6 +46,15 @@ public class Player : Character
                 ableToJump = true;
             }
         }
+        if (isJumping && !GameData.playerIsFallingJump)
+        {
+            GameData.theBackground.y -= Math.Abs(currentSpeedY);
+        }
+
+        if (trueJumpFalling)
+        {
+            GameData.theBackground.y += Math.Abs(currentSpeedY);
+        }
     }
 
     public void SetAnimation(int theAnimation)

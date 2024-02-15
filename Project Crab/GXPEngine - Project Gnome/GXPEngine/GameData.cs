@@ -44,6 +44,13 @@ public static class GameData
     public static int theNumberReached = 0;
     public static int theNumberSpawn = 0;
 
+    public static Pivot theBackground;
+
+
+    public static int deathY = 2274 + (80 * 7);
+    public static int deathYPlayer = 1934 + (80 * 7);
+
+    public static int platformSpawnAmount = 7;
     public static void CheckPlat()
     {
        
@@ -72,15 +79,19 @@ public static class GameData
             {
                 if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
                 {
-                    Console.WriteLine("spawn collide 2");
                     thePlayer.x += thePlatform.width / 2;
                     GameData.thePlatformSpawn = thePlatform;
                     detectSpawn = true;
-                    GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+
+    
 
                     if (GameData.thePlatformSpawn.theNumber > GameData.theNumberReached)
                     {
+                        
+                        platformSpawnAmount = thePlatformSpawn.theNumber - theNumberReached;
+                        Console.WriteLine(thePlatformSpawn);
                         GameData.theNumberReached = GameData.thePlatformSpawn.theNumber;
+                        
                     }
                 }
 
@@ -107,6 +118,8 @@ public static class GameData
 
     public static void ResetLevelData()
     {
+        deathYPlayer = 1934 + (80 * 7);
+        deathY = 2274 + (80 * 7);
         thePlatformList.Clear();
         thePlatformListSpawned.Clear();
         thePlatformSpawn = null;
@@ -117,6 +130,8 @@ public static class GameData
         thePlayer = null;
         theNumberReached = 0;
         detectSpawn = false;
+        platformSpawnAmount = 7;
+        theBackground = null;
     }
 
 }

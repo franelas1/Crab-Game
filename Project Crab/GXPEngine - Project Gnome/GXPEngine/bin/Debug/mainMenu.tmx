@@ -87,7 +87,7 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="Object Layer 2">
-  <object id="10" type="Button" gid="2" x="331.83" y="279.83" width="135" height="56.83">
+  <object id="10" type="Button" gid="2" x="-23.17" y="-102.17" width="135" height="56.83">
    <properties>
     <property name="f_theAction1" value="loadMenu"/>
     <property name="f_theID" value="defaultButton"/>

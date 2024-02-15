@@ -23,17 +23,13 @@ public class Level : GameObject
 
     Dictionary<string, TextCanvas> textCanvasListHash = new Dictionary<string, TextCanvas>();
     int pickUpCheckTimer;
-    int levelCompleteTimer = Time.time;
 
     //88
     const int PICKUPCHECKTIME = 15;
     const int PLATFORMGENMIN = 1670;
     const int PLATFORMGENMAX = 1054;
-    const int MAXSPAWN = 7;
 
     List<TriggerAction> triggerActionList = new List<TriggerAction>();
-
-    
 
     int ySapwnValue = PLATFORMGENMIN;
 
@@ -41,6 +37,7 @@ public class Level : GameObject
 
     public Level(string theMapfileName)
     {
+        GameData.theBackground = theWallsAndBackgroud;
         AddChild(theWallsAndBackgroud);
         Map mapData = MapParser.ReadMap(theMapfileName);
         GameData.theLevel = this;
@@ -208,33 +205,45 @@ public class Level : GameObject
             UseCamera();
         }
 
-        //Check if player touches a coin, enters a door, and other things. With some cooldown.
-        if (Time.time - pickUpCheckTimer >= PICKUPCHECKTIME)
-        {
-            pickUpCheckTimer = Time.time;
-            
-            
-        }
-
         CheckTriggerAction();
-
-        if (Input.GetKeyDown(Key.G))
-        {
-            spawnPlatform(0);
-        }
 
         CheckPlatFormsSpawn();
         CheckPlatforms();
 
-        if (Input.GetKey(Key.I))
+        //Check if player touches a coin, enters a door, and other things. With some cooldown.
+        if (Time.time - pickUpCheckTimer >= PICKUPCHECKTIME)
         {
-            theWallsAndBackgroud.y -= 5;
+            pickUpCheckTimer = Time.time;
+            if (GameData.thePlatformList != null && GameData.thePlayer != null)
+            {
+
+                if (GameData.platformSpawnAmount > 0)
+                {
+                    spawnPlatform(0);
+                    GameData.platformSpawnAmount--;
+                }
+            }
         }
 
-        if (Input.GetKey(Key.K))
+        if (GameData.thePlatformList != null && GameData.thePlayer != null)
         {
-            theWallsAndBackgroud.y += 5;
+            /*
+            while (GameData.platformSpawnAmount > 0)
+            {
+                spawnPlatform(0);
+                GameData.platformSpawnAmount--;
+            }
+            */
+            
+
+            /*
+            if (Input.GetKeyDown(Key.G))
+            {
+                spawnPlatform(0);
+            }
+            */
         }
+        
     }
 
 
@@ -375,11 +384,9 @@ public class Level : GameObject
                 {
                     if (thePlatform.collider != null)
                     {
-                        Console.WriteLine("check spawn 1");
                         thePlayer.x += thePlatform.width / 2;
                         GameData.thePlatformSpawn = thePlatform;
                         GameData.detectSpawn = true;
-                        GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
                     }
 
                     else
@@ -403,7 +410,7 @@ public class Level : GameObject
         //right:  704 - platfrom width
         Platform theSpawnPlatform = null;
 
-        float theScale = Utils.Random(0, 8);
+        float theScale = Utils.Random(1, 8);
 
         foreach (Platform thePlatform in GameData.thePlatformList)
         {
@@ -418,30 +425,30 @@ public class Level : GameObject
 
         if (theSpawnPlatform != null)
         {
+
             int theXCrood = (int) Utils.Random(98 + (theSpawnPlatform.width), (704 - (theSpawnPlatform.width) + 1));
             int theYCrood;
             GameData.theNumberSpawn++;
             if (GameData.theNumberSpawn == 1)
             {
-                theYCrood = 20;
+                theYCrood = 10;
             }
 
             else
             {
-                theYCrood = Utils.Random(60, 88);
+                theYCrood = Utils.Random(30, 88);
             }
+
+            GameData.deathY -= theYCrood / 2;
+            GameData.deathYPlayer -= theYCrood / 2;
 
             ySapwnValue -= theYCrood;
             theSpawnPlatform.x = theXCrood;
             theSpawnPlatform.y = ySapwnValue;
             theSpawnPlatform.theNumber = GameData.theNumberSpawn;
             GameData.thePlatformListSpawned.Add(theSpawnPlatform);
-            AddChild(theSpawnPlatform);
 
-            if (ySapwnValue < PLATFORMGENMAX)
-            {
-                ySapwnValue = PLATFORMGENMIN;
-            }
+            AddChild(theSpawnPlatform);
         }
     }
 
