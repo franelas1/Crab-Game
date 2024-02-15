@@ -161,8 +161,8 @@
             "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 296,
-                "y": 1641
+                "x": 400,
+                "y": 1279
             }
         },
         "crabMap2.tmx#Tileset": {
@@ -323,11 +323,11 @@
                 4,
                 3
             ],
-            "scale": 0.75,
+            "scale": 0.33,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 207.99999999999994,
-                "y": 368.6666666666667
+                "x": 112.12121212121212,
+                "y": 674.2424242424242
             }
         },
         "mainMenu.tmx#Button Look": {
@@ -493,7 +493,7 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 398.66666666666663,
+                "x": 400,
                 "y": 299.33333333333337
             }
         },
@@ -533,15 +533,15 @@
     "project": "Project Gnome.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "crabMap2.tmx",
-        "menuLevelSelect.tmx",
         "crabMap1.tmx",
+        "mainMenu.tmx",
+        "menuLevelSelect.tmx",
+        "crabMap2.tmx",
         "introTextMenu.tmx",
         "levelCompletedMenu.tmx",
         "map2.tmx",
         "map3.tmx",
         "map1.tmx",
-        "mainMenu.tmx",
         "crab_map1.tmx",
         "levelCompletedMenuEnd.tmx",
         "endTextMenu.tmx"

@@ -36,6 +36,7 @@ public class Player : Character
 
     protected override void Update()
     {
+        GameData.oldPlayerY = y;
         base.Update();
         CheckPlayerControl();
 
@@ -45,15 +46,6 @@ public class Player : Character
             {
                 ableToJump = true;
             }
-        }
-        if (isJumping && !GameData.playerIsFallingJump)
-        {
-            GameData.theBackground.y -= Math.Abs(currentSpeedY);
-        }
-
-        if (trueJumpFalling)
-        {
-            GameData.theBackground.y += Math.Abs(currentSpeedY);
         }
     }
 

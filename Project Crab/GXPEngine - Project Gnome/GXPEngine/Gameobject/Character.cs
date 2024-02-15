@@ -18,7 +18,7 @@ public class Character : AnimationSpriteCustom
     float currentSpeedX;
     protected float currentSpeedY; 
     protected bool canAllowTopJump = false; //Can jump to ceiling and keep jumping into the ceiling if holding jump (not working anymore)
-    protected bool isJumping = false;
+    public bool isJumping = false;
     float jumpHeightAndSpeed;
     protected bool isMovingHoz = false;
     List<Behavior> behaviorList = new List<Behavior>(); //storing all behaviors (tasks) the character has
@@ -29,7 +29,7 @@ public class Character : AnimationSpriteCustom
     protected float acceleration = 1;
     protected float moveAmount;
 
-    protected bool trueJumpFalling = false;
+    public bool trueJumpFalling = false;
 
     public Character(string theImageName, int columns, int rows, TiledObject obj=null) :
     base(theImageName, columns, rows, obj)

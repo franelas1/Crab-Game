@@ -10,6 +10,7 @@ using GXPEngine;
  */
 public static class GameData
 {
+
     public static string lastLevelPlayed = "map1.tmx"; //determine what level will be loaded
     public static string theLevelName = "mainMenu.tmx"; //determine what level will be loaded
     public static Level theLevel; //the level object itself
@@ -51,6 +52,8 @@ public static class GameData
     public static int deathYPlayer = 1934 + (80 * 7);
 
     public static int platformSpawnAmount = 7;
+
+    public static float oldPlayerY = 0;
     public static void CheckPlat()
     {
        
@@ -118,6 +121,7 @@ public static class GameData
 
     public static void ResetLevelData()
     {
+        oldPlayerY = 0;
         deathYPlayer = 1934 + (80 * 7);
         deathY = 2274 + (80 * 7);
         thePlatformList.Clear();

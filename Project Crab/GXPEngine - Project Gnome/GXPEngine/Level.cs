@@ -225,23 +225,17 @@ public class Level : GameObject
             }
         }
 
-        if (GameData.thePlatformList != null && GameData.thePlayer != null)
+        if (thePlayer != null)
         {
-            /*
-            while (GameData.platformSpawnAmount > 0)
+            if (thePlayer.isJumping && !GameData.playerIsFallingJump)
             {
-                spawnPlatform(0);
-                GameData.platformSpawnAmount--;
+                GameData.theBackground.y -= Math.Abs(thePlayer.y - GameData.oldPlayerY);
             }
-            */
-            
 
-            /*
-            if (Input.GetKeyDown(Key.G))
+            if (thePlayer.trueJumpFalling)
             {
-                spawnPlatform(0);
+                GameData.theBackground.y += Math.Abs(GameData.oldPlayerY - thePlayer.y);
             }
-            */
         }
         
     }
@@ -266,7 +260,7 @@ public class Level : GameObject
         }
 
         //handling player moving up
-        if (thePlayer.y + y < game.height - boundaryValueY && y < 0)
+        if (thePlayer.y + y < game.height - boundaryValueY && y < 999999999999)
         {
             y = game.height - boundaryValueY - thePlayer.y;
         }
