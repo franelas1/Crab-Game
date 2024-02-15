@@ -7,6 +7,8 @@
 
         float speedX = 4;
         float speedY;
+        float oldY;         //Last frame player Y position
+
         //Player constructor (coordinate X, coordinate Y) : (sprite)     will need to change to animated sprite 
         public Player(float tempX, float tempY) : base("circle.png")
         {
@@ -51,6 +53,9 @@
         //Player movement Up Down
         void movementUD(bool jump)
         {
+            //Saves last frame's Y coordinate of the player
+            oldY = y;
+
             //Always tries to move down
             speedY += 0.1f;
             y += speedY;
@@ -62,19 +67,22 @@
                 speedY = 0;
                 ableToJump = true;
             }
+            //Else (if not on the floor) disable jumping
             else
             {
                 ableToJump = false;
             }
 
-            //If able to jump and jump button is pressed, move up and disable jump
+            //If able to jump and jump button is pressed, jump
             if (jump && ableToJump)
             {
                 speedY = -8;
             }
-
         }
 
+        void onPlatform()
+        {
 
+        }
     }
 }
