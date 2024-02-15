@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="10" tileheight="10" infinite="0" nextlayerid="6" nextobjectid="12">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="10" tileheight="10" infinite="0" nextlayerid="6" nextobjectid="13">
  <editorsettings>
-  <export target="../../../../../OneDrive/Documents/mainMenu.tmx" format="tmx"/>
+  <export target="GXPEngine - Project Gnome/GXPEngine/bin/Debug/mainMenu.tmx" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" name="MainMenu" tilewidth="1920" tileheight="1080" tilecount="1" columns="1">
   <image source="GXPEngine - Project Gnome/GXPEngine/bin/Debug/MainMenu.png" width="1920" height="1080"/>
@@ -11,6 +11,9 @@
  </tileset>
  <tileset firstgid="3" name="Options Button" tilewidth="344" tileheight="96" tilecount="1" columns="1">
   <image source="GXPEngine - Project Gnome/GXPEngine/bin/Debug/Options.png" width="344" height="96"/>
+ </tileset>
+ <tileset firstgid="4" name="Button Look" tilewidth="470" tileheight="150" tilecount="1" columns="1">
+  <image source="GXPEngine - Project Gnome/GXPEngine/bin/Debug/Button.png" width="470" height="150"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="80" height="60">
   <data encoding="csv">
@@ -77,7 +80,14 @@
 </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="8" gid="1" x="-0.0293561" y="600.949" width="801.439" height="600.955"/>
+  <object id="12" type="Button" gid="4" x="349.835" y="206.085" width="86.33" height="72.83">
+   <properties>
+    <property name="f_theAction1" value="startGame"/>
+    <property name="f_theID" value="levelSelect"/>
+    <property name="parameter1Int" type="int" value="1"/>
+    <property name="parameter1String" value="crabMap2.tmx"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="Object Layer 2">
   <object id="10" type="Button" gid="2" x="331.83" y="279.83" width="135" height="56.83">

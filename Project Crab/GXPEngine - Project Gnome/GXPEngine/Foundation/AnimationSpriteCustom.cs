@@ -125,17 +125,7 @@ public class AnimationSpriteCustom : AnimationSprite
         {
             if (theCollision is Tile)
             {
-                Tile theTile = (Tile)theCollision;
-
-                if (theTile.GetisDeadly() && this is Player)
-                {
-                    collisionList.Add(5);
-                }
-
-                else
-                {
-                    collisionList.Add(1);
-                }
+                collisionList.Add(1);
             }
 
             if (theCollision is Player)
@@ -145,7 +135,16 @@ public class AnimationSpriteCustom : AnimationSprite
 
             if (theCollision is Platform)
             {
-                collisionList.Add(4);
+                Platform thePlatform = (Platform)theCollision;
+                if (thePlatform.isTheStarterPlatform && this is Player)
+                {
+                    collisionList.Add(5);
+                }
+
+                else
+                {
+                    collisionList.Add(4);
+                }
             }
         }
         return collisionList;

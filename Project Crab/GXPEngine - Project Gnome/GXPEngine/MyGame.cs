@@ -38,27 +38,15 @@ public class MyGame : Game
         if (Input.GetKey(Key.M))
         {
             GameData.theLevelName = "mainMenu.tmx";
-            mainMenuSound.Stop();
-            mainMenuSound = new Sound("MenuMusic.wav", true, false).Play();
-            mainMenuSound.Volume = 0.4f;
+
             GameData.isMenu = true;
             GameData.playerDead = true;
         }
 
-        //Allowing player to go to game menu during game. Will exit the level
-        if (Input.GetKey(Key.L))
-        {
-            GameData.theLevelName = "mainMenu.tmx";
-            mainMenuSound.Stop();
-            mainMenuSound = new Sound("MenuMusic.wav", true, false).Play();
-            mainMenuSound.Volume = 0.0f;
-            GameData.isMenu = true;
-            GameData.playerDead = true;
-        }
 
         if (Input.GetKeyDown(Key.G))
         {
-            Console.WriteLine(this.GetDiagnostics());
+          //  Console.WriteLine(this.GetDiagnostics());
         }
     }
 
@@ -86,9 +74,6 @@ public class MyGame : Game
             {
                 mainMenuSound.Stop();
             }
-            
-            mainMenuSound = new Sound("MenuMusic.wav", true, false).Play();
-            mainMenuSound.Volume = 0.4f;
             isMenu = !isMenu;
         }
 
@@ -96,9 +81,9 @@ public class MyGame : Game
         if (GameData.isMenu == false)
         {
             GameData.ResetLevelData();
-            mainMenuSound.Stop();
-            mainMenuSound = new Sound("MainGameMusic.wav", true, false).Play(); //this is the level sound, looping
-            mainMenuSound.Volume = 0.4f;
+          //  mainMenuSound.Stop();
+           // mainMenuSound = new Sound("MainGameMusic.wav", true, false).Play(); //this is the level sound, looping
+            //mainMenuSound.Volume = 0.4f;
         }
 
         GameData.playerDead = false;

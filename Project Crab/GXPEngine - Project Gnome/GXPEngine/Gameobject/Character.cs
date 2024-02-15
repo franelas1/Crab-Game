@@ -62,6 +62,20 @@ public class Character : AnimationSpriteCustom
         {
             b.Action();
         }
+
+        if (y > 1934)
+        {
+            if (this is Player)
+            {
+                SoundChannel theSound = new Sound("playerDead.wav", false, false).Play();
+                GameData.playerDead = true;
+            }
+
+            else
+            {
+                LateDestroy();
+            }
+        }
     }
 
     public void AddBehavior(Behavior behavior)
@@ -123,17 +137,7 @@ public class Character : AnimationSpriteCustom
         }
 
         UpdateCollisions();
-        
-        //If touched by 'deadly' tile
-        if (CheckIsColliding(5))
-        {
-            if (this is Player)
-            {
-                SoundChannel theSound = new Sound("playerDead.wav", false, false).Play();
-                GameData.playerDead = true;
-            }
-        }
-
+       
         //Collider with wall
         if (CheckIsColliding(1))
         {
@@ -192,7 +196,7 @@ public class Character : AnimationSpriteCustom
 
                     //       Console.WriteLine("Player Y: {0} | Platform Y: {1}", GameData.thePlayer.y, GameData.thePlatformSpawn.y);
 
-                    Console.WriteLine((GameData.thePlatformSpawnOld != GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null));
+              //      Console.WriteLine((GameData.thePlatformSpawnOld != GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null));
 
                     if (GameData.detectSpawn && GameData.playerIsFallingJump && (GameData.thePlatformSpawn.y + GameData.thePlatformSpawn.height
                         > GameData.thePlayer.y) && (((GameData.thePlatformSpawnOld == GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null))))
@@ -214,6 +218,15 @@ public class Character : AnimationSpriteCustom
                 }
             }
         }
+
+        if (CheckIsColliding(5) && !CheckIsColliding(4))
+        {
+            {
+                isJumping = false;
+                y = oldY;
+            }
+        }
+
     }
 
     public void HozMovement(bool isRight)
@@ -254,24 +267,6 @@ public class Character : AnimationSpriteCustom
         {
             x = oldX;
         }
-
-        if (CheckIsColliding(5))
-        {
-            if (this is Player)
-            {
-                SoundChannel theSound = new Sound("playerDead.wav", false, false).Play();
-                GameData.playerDead = true;
-                x = oldX;
-                return;
-            }
-        }
-
-        /*
-        if (CheckIsColliding(4) && this is Player && GameData.playerPlatormColliderValue == 1)
-        {
-            x = oldX;
-        }
-        */
     }
 
     public int GetWidth()

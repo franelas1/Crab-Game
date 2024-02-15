@@ -24,14 +24,24 @@ public class Level : GameObject
     Dictionary<string, TextCanvas> textCanvasListHash = new Dictionary<string, TextCanvas>();
     int pickUpCheckTimer;
     int levelCompleteTimer = Time.time;
+
+    //88
     const int PICKUPCHECKTIME = 15;
+    const int PLATFORMGENMIN = 1670;
+    const int PLATFORMGENMAX = 1054;
+    const int MAXSPAWN = 7;
 
     List<TriggerAction> triggerActionList = new List<TriggerAction>();
 
+    
 
-    int ySapwnValue = 580;
+    int ySapwnValue = PLATFORMGENMIN;
+
+    Pivot theWallsAndBackgroud = new Pivot();
+
     public Level(string theMapfileName)
     {
+        AddChild(theWallsAndBackgroud);
         Map mapData = MapParser.ReadMap(theMapfileName);
         GameData.theLevel = this;
         loader = new TiledLoader(theMapfileName);
@@ -215,6 +225,16 @@ public class Level : GameObject
 
         CheckPlatFormsSpawn();
         CheckPlatforms();
+
+        if (Input.GetKey(Key.I))
+        {
+            theWallsAndBackgroud.y -= 5;
+        }
+
+        if (Input.GetKey(Key.K))
+        {
+            theWallsAndBackgroud.y += 5;
+        }
     }
 
 
@@ -263,7 +283,7 @@ public class Level : GameObject
 
         //Helps to render all the background (layer 1) sprites in one call.
         SpriteBatch background = new SpriteBatch();
-        AddChild(background);
+        theWallsAndBackgroud.AddChild(background);
 
         short[,] tileNumbers = layer.GetTileArray(); //holding the tile data
 
@@ -293,7 +313,7 @@ public class Level : GameObject
                             theTilesSet.Columns, theTilesSet.Rows, -1, 1, 10, false, true);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
-                        AddChild(theTile);
+                        theWallsAndBackgroud.AddChild(theTile);
 
                     }
 
@@ -316,7 +336,7 @@ public class Level : GameObject
                         theTile.SetFrame(theTileNumber - theTilesSet.FirstGId);
                         theTile.x = j * theTile.width;
                         theTile.y = i * theTile.height;
-                        AddChild(theTile);
+                        theWallsAndBackgroud.AddChild(theTile);
                     }
                 }
             }
@@ -335,7 +355,7 @@ public class Level : GameObject
                 {
                     if (thePlatform.collider != null)
                     {
-                        GameData.thePlatform = thePlatform;
+                        GameData.thePlatformSpawn = thePlatform;
                         GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
                     }
                 }
@@ -355,6 +375,7 @@ public class Level : GameObject
                 {
                     if (thePlatform.collider != null)
                     {
+                        Console.WriteLine("check spawn 1");
                         thePlayer.x += thePlatform.width / 2;
                         GameData.thePlatformSpawn = thePlatform;
                         GameData.detectSpawn = true;
@@ -381,7 +402,7 @@ public class Level : GameObject
         //left:   98 + platform width 
         //right:  704 - platfrom width
         Platform theSpawnPlatform = null;
-        
+
         float theScale = Utils.Random(0, 8);
 
         foreach (Platform thePlatform in GameData.thePlatformList)
@@ -389,7 +410,6 @@ public class Level : GameObject
             if (thePlatform.theType == theType)
             {
                 theSpawnPlatform = new Platform(thePlatform.theFilename, 1, 1, 0 , 64, 48, -1, 0, 30, false, true);
-                //theSpawnPlatform = thePlatform;     
                 theSpawnPlatform.changeFrame(thePlatform.singleFrameID);
                 theSpawnPlatform.changeScaleX(theScale);
                 break;
@@ -399,17 +419,28 @@ public class Level : GameObject
         if (theSpawnPlatform != null)
         {
             int theXCrood = (int) Utils.Random(98 + (theSpawnPlatform.width), (704 - (theSpawnPlatform.width) + 1));
-            int theYCrood = Utils.Random(0, 101);
+            int theYCrood;
+            GameData.theNumberSpawn++;
+            if (GameData.theNumberSpawn == 1)
+            {
+                theYCrood = 20;
+            }
+
+            else
+            {
+                theYCrood = Utils.Random(60, 88);
+            }
+
             ySapwnValue -= theYCrood;
-            //    theSpawnPlatform.SetOrigin(theXCrood, ySapwnValue);
             theSpawnPlatform.x = theXCrood;
             theSpawnPlatform.y = ySapwnValue;
+            theSpawnPlatform.theNumber = GameData.theNumberSpawn;
             GameData.thePlatformListSpawned.Add(theSpawnPlatform);
             AddChild(theSpawnPlatform);
 
-            if (ySapwnValue < 180)
+            if (ySapwnValue < PLATFORMGENMAX)
             {
-                ySapwnValue = 580;
+                ySapwnValue = PLATFORMGENMIN;
             }
         }
     }

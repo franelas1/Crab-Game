@@ -32,7 +32,7 @@ public static class GameData
 
     public static Platform thePlatform;
     public static Platform thePlatformSpawn;
-    public static Platform thePlatformSpawnOld = null;
+    public static Platform thePlatformSpawnOld;
     public static List<Platform> thePlatformList = new List<Platform>();
     public static List<Platform> thePlatformListSpawned = new List<Platform>();
     public static float playerPlatormColliderValue = 999;
@@ -40,6 +40,9 @@ public static class GameData
     public static Boolean playerIsFallingJump = false;
 
     public static Boolean detectSpawn = false;
+
+    public static int theNumberReached = 0;
+    public static int theNumberSpawn = 0;
 
     public static void CheckPlat()
     {
@@ -69,10 +72,16 @@ public static class GameData
             {
                 if (CustomUtil.IntersectsSpriteCustomAndAnimationSpriteCustom(thePlatform, thePlayer))
                 {
+                    Console.WriteLine("spawn collide 2");
                     thePlayer.x += thePlatform.width / 2;
                     GameData.thePlatformSpawn = thePlatform;
                     detectSpawn = true;
                     GameData.playerPlatormColliderValue = thePlayer.collider.GetCollisionInfo(thePlatform.collider).normal.x;
+
+                    if (GameData.thePlatformSpawn.theNumber > GameData.theNumberReached)
+                    {
+                        GameData.theNumberReached = GameData.thePlatformSpawn.theNumber;
+                    }
                 }
 
                 else
@@ -100,10 +109,14 @@ public static class GameData
     {
         thePlatformList.Clear();
         thePlatformListSpawned.Clear();
+        thePlatformSpawn = null;
+        thePlatform = null;
         theLevel = null;
         playerHealth = playerMaxHealth;
         playerDead = false;
         thePlayer = null;
+        theNumberReached = 0;
+        detectSpawn = false;
     }
 
 }
