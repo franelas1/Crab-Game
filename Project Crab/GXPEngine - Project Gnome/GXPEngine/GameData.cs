@@ -22,8 +22,6 @@ public static class GameData
     public static Player playerAll;
     public static Player player1;
     public static Player player2;
-
-   // public static float playerSpeed = 0.5f;
     public static Player thePlayer;
     public static float playerSpeed = 2f;
     public static float playerJumpHeightAndSpeed = 10;
@@ -58,8 +56,8 @@ public static class GameData
     public static Pivot theBackground;
 
 
-    public static int deathY = 2374 + (80 * 7);
-    public static int deathYPlayer = 2034 + (80 * 7);
+    public static int deathY = 2474 + (80 * 7);
+    public static int deathYPlayer = 2374 + (80 * 7);
 
     public static int platformSpawnAmount = 7;
 
@@ -176,8 +174,8 @@ public static class GameData
     public static void ResetLevelData()
     {
         oldPlayerY = 0;
-        deathYPlayer = 1934 + (80 * 7);
-        deathY = 2274 + (80 * 7);
+        deathYPlayer = 2374 + (80 * 7);
+        deathY = 2474 + (80 * 7);
         thePlatformList.Clear();
         thePlatformListSpawned.Clear();
         thePlatformSpawn1 = null;

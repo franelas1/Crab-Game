@@ -69,8 +69,21 @@ public class Character : AnimationSpriteCustom
         {
             if (this is Player)
             {
+
                 SoundChannel theSound = new Sound("playerDead.wav", false, false).Play();
+
+                if (id == "Player1")
+                {
+                    Console.WriteLine("Player 2 win");
+                }
+
+                else
+                {
+                    Console.WriteLine("Player 1 win");
+                }
                 GameData.playerDead = true;
+
+                
             }
 
             else
@@ -214,20 +227,6 @@ public class Character : AnimationSpriteCustom
                         GameData.player1.y += 30;
                         GameData.CheckPlatSpawned(1);
                         GameData.player1.y -= 30;
-
-
-                        //       Console.WriteLine("Player Y: {0} | Platform Y: {1}", GameData.thePlayer.y, GameData.thePlatformSpawn.y);
-
-                        //      Console.WriteLine((GameData.thePlatformSpawnOld != GameData.thePlatformSpawn) || (GameData.thePlatformSpawnOld == null));
-
-                        Console.WriteLine("---------------------");
-                        Console.WriteLine(GameData.detectSpawn1);
-                        Console.WriteLine(GameData.playerIsFallingJump1);
-                        Console.WriteLine((GameData.thePlatformSpawn1.y + GameData.thePlatformSpawn1.height
-                            > GameData.player1.y));
-                        Console.WriteLine(((GameData.thePlatformSpawnOld1 == GameData.thePlatformSpawn1) || (GameData.thePlatformSpawnOld1 == null)));
-                        Console.WriteLine("----------------------");
-
 
                         if (GameData.detectSpawn1 && GameData.playerIsFallingJump1 && (GameData.thePlatformSpawn1.y + GameData.thePlatformSpawn1.height
                             > GameData.player1.y) && (((GameData.thePlatformSpawnOld1 == GameData.thePlatformSpawn1) || (GameData.thePlatformSpawnOld1 == null))))

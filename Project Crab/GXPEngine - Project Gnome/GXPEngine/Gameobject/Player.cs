@@ -47,17 +47,6 @@ public class Player : Character
         {
             GameData.oldPlayerY = y;
         }
-        /*
-        if (GameData.player1.y >= GameData.player2.y)
-        {
-            GameData.oldPlayerY = GameData.player1.y;
-        }
-
-        else
-        {
-            GameData.oldPlayerY = GameData.player2.y;
-        }
-        */
         
         base.Update();
         CheckPlayerControl();
