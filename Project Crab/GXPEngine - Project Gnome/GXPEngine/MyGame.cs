@@ -12,7 +12,9 @@ public class MyGame : Game
     Level theLevel; //A game should only have one level
     SoundChannel mainMenuSound;
     bool isMenu = true;
-
+    const int RESETTIME = 1000;
+    int resetTimer = Time.time;
+    bool isResetting = false;
 
     public MyGame() : base(800, 640, false)     // Create a window that's 800x600 and NOT fullscreen
 	{
@@ -26,12 +28,15 @@ public class MyGame : Game
 
 
         //Level reset condition - load level again to reset
-        if (Input.GetKeyDown(Key.R) || GameData.playerHealth <= 0 || GameData.playerDead)         
+        if (Input.GetKeyDown(Key.R) || GameData.playerDead)         
         {
             if (GameData.playerHealth <= 0){
                 SoundChannel newSound = new Sound("playerDead.wav", false, false).Play();
             }
             loadLevel();
+            isResetting = true;
+            resetTimer = Time.time;
+
         }
 
         //Allowing player to go to game menu during game. Will exit the level
@@ -47,6 +52,13 @@ public class MyGame : Game
         if (Input.GetKeyDown(Key.G))
         {
           //  Console.WriteLine(this.GetDiagnostics());
+        }
+
+
+        if (isResetting && Time.time - resetTimer >= RESETTIME)
+        {
+            isResetting = false;
+            loadLevel();
         }
     }
 

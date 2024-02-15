@@ -29,7 +29,7 @@ public class Character : AnimationSpriteCustom
     protected float acceleration = 1;
     protected float moveAmount;
 
-    public bool trueJumpFalling = false;
+    protected bool trueJumpFalling = false;
 
     public Character(string theImageName, int columns, int rows, TiledObject obj=null) :
     base(theImageName, columns, rows, obj)

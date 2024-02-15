@@ -159,45 +159,13 @@ public class Level : GameObject
             }
         }
 
-        /* 
-         * Some gameobjects must be loaded after some other gameobject to make things work properly,
-         * so repeat the extraction process again for some gameobjects
-         */
-
-        foreach (TiledObject theObject in objectGroup.Objects)
-        {
-            Sprite nextGameObject = null;
-            switch (theObject.Name)
-            {
-                //Trigger region
-                case "RegionActivateAtOnce":
-
-                    RegionActivateAtOnce theRegion = new RegionActivateAtOnce(thePlayer, theObject.GetBoolProperty("triggerAction1Parameter1Bool", false),
-                        theObject.GetIntProperty("i_scaleX", 1), theObject.GetIntProperty("i_scaleY", 1), theObject.GetIntProperty("f_amountOfTimes", -1));
-
-                    switch (theObject.GetStringProperty("triggerActionName1", ""))
-                    {
-                        case "enableDisableGameObjectRender":
-                            theRegion.AddTriggerAction(new TriggerActionVisbility(textCanvasListHash[theObject.GetStringProperty("triggerAction1Parameter2String", "")],
-                                false));
-                            break;
-                    }
-
-                    nextGameObject = theRegion;
-                    break;
-            }
-
-            if (nextGameObject != null)
-            {
-                nextGameObject.x = theObject.X;
-                nextGameObject.y = theObject.Y;
-                AddChild(nextGameObject);
-            }
-        }
     }
 
     void Update()
     {
+        if (thePlayer != null)
+        {
+        }
         //Use camera if player is found
         if (thePlayer != null)
         {
@@ -218,22 +186,25 @@ public class Level : GameObject
 
                 if (GameData.platformSpawnAmount > 0)
                 {
-                    spawnPlatform(0);
+                    SpawnPlatform(0);
                     GameData.platformSpawnAmount--;
                 }
             }
         }
 
-        if (thePlayer != null)
+        if (thePlayer != null && GameData.oldPlayerY != -1)
         {
+            //            if (thePlayer.isJumping && !GameData.playerIsFallingJump)
             if (thePlayer.isJumping && !GameData.playerIsFallingJump)
             {
+                Console.WriteLine("Increaing: {0}", thePlayer.y - GameData.oldPlayerY);
                 GameData.theBackground.y -= Math.Abs(thePlayer.y - GameData.oldPlayerY);
             }
 
-            if (thePlayer.trueJumpFalling)
+            if (GameData.oldPlayerY < thePlayer.y)
             {
-                GameData.theBackground.y += Math.Abs(thePlayer.y - GameData.oldPlayerY);
+                Console.WriteLine("decreasing: {0}", GameData.oldPlayerY - thePlayer.y);
+                GameData.theBackground.y += Math.Abs(GameData.oldPlayerY - thePlayer.y);
             }
         }
         
@@ -397,7 +368,7 @@ public class Level : GameObject
     }
 
     //thePlatformListSpawned
-    void spawnPlatform(int theType)
+    void SpawnPlatform(int theType)
     {
         //left:   98 + platform width 
         //right:  704 - platfrom width
@@ -432,8 +403,8 @@ public class Level : GameObject
                 theYCrood = Utils.Random(30, 88);
             }
 
-            GameData.deathY -= theYCrood / 2;
-            GameData.deathYPlayer -= theYCrood / 2;
+            GameData.deathY -= theYCrood;
+            GameData.deathYPlayer -= theYCrood;
 
             ySapwnValue -= theYCrood;
             theSpawnPlatform.x = theXCrood;

@@ -48,12 +48,12 @@ public static class GameData
     public static Pivot theBackground;
 
 
-    public static int deathY = 2274 + (80 * 7);
-    public static int deathYPlayer = 1934 + (80 * 7);
+    public static int deathY = 2374 + (80 * 7);
+    public static int deathYPlayer = 2034 + (80 * 7);
 
     public static int platformSpawnAmount = 7;
 
-    public static float oldPlayerY = 0;
+    public static float oldPlayerY = -1;
     public static void CheckPlat()
     {
        
@@ -92,7 +92,7 @@ public static class GameData
                     {
                         
                         platformSpawnAmount = thePlatformSpawn.theNumber - theNumberReached;
-                        Console.WriteLine(thePlatformSpawn);
+                     //   Console.WriteLine(thePlatformSpawn);
                         GameData.theNumberReached = GameData.thePlatformSpawn.theNumber;
                         
                     }
@@ -133,9 +133,11 @@ public static class GameData
         playerDead = false;
         thePlayer = null;
         theNumberReached = 0;
+        theNumberSpawn = 0;
         detectSpawn = false;
         platformSpawnAmount = 7;
         theBackground = null;
+        oldPlayerY = -1;
     }
 
 }
