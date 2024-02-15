@@ -17,6 +17,7 @@ public class Level : GameObject
     TiledLoader loader;
     Player thePlayer;
 
+
     //Determine the position the player will be displayed in the game camera
     float boundaryValueX; //Should be width / 2 to display the player at the center of the screen
     float boundaryValueY; //Should be height / 2 to display the player at the center of the screen
@@ -87,7 +88,6 @@ public class Level : GameObject
         //Setting up the camera boundary (player at center for these values)
         boundaryValueX = game.width / 2;
         boundaryValueY = game.height / 2;
-
     }
 
     //Some game objects can't be automacally generate (sometime program needs their reference), so

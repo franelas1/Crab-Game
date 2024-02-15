@@ -6,7 +6,7 @@ using GXPEngine;
 
 /*
  * Holds all kind of data all other classes can access and edit
- * thid holds data
+ * thid holds dataS
  */
 public static class GameData
 {
