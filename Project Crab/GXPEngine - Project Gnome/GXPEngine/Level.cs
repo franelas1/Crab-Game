@@ -24,7 +24,6 @@ public class Level : GameObject
     Dictionary<string, TextCanvas> textCanvasListHash = new Dictionary<string, TextCanvas>();
     int pickUpCheckTimer;
 
-    //88
     const int PICKUPCHECKTIME = 15;
     const int PLATFORMGENMIN = 1670;
     const int PLATFORMGENMAX = 1054;
@@ -234,7 +233,7 @@ public class Level : GameObject
 
             if (thePlayer.trueJumpFalling)
             {
-                GameData.theBackground.y += Math.Abs(GameData.oldPlayerY - thePlayer.y);
+                GameData.theBackground.y += Math.Abs(thePlayer.y - GameData.oldPlayerY);
             }
         }
         

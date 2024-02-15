@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "crabMap2.tmx",
+    "activeFile": "mainMenu.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -326,8 +326,8 @@
             "scale": 0.33,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 112.12121212121212,
-                "y": 674.2424242424242
+                "x": 509.0909090909091,
+                "y": 377.27272727272725
             }
         },
         "mainMenu.tmx#Button Look": {
@@ -528,7 +528,8 @@
     "openFiles": [
         "menuLevelSelect.tmx",
         "crabMap1.tmx",
-        "crabMap2.tmx"
+        "crabMap2.tmx",
+        "mainMenu.tmx"
     ],
     "project": "Project Gnome.tiled-project",
     "property.type": "bool",
