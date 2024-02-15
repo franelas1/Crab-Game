@@ -375,8 +375,14 @@ public class Level : GameObject
                 theYCrood = Utils.Random(30, 88);
             }
 
+//<<<<<<< Updated upstream
             GameData.deathY -= theYCrood;
             GameData.deathYPlayer -= theYCrood;
+//=======
+            GameData.deathY -= theYCrood / 2;
+            GameData.deathYPlayer -= theYCrood / 2;
+            Console.WriteLine();
+//>>>>>>> Stashed changes
 
             ySapwnValue -= theYCrood;
             theSpawnPlatform.x = theXCrood;
