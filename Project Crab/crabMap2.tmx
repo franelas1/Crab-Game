@@ -278,7 +278,7 @@
     <property name="p_isTrigger" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="20" name="Player" type="Player" gid="3073" x="392.393" y="1716.82" width="43.2155" height="83.6936">
+  <object id="20" name="Player" type="Player" gid="3073" x="376.393" y="1984.15" width="43.2155" height="83.6936">
    <properties>
     <property name="a_idleNumberOfFrames" type="int" value="2"/>
     <property name="a_idleStartFrame" type="int" value="0"/>

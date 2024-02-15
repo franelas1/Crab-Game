@@ -16,15 +16,16 @@ public class MyGame : Game
     int resetTimer = Time.time;
     bool isResetting = false;
 
-    public MyGame() : base(800, 640, false)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(800, 640, false, false)     // Create a window that's 800x600 and NOT fullscreen
 	{
+        targetFps = 60;
         loadLevel();
     }
 
 	//For every game object, Update is called every frame, by the engine:
 	void Update() 
     {
-        //GameData.theFPS = currentFps;   //for debug purpose
+        GameData.theFPS = currentFps;   //for debug purpose
 
 
         //Level reset condition - load level again to reset

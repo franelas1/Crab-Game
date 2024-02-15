@@ -21,7 +21,6 @@ public class Character : AnimationSpriteCustom
     public bool isJumping = false;
     float jumpHeightAndSpeed;
     protected bool isMovingHoz = false;
-    List<Behavior> behaviorList = new List<Behavior>(); //storing all behaviors (tasks) the character has
     TiledObject obj = null; //Map parser data
     int temp = 0;
     bool lastState;
@@ -59,11 +58,6 @@ public class Character : AnimationSpriteCustom
     {
         base.Update();
 
-        //do all behaviors the character has
-        foreach (Behavior b in behaviorList)
-        {
-            b.Action();
-        }
 
         if (y > GameData.deathYPlayer)
         {
@@ -79,12 +73,6 @@ public class Character : AnimationSpriteCustom
             }
         }
     }
-
-    public void AddBehavior(Behavior behavior)
-    {
-        behaviorList.Add(behavior);
-    }
-
     public virtual void VerticalMovement(bool hasJumpIntent)
     {
         float oldY = y;

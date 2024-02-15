@@ -37,7 +37,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\Behavior.cs" />
     <Compile Include="CustomUtil\CustomUtil.cs" />
     <Compile Include="Foundation\AnimationSpriteCustom.cs" />
     <Compile Include="Foundation\SpriteCustom.cs" />
@@ -88,14 +87,9 @@
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
     <Compile Include="Gameobject\Player.cs" />
-    <Compile Include="Region\Region.cs" />
-    <Compile Include="Region\RegionActivateAtOnce.cs" />
-    <Compile Include="TriggerAction\TriggerActionVisbilityTimed.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\HUD.cs" />
     <Compile Include="UI\TextCanvas.cs" />
-    <Compile Include="TriggerAction\TriggerAction.cs" />
-    <Compile Include="TriggerAction\TriggerActionVisbility.cs" />
   </ItemGroup>
   <ItemGroup />
 </Project>

@@ -28,8 +28,6 @@ public class Level : GameObject
     const int PLATFORMGENMIN = 1670;
     const int PLATFORMGENMAX = 1054;
 
-    List<TriggerAction> triggerActionList = new List<TriggerAction>();
-
     int ySapwnValue = PLATFORMGENMIN;
 
     Pivot theWallsAndBackgroud = new Pivot();
@@ -128,26 +126,6 @@ public class Level : GameObject
             Sprite nextGameObject = null;
             switch (theObject.Name)
             {
-                //Detect is it's a text canvas. A text display
-                case "TextCanvas":
-                    //Extracting properties from what's exported from tiled
-                    TextCanvas theTextCanvas = new TextCanvas(theObject.GetStringProperty("theTextContent", ""),
-                        theObject.GetStringProperty("theTextFont", ""), theObject.GetIntProperty("theTextSize", 0),
-                         theObject.GetIntProperty("theCanvasWidth", 0), theObject.GetIntProperty("theCanvasHeight", 0),
-                         theObject.GetIntProperty("theTextColorR", 0), theObject.GetIntProperty("theTextColorG", 0),
-                         theObject.GetIntProperty("theTextColorB", 0), theObject.GetBoolProperty("transparentBackground", false));
-
-                    theTextCanvas.visible = theObject.GetBoolProperty("visibleAtStart", false);
-
-                    //Detecting if the text canvas is one of the specific text canvases
-/*                    switch (theObject.GetStringProperty("f_displayID", ""))
-                    {
-
-                    }*/
-
-                    textCanvasListHash.Add(theObject.GetStringProperty("theTextCanvasID", ""), theTextCanvas);
-                    nextGameObject = theTextCanvas;
-                    break;
             }
 
             //Adjusting the position if a gameobject is found and add it to game
@@ -163,19 +141,14 @@ public class Level : GameObject
 
     void Update()
     {
-        if (thePlayer != null)
-        {
-        }
         //Use camera if player is found
         if (thePlayer != null)
         {
             UseCamera();
         }
 
-        CheckTriggerAction();
-
-        CheckPlatFormsSpawn();
-        CheckPlatforms();
+        CheckPlatFormsSpawn(); //check collision of generated platforms
+        CheckPlatforms(); //check collision of placed platforms
 
         //Check if player touches a coin, enters a door, and other things. With some cooldown.
         if (Time.time - pickUpCheckTimer >= PICKUPCHECKTIME)
@@ -215,7 +188,6 @@ public class Level : GameObject
     //Can set how far right and down player can see. (left stops at x < 0, top stops at y < 0)
     void UseCamera()
     {
-
         //first determine if the camera moves, then determine the max distance the camera can move
         //handling player moving right
         if (thePlayer.x + x > boundaryValueX && x > -1 * ((game.width * 6) - 800))
@@ -413,23 +385,6 @@ public class Level : GameObject
             GameData.thePlatformListSpawned.Add(theSpawnPlatform);
 
             AddChild(theSpawnPlatform);
-        }
-    }
-
-
-    void CheckTriggerAction()
-    {
-        foreach (TriggerAction theTriggerAction in triggerActionList)
-        {
-            if (theTriggerAction.triggerActionID == "TriggerActionVisbilityTimed")
-            {
-                theTriggerAction.Action();
-                if (theTriggerAction.finished)
-                {
-                    triggerActionList.Remove(theTriggerAction);
-                    break;
-                }
-            }
         }
     }
 }
