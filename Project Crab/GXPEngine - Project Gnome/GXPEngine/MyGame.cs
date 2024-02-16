@@ -26,17 +26,22 @@ public class MyGame : Game
     {
         GameData.theFPS = currentFps;   //for debug purpose
 
-
         //Level reset condition - load level again to reset
-        if (Input.GetKeyDown(Key.R) || GameData.playerDead)         
+        if ((Input.GetKeyDown(Key.R) || GameData.playerDead) && !GameData.isMenu)         
         {
             if (GameData.playerHealth <= 0){
                 SoundChannel newSound = new Sound("playerDead.wav", false, false).Play();
             }
-            loadLevel();
-            isResetting = true;
-            resetTimer = Time.time;
 
+            if (Input.GetKeyDown(Key.R) && !GameData.playerDead)
+            {
+                GameData.playerWin = -1;
+            }
+
+            Console.WriteLine("dish");
+            isResetting = true;
+            loadLevel();
+            resetTimer = Time.time;
         }
 
         //Allowing player to go to game menu during game. Will exit the level
@@ -45,7 +50,9 @@ public class MyGame : Game
             GameData.theLevelName = "mainMenu.tmx";
 
             GameData.isMenu = true;
-            GameData.playerDead = true;
+            isResetting = false;
+            theLevel.visible = true;
+            loadLevel();
         }
 
 
@@ -78,7 +85,6 @@ public class MyGame : Game
             child.LateDestroy();
         }
 
-
         //If loading a menu level (main menu, level select menu, etc)
         if (GameData.isMenu != isMenu)
         {
@@ -102,6 +108,18 @@ public class MyGame : Game
 
         //Loading the level itself
         theLevel = new Level(GameData.theLevelName);
+        if (isResetting)
+        {
+            GameData.displayWinText = true;
+            theLevel.visible = false;
+            
+        }
+
+        else
+        {
+            GameData.displayWinText = false;
+        }
+
         AddChild(theLevel);
 
 

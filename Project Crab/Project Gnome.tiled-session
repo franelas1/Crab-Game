@@ -10,7 +10,7 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInDock": 0.25,
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "#Button": {
@@ -143,8 +143,8 @@
             "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 400,
-                "y": 321
+                "x": 398,
+                "y": 319
             }
         },
         "crabMap1.tmx#Tileset": {
@@ -156,17 +156,21 @@
         },
         "crabMap2.tmx": {
             "expandedObjectLayers": [
-                4
+                4,
+                5
             ],
-            "scale": 0.75,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 482.66666666666663,
-                "y": 1679.333333333333
+                "x": 731,
+                "y": 1843.5
             }
         },
         "crabMap2.tmx#Tileset": {
             "scaleInDock": 0.5
+        },
+        "crabMap2.tmx#lobster1": {
+            "scaleInDock": 1
         },
         "crabMap2.tmx#playerSpritesheet": {
             "scaleInDock": 1
@@ -230,15 +234,15 @@
         "levelCompletedMenu.tmx": {
             "expandedObjectLayers": [
                 4,
-                2,
                 5,
+                2,
                 3
             ],
             "scale": 1,
-            "selectedLayer": 2,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 451,
-                "y": 420.5
+                "x": 449,
+                "y": 418.5
             }
         },
         "levelCompletedMenu.tmx#Button": {
@@ -319,15 +323,16 @@
         },
         "mainMenu.tmx": {
             "expandedObjectLayers": [
-                2,
                 4,
+                5,
+                2,
                 3
             ],
-            "scale": 0.33,
-            "selectedLayer": 2,
+            "scale": 0.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 509.0909090909091,
-                "y": 377.27272727272725
+                "x": 508,
+                "y": 101
             }
         },
         "mainMenu.tmx#Button Look": {
@@ -354,14 +359,14 @@
         },
         "map1.tmx": {
             "expandedObjectLayers": [
-                6,
-                11
+                11,
+                6
             ],
-            "scale": 0.25,
+            "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 1590,
-                "y": 874
+                "x": 2994,
+                "y": 1086.5
             }
         },
         "map1.tmx#DungeonCrawl_ProjectUtumnoTileset": {
@@ -486,14 +491,14 @@
         },
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
-                2,
                 4,
+                2,
                 3
             ],
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 400,
+                "x": 397.3333333333333,
                 "y": 299.33333333333337
             }
         },
@@ -551,7 +556,7 @@
     "tileset.lastUsedFilter": "All Files (*)",
     "tileset.spacing": 0,
     "tileset.tileSize": {
-        "height": 600,
-        "width": 417
+        "height": 160,
+        "width": 181
     }
 }

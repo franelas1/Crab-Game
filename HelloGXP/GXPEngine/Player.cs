@@ -12,7 +12,7 @@
         float oldY;         //Last frame player Y position
 
         //Player constructor (coordinate X, coordinate Y) : (sprite)     will need to change to animated sprite 
-        public Player(float tempX, float tempY, string image) : base(image)
+        public Player(float tempX, float tempY) : base("circle.png")
         {
             //Setting player origin at the middle of bottom side
             SetOrigin(width / 2, height);

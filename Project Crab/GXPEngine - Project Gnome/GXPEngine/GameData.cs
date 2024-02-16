@@ -1,4 +1,5 @@
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,9 @@ public static class GameData
     public static int platformSpawnAmount = 7;
 
     public static float oldPlayerY = -1;
+
+    public static int playerWin = -1;
+    public static bool displayWinText = false;
     public static void CheckPlat(int thePlayerNumber)
     {
         Player thePlayer = null;
