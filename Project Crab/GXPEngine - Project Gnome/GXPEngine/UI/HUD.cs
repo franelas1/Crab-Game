@@ -26,9 +26,9 @@ class HUD : Canvas
         scoreDisplayCanvas.Text("Score: ", -5, -5);
         scoreDisplayCanvas.Text("Health: ");
         AddChild(scoreDisplayCanvas);
-        fpsDisplay = new EasyDraw(300, 50);
-        fpsDisplay.SetXY(600, 20);
-        AddChild(fpsDisplay);
+    //    fpsDisplay = new EasyDraw(300, 50);
+     //   fpsDisplay.SetXY(600, 20);
+      //  AddChild(fpsDisplay);
         winDisplay = new EasyDraw(300, 50);
         winDisplay.SetXY(game.width / 2, game.height / 2);
         AddChild(winDisplay);
@@ -41,8 +41,8 @@ class HUD : Canvas
       //  scoreDisplayCanvas.Text("Health: " + GameData.playerHealth, 50, 35);
         graphics.Clear(Color.Empty);
       //   graphics.DrawString("Score: " + MyGame.theGameData.TheScore, SystemFonts.DefaultFont, Brushes.White, 20, 50);
-          fpsDisplay.Clear(252, 186, 3);
-          fpsDisplay.Text("Fps: " + GameData.theFPS);
+      //    fpsDisplay.Clear(252, 186, 3);
+       //   fpsDisplay.Text("Fps: " + GameData.theFPS);
 
         if (GameData.displayWinText)
         {
