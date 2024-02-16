@@ -77,12 +77,8 @@
             if (jump && ableToJump)
             {
                 speedY = -8;
+                
             }
-        }
-
-        void onPlatform()
-        {
-
         }
     }
 }
