@@ -18,7 +18,7 @@ public class MyGame : Game
 
         targetFps = 60;
         //Spawning and adding players
-        player1 = new Player(width/2, height);
+        player1 = new Player(200, height);
         AddChild(player1);
 
         player2 = new Player(width - 200, height);
