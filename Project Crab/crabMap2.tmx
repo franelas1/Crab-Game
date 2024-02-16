@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="27">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="28">
  <editorsettings>
   <export target="GXPEngine - Project Gnome/GXPEngine/bin/Debug/crabMap2.tmx" format="tmx"/>
  </editorsettings>
@@ -8,6 +8,9 @@
  </tileset>
  <tileset firstgid="3073" name="playerSpritesheet" tilewidth="417" tileheight="600" tilecount="4" columns="4">
   <image source="GXPEngine - Project Gnome/GXPEngine/bin/Debug/playerSpritesheet.png" width="1672" height="600"/>
+ </tileset>
+ <tileset firstgid="3077" name="lobster1" tilewidth="181" tileheight="160" tilecount="1" columns="1">
+  <image source="GXPEngine - Project Gnome/GXPEngine/bin/Debug/lobster1.png" width="181" height="160"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="25" height="80">
   <data encoding="csv">
@@ -328,43 +331,26 @@
     <property name="p_isTrigger" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="24" name="Player 2" type="Player" gid="3073" x="510.392" y="1759.15" width="43.2155" height="83.6936">
+  <object id="27" name="Player 2" type="Player" gid="3077" x="496" y="1768.67" width="66.3333" height="86.6667">
    <properties>
     <property name="a_idleNumberOfFrames" type="int" value="2"/>
     <property name="a_idleStartFrame" type="int" value="0"/>
-    <property name="a_jumpNumberOfFrames" type="int" value="1"/>
-    <property name="a_jumpStartFrame" type="int" value="1"/>
-    <property name="a_runNumberOfFrames" type="int" value="2"/>
-    <property name="a_runStartFrame" type="int" value="2"/>
+    <property name="a_jumpNumberOfFrames" type="int" value="-1"/>
+    <property name="a_jumpStartFrame" type="int" value="-1"/>
+    <property name="a_runNumberOfFrames" type="int" value="-1"/>
+    <property name="a_runStartFrame" type="int" value="-1"/>
     <property name="f_jumpHeightAndSpeed" value="20"/>
     <property name="f_theGroupID" value="Player"/>
     <property name="f_theID" value="Player2"/>
     <property name="f_theSpeed" value="6"/>
     <property name="i_nextFrameDelay" type="int" value="30"/>
     <property name="i_numberOfFrame" type="int" value="-1"/>
-    <property name="i_singleFrameID" type="int" value="-1"/>
+    <property name="i_singleFrameID" type="int" value="0"/>
     <property name="i_textureKeepInCache" type="bool" value="false"/>
     <property name="p_hasCollision" type="bool" value="true"/>
     <property name="p_isTrigger" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="5" name="Object Layer 2">
-  <object id="26" name="TextCanvas" type="TextCanvas" x="287.955" y="1522.65" width="205.424" height="141.03">
-   <properties>
-    <property name="f_displayID" value="textCavas_displayWin"/>
-    <property name="theCanvasHeight" type="int" value="34"/>
-    <property name="theCanvasWidth" type="int" value="113"/>
-    <property name="theTextCanvasID" value="textCavas_displayWin"/>
-    <property name="theTextColorB" type="int" value="12"/>
-    <property name="theTextColorG" type="int" value="170"/>
-    <property name="theTextColorR" type="int" value="237"/>
-    <property name="theTextContent" value="11"/>
-    <property name="theTextFont" value="SwanseaBold-D0ox.ttf"/>
-    <property name="theTextSize" type="int" value="11"/>
-    <property name="transparentBackground" type="bool" value="false"/>
-    <property name="visibleAtStart" type="bool" value="true"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup id="5" name="Object Layer 2"/>
 </map>
