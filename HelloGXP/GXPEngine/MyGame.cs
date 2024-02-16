@@ -12,13 +12,18 @@ public class MyGame : Game
 
     public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
     {
+        Sprite background = new Sprite("crab_bg.png");
+        AddChild(background);
+
+
         targetFps = 60;
         //Spawning and adding players
-        player1 = new Player(width/2, height);
+        player1 = new Player(width/2, height, "crab.png");
         AddChild(player1);
 
-        player2 = new Player(width - 200, height);
+        player2 = new Player(width - 200, height, "lobster.png");
         AddChild(player2);
+
 
         platforms.Add(new Platform(0));
         platforms.Add(new Platform(200));
@@ -44,6 +49,8 @@ public class MyGame : Game
         {
             foreach (Platform plat in platforms)
             {
+                player1.onPlatform(plat);
+                player2.onPlatform(plat);
                 plat.updatePlatform();
             }
         }
