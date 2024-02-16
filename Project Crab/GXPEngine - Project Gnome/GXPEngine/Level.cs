@@ -144,6 +144,7 @@ public class Level : GameObject
             Sprite nextGameObject = null;
             switch (theObject.Name)
             {
+
             }
 
             //Adjusting the position if a gameobject is found and add it to game
@@ -155,6 +156,26 @@ public class Level : GameObject
             }
         }
 
+        /* 
+         * Some gameobjects must be loaded after some other gameobject to make things work properly,
+         * so repeat the extraction process again for some gameobjects
+         */
+
+        foreach (TiledObject theObject in objectGroup.Objects)
+        {
+            Sprite nextGameObject = null;
+            switch (theObject.Name)
+            {
+
+            }
+
+            if (nextGameObject != null)
+            {
+                nextGameObject.x = theObject.X;
+                nextGameObject.y = theObject.Y;
+                AddChild(nextGameObject);
+            }
+        }
     }
 
     void Update()

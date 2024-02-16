@@ -84,24 +84,24 @@ public class Player : Character
 
         if (id == "Player1")
         {
-            if (Input.GetKey(Key.RIGHT) || Input.GetKey('D'))
+            if (Input.GetKey('D'))
             {
                 HozMovement(true);
             }
             
-            if (Input.GetKey(Key.LEFT) || Input.GetKey('A'))
+            if (Input.GetKey('A'))
             {
                 HozMovement(false);
             }
             
-            if (Input.GetKeyDown('W') || Input.GetKeyDown(Key.UP))
+            if (Input.GetKeyDown('W'))
             {
                 VerticalMovement(true, 1);
                 ableToJump = false;
                 jumpTimer = Time.time;
             }
             
-            if (Input.GetKeyUp(Key.LEFT) || Input.GetKeyUp('A') || Input.GetKeyUp(Key.RIGHT) || Input.GetKeyUp('D'))
+            if (Input.GetKeyUp('A') || Input.GetKeyUp('D'))
             {
                 acceleration = 1;
             }
@@ -117,24 +117,24 @@ public class Player : Character
 
         if (id == "Player2")
         {
-            if (Input.GetKey('L'))
+            if (Input.GetKey('L') || Input.GetKey(Key.RIGHT))
             {
                 HozMovement(true);
             }
 
-            if (Input.GetKey('J'))
+            if (Input.GetKey('J') || Input.GetKey(Key.LEFT))
             {
                 HozMovement(false);
             }
 
-            if (Input.GetKeyDown('I'))
+            if (Input.GetKeyDown('I') || Input.GetKey(Key.UP))
             {
                 VerticalMovement(true, 2);
                 ableToJump = false;
                 jumpTimer = Time.time;
             }
 
-            if (Input.GetKeyUp('J') || Input.GetKeyUp('L'))
+            if (Input.GetKeyUp('J') || Input.GetKeyUp('L') || Input.GetKey(Key.LEFT) || Input.GetKey(Key.RIGHT))
             {
                 acceleration = 1;
             }

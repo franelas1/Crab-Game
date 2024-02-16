@@ -69,21 +69,20 @@ public class Character : AnimationSpriteCustom
         {
             if (this is Player)
             {
-
                 SoundChannel theSound = new Sound("playerDead.wav", false, false).Play();
 
                 if (id == "Player1")
                 {
                     Console.WriteLine("Player 2 win");
+                    GameData.playerWin = 2;
                 }
 
                 else
                 {
                     Console.WriteLine("Player 1 win");
+                    GameData.playerWin = 1;
                 }
                 GameData.playerDead = true;
-
-                
             }
 
             else

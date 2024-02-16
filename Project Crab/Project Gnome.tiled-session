@@ -156,13 +156,14 @@
         },
         "crabMap2.tmx": {
             "expandedObjectLayers": [
-                4
+                4,
+                5
             ],
-            "scale": 0.75,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 482.66666666666663,
-                "y": 1679.333333333333
+                "x": 445,
+                "y": 1683.5
             }
         },
         "crabMap2.tmx#Tileset": {
@@ -230,15 +231,15 @@
         "levelCompletedMenu.tmx": {
             "expandedObjectLayers": [
                 4,
-                2,
                 5,
+                2,
                 3
             ],
             "scale": 1,
-            "selectedLayer": 2,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 451,
-                "y": 420.5
+                "x": 449,
+                "y": 418.5
             }
         },
         "levelCompletedMenu.tmx#Button": {
@@ -319,15 +320,15 @@
         },
         "mainMenu.tmx": {
             "expandedObjectLayers": [
-                2,
                 4,
+                2,
                 3
             ],
-            "scale": 0.33,
-            "selectedLayer": 2,
+            "scale": 1.5,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 509.0909090909091,
-                "y": 377.27272727272725
+                "x": 402.66666666666663,
+                "y": 263.6666666666667
             }
         },
         "mainMenu.tmx#Button Look": {
@@ -354,14 +355,14 @@
         },
         "map1.tmx": {
             "expandedObjectLayers": [
-                6,
-                11
+                11,
+                6
             ],
             "scale": 0.25,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 1590,
-                "y": 874
+                "x": 1328,
+                "y": 1378
             }
         },
         "map1.tmx#DungeonCrawl_ProjectUtumnoTileset": {
@@ -486,14 +487,14 @@
         },
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
-                2,
                 4,
+                2,
                 3
             ],
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 400,
+                "x": 397.3333333333333,
                 "y": 299.33333333333337
             }
         },
