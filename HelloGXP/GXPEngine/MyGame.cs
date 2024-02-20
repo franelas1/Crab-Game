@@ -1,8 +1,11 @@
 using GXPEngine;				    // GXPEngine contains the engine
 using System.Collections.Generic;	// Adding lists
+using System.IO.Ports;
 
 public class MyGame : Game
 {
+    
+
     // Declare variables:
     Player player1, player2;
 
@@ -10,13 +13,12 @@ public class MyGame : Game
 
     List<Platform> platforms = new List<Platform>();
 
-    public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         Sprite background = new Sprite("crab_bg.png");
         AddChild(background);
 
 
-        targetFps = 60;
         //Spawning and adding players
         player1 = new Player(200, height);
         AddChild(player1);

@@ -4,7 +4,7 @@
     {
         int margin = 95; // how many pixels away the walls are from the sides of the screen
 
-        public float fallSpeed = 1.2f; //Platform falling speed
+        public float fallSpeed = 3f; //Platform falling speed
         public Platform(float tempY) : base("square.png")
         {
             SetOrigin(width / 2, 0);
@@ -12,6 +12,7 @@
             scaleY = 0.5f;
             x = Utils.Random(margin + width, game.width - margin - width);
             y = tempY;
+            //System.Console.WriteLine("{0}, {1}", margin, game.width - margin);
         }
 
         public void updatePlatform()
