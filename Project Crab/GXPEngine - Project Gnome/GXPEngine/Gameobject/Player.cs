@@ -127,14 +127,14 @@ public class Player : Character
                 HozMovement(false);
             }
 
-            if (Input.GetKeyDown('I') || Input.GetKey(Key.UP))
+            if (Input.GetKeyDown('I') || Input.GetKeyDown(Key.UP))
             {
                 VerticalMovement(true, 2);
                 ableToJump = false;
                 jumpTimer = Time.time;
             }
 
-            if (Input.GetKeyUp('J') || Input.GetKeyUp('L') || Input.GetKey(Key.LEFT) || Input.GetKey(Key.RIGHT))
+            if (Input.GetKeyUp('J') || Input.GetKeyUp('L') || Input.GetKeyUp(Key.LEFT) || Input.GetKeyUp(Key.RIGHT))
             {
                 acceleration = 1;
             }

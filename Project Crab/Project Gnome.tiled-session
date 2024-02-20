@@ -143,8 +143,8 @@
             "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 398,
-                "y": 319
+                "x": 471,
+                "y": 321
             }
         },
         "crabMap1.tmx#Tileset": {
@@ -156,14 +156,14 @@
         },
         "crabMap2.tmx": {
             "expandedObjectLayers": [
-                4,
-                5
+                5,
+                4
             ],
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 731,
-                "y": 1843.5
+                "x": 397.5,
+                "y": 1279.5
             }
         },
         "crabMap2.tmx#Tileset": {
@@ -323,16 +323,16 @@
         },
         "mainMenu.tmx": {
             "expandedObjectLayers": [
-                4,
-                5,
                 2,
-                3
+                3,
+                4,
+                5
             ],
             "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 508,
-                "y": 101
+                "x": 504,
+                "y": 98
             }
         },
         "mainMenu.tmx#Button Look": {
@@ -492,13 +492,13 @@
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
                 4,
-                2,
-                3
+                3,
+                2
             ],
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 397.3333333333333,
+                "x": 400,
                 "y": 299.33333333333337
             }
         },
@@ -539,15 +539,15 @@
     "project": "Project Gnome.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "crabMap2.tmx",
         "crabMap1.tmx",
-        "mainMenu.tmx",
         "menuLevelSelect.tmx",
-        "introTextMenu.tmx",
+        "crabMap2.tmx",
+        "mainMenu.tmx",
         "levelCompletedMenu.tmx",
+        "map1.tmx",
+        "introTextMenu.tmx",
         "map2.tmx",
         "map3.tmx",
-        "map1.tmx",
         "crab_map1.tmx",
         "levelCompletedMenuEnd.tmx",
         "endTextMenu.tmx"

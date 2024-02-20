@@ -196,6 +196,12 @@ public class Character : AnimationSpriteCustom
         }
 
 
+        if (GameData.playerIsFallingJump1)
+        {
+            Console.WriteLine("falling jump");
+        }
+
+
         if (CheckIsColliding(4) && this is Player)
         {
             Collision gravityCollision = MoveUntilCollision(0, 2);
