@@ -9,6 +9,9 @@ public class MyGame : Game
 
     public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
     {
+        Sprite background = new Sprite("crab_bg.png");
+        AddChild(background);
+
 
         targetFps = 60;
         //Spawning and adding players
@@ -45,6 +48,15 @@ public class MyGame : Game
         player1.updatePlayer(Input.GetKey(Key.D), Input.GetKey(Key.A), Input.GetKeyDown(Key.W));
         player2.updatePlayer(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT), Input.GetKeyDown(Key.UP));
 
+        if (Input.GetKeyDown(Key.W) || Input.GetKeyDown(Key.UP)) jumped = true;
+
+        if (jumped)
+        {
+            foreach (Platform plat in platforms)
+            {
+                plat.updatePlatform();
+            }
+        }
 
         Gamedata.detectPlatformPlayer1 = false;
     }

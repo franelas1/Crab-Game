@@ -47,7 +47,7 @@ namespace GXPEngine
             if (goRight)
             {
                 x += speedX;
-                if (x + width / 2 > game.width)
+                if (x + width / 2 > game.width - margin)
                 {
                     x -= speedX;
                 }
@@ -57,7 +57,7 @@ namespace GXPEngine
             if (goLeft)
             {
                 x -= speedX;
-                if (x - width / 2 < 0)
+                if (x - width / 2 < margin)
                 {
                     x += speedX;
                 }
@@ -68,10 +68,13 @@ namespace GXPEngine
         void movementUD(bool jump)
         {
             //Saves last frame's Y coordinate of the player
-            oldY = y;
+            if (oldY != y)
+            {
+                oldY = y;
+            }
 
             //Always tries to move down
-            speedY += 0.1f;
+            speedY += 0.2f;
             y += speedY;
 
             //If below floor go back, reset falling speed and enable jump again 

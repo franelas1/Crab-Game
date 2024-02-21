@@ -8,7 +8,7 @@
         public Platform(string filename, float posYStart, int margin) : base(filename)
         {
             SetOrigin(width / 2, 0);
-            scaleX = Utils.Random(2f, 3f);
+            scaleX = Utils.Random(1.5f, 3f);
             scaleY = 0.5f;
             x = Utils.Random(margin + width, game.width - margin - width);
             y = posYStart;
@@ -33,6 +33,9 @@
                 CheckPlatformOutOfScreen();
             }
 
+        void fall()
+        {
+            y++;
         }
 
         void CheckPlatformOutOfScreen()
