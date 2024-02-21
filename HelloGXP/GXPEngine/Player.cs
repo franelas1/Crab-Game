@@ -16,16 +16,22 @@ namespace GXPEngine
         float speedY;
         float oldY;         //Last frame player Y position
 
+
+        int margin;
+
+        Platform oldFlatform;
+
         //tempX: X position of player at spawn
         //tempY: Y position of player at spawn
         //TODO: change to animated sprite 
-        public Player(int playerID, float tempX, float tempY) : base("circle.png")
+        public Player(int playerID, float tempX, float tempY, int margin) : base("circle.png")
         {
             //Setting player origin at the middle of bottom side
             SetOrigin(width / 2, height);
             x = tempX;
             y = tempY;
             this.playerID = playerID;
+            this.margin = margin;
         }
 
         //Updating player movement. Takes in 3 inputs (for now) for each right, left and up buttons.
@@ -94,7 +100,7 @@ namespace GXPEngine
             //If able to jump and jump button is pressed, jump
             if (jump && ableToJump)
             {
-                speedY = -8;
+                speedY = -12;
                 standsOnPlatform = false;
                 Gamedata.currentPlayer1Platform = null;
 
@@ -136,22 +142,60 @@ namespace GXPEngine
                     {
                         if (playerID == 1) //if player is player 1
                         {
-                            Gamedata.detectPlatformPlayer1 = false;
-                            y += 40;
-                            Gamedata.CheckPlat(1);
-                            y -= 40;
+                            if (speedY > 0)
+                            {
+                                Gamedata.detectPlatformPlayer1 = false;
+                                y += 40;
+                                Gamedata.CheckPlat(1);
+                                y -= 40;
+                            }
+
+                            else
+                            {
+                                Gamedata.detectPlatformPlayer1 = false;
+                                y -= 40;
+                                Gamedata.CheckPlat(1);
+                                y += 40;
+                            }
+
+
+                            if (Gamedata.currentPlayer1Platform != null && (oldFlatform != Gamedata.currentPlayer1Platform ||
+                                oldFlatform == null)){
+                                
+                                    oldFlatform = Gamedata.currentPlayer1Platform;
+                            }
                             
                             if (Gamedata.currentPlayer1Platform != null)
                             {
+                                
+                                /*
+                                Console.WriteLine("---------------");
+                                Console.WriteLine(!Gamedata.detectPlatformPlayer1);
+                                Console.WriteLine(speedY > 0);
+                                Console.WriteLine(Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
+                                    - (y - height / 2)));
+                                */
+
+                                if (Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
+                                    - (y - height / 2)) < 4 == false)
+                                {
+                                    y -= 20;
+                                    Gamedata.CheckPlat(1);
+                                    y += 20;
+                               //     Console.WriteLine(Gamedata.currentPlayer1Platform.y);
+                                }
+
 
                                 //the condition below check the condition that determine player successfully stands on a platform
                                 //first determine if platform found, if player is falling, and player at specific height relative
                                 //to the determined platform
                                 if (!Gamedata.detectPlatformPlayer1 && speedY > 0
                                     && Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
-                                    - (y - height / 2)) < 3)
+                                    - (y - height / 2)) < 4)
                                 {
-                                    y += 2; //ajust y for more accurate landing
+                                    y += Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
+                                        - (y - height / 2)); //ajust y for more accurate landing
+
                                     standsOnPlatform = true;
                                     shouldBeFalling = false;
                                 }

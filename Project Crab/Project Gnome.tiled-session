@@ -156,8 +156,8 @@
         },
         "crabMap2.tmx": {
             "expandedObjectLayers": [
-                5,
-                4
+                4,
+                5
             ],
             "scale": 1,
             "selectedLayer": 3,
@@ -491,8 +491,8 @@
         },
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
-                4,
                 3,
+                4,
                 2
             ],
             "scale": 0.75,

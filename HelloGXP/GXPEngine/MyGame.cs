@@ -15,11 +15,11 @@ public class MyGame : Game
 
         targetFps = 60;
         //Spawning and adding players
-        player1 = new Player(1, 200, height - 50);
+        player1 = new Player(1, 200, height - 50, 140);
         AddChild(player1);
         Gamedata.player1 = player1;
 
-        player2 = new Player(2, 200, height - 50);
+        player2 = new Player(2, 200, height - 50, 140);
         AddChild(player2);
         Gamedata.player2 = player2;
 
@@ -48,8 +48,9 @@ public class MyGame : Game
         player1.updatePlayer(Input.GetKey(Key.D), Input.GetKey(Key.A), Input.GetKeyDown(Key.W));
         player2.updatePlayer(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT), Input.GetKeyDown(Key.UP));
 
-        if (Input.GetKeyDown(Key.W) || Input.GetKeyDown(Key.UP)) jumped = true;
+     //   if (Input.GetKeyDown(Key.W) || Input.GetKeyDown(Key.UP)) jumped = true;
 
+        /*
         if (jumped)
         {
             foreach (Platform plat in platforms)
@@ -57,6 +58,7 @@ public class MyGame : Game
                 plat.updatePlatform();
             }
         }
+        */
 
         Gamedata.detectPlatformPlayer1 = false;
     }
