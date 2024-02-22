@@ -14,7 +14,6 @@ public class Platform : AnimationSpriteCustom
     public int theType = -1;
     public int theScoreThreshold;
     public int theFallingSpeed;
-
     public int theNumber;
     public Platform(string filenName, int rows, int columns, TiledObject obj = null) : base(filenName, rows, columns, obj)
     {

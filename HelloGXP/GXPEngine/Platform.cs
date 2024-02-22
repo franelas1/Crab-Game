@@ -1,32 +1,43 @@
-﻿namespace GXPEngine
+namespace GXPEngine
 {
-    class Platform : Sprite
+    public class Platform : Sprite
     {
-        int margin = 95; // how many pixels away the walls are from the sides of the screen
+        int margin;
 
-        public float fallSpeed = 3f; //Platform falling speed
-        public Platform(float tempY) : base("square.png")
+        //filename: the image name of the platform's image
+        //posYStart: y position of the platform at spawn
+        //margin: how many pixels away the walls are from the sides of the screen
+        public Platform(string filename, float posYStart, int margin) : base(filename)
         {
             SetOrigin(width / 2, 0);
             scaleX = Utils.Random(1.5f, 3f);
             scaleY = 0.5f;
+            this.margin = margin;
+            x = Utils.Random(margin + width, game.width - margin - width);
+            y = posYStart;
+
+
+            //old code:
+            /*
+            SetOrigin(width / 2, 0);
+            scaleX = Utils.Random(2f, 3f);
+            scaleY = 0.5f;
             x = Utils.Random(margin + width, game.width - margin - width);
             y = tempY;
-            //System.Console.WriteLine("{0}, {1}", margin, game.width - margin);
+            */
         }
 
-        public void updatePlatform()
+        //Function is called every frame once the platform is created
+        public void Update()
         {
-            fall();
-            destroyPlatform();
+            if (Gamedata.platformStartFalling)
+            {
+                y++;
+                CheckPlatformOutOfScreen();
+            }
         }
 
-        void fall()
-        {
-            y += fallSpeed;
-        }
-
-        void destroyPlatform()
+        void CheckPlatformOutOfScreen()
         {
             if (y > game.height)
             {
@@ -34,6 +45,5 @@
                 this.Destroy();
             }
         }
-
     }
 }
