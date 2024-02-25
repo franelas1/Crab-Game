@@ -492,8 +492,8 @@
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
                 3,
-                4,
-                2
+                2,
+                4
             ],
             "scale": 0.75,
             "selectedLayer": 2,

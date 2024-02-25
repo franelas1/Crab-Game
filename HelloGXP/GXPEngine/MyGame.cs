@@ -29,10 +29,10 @@ public class MyGame : Game
         AddChild(player2);
         Gamedata.player2 = player2;
 
-        platforms.Add(new Platform("square.png", 0, 50));
-        platforms.Add(new Platform("square.png", 200, 50));
-        platforms.Add(new Platform("square.png", 400, 50));
-        platforms.Add(new Platform("square.png", 550, 50));
+        platforms.Add(new Platform("square.png", 100, 50, 0, "A"));
+        platforms.Add(new Platform("square.png", 300, 100, 1, "B"));
+        platforms.Add(new Platform("square.png", 325, 100, 1, "B.1"));
+        platforms.Add(new Platform("square.png", 400, 100, 1, "C"));
         AddChild(platforms[0]);
         AddChild(platforms[1]);
         AddChild(platforms[2]);

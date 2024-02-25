@@ -10,6 +10,8 @@ namespace GXPEngine
         bool standsOnPlatform = false; //check if player stands on the platform (collision logic)
         bool shouldBeFalling = false; //checks if player falls off the platform (collision logic)
 
+        Platform oldFlatform;
+
         bool ableToJump; //player can jump if true
 
         float speedX = 4;
@@ -18,8 +20,6 @@ namespace GXPEngine
 
 
         int margin;
-
-        Platform oldFlatform;
 
         //tempX: X position of player at spawn
         //tempY: Y position of player at spawn
@@ -110,12 +110,10 @@ namespace GXPEngine
         //platform collision logic
         void CheckCollisionWithPlatform()
         {
-
             GameObject[] collisions = GetCollisions();  //get all thing the player is colliding with
 
             if (standsOnPlatform) //if player is standing on a platform
-            {
-                
+            {        
                 bool checkStandOnPlatform = false; //for helping determine if player falls off the platform
 
                 foreach (GameObject theCollision in collisions) //determine the collision
@@ -123,14 +121,50 @@ namespace GXPEngine
                 
                     if (theCollision is Platform) //if collide with platform
                     {
-                        checkStandOnPlatform = true; //this means player is still standing on the platform
+                        if (playerID == 1)
+                        {
+                            Gamedata.detectPlatformPlayer1 = false;
+                            //update the current platform player collides with
+                            Gamedata.CheckPlat(1);
+
+                            if (Gamedata.detectPlatformPlayer1)
+                            {
+                                checkStandOnPlatform = true; //this means player is still standing on the platform
+                            }
+                        }
+
+                        else
+                        {
+                            Gamedata.detectPlatformPlayer2 = false;
+                            y -= height / 2;
+                            Gamedata.CheckPlat(2);
+                            y += height / 2;
+
+                            if (Gamedata.detectPlatformPlayer2)
+                            {
+                                checkStandOnPlatform = true; //this means player is still standing on the platform
+                            }
+                        }
+
                     }
                 }
 
-                if (checkStandOnPlatform == false) //if this condition is true, this means player falls off the platform
+                if (playerID == 1)
                 {
-                    standsOnPlatform = false;
-                    shouldBeFalling = false;
+                    if (checkStandOnPlatform == false || oldFlatform != Gamedata.currentPlayer1Platform) //if this condition is true, this means player falls off the platform
+                    {
+                        standsOnPlatform = false;
+                        shouldBeFalling = false;
+                    }
+                }
+
+                if (playerID == 2)
+                {
+                    if (checkStandOnPlatform == false || oldFlatform != Gamedata.currentPlayer2Platform) //if this condition is true, this means player falls off the platform
+                    {
+                        standsOnPlatform = false;
+                        shouldBeFalling = false;
+                    }
                 }
             }
 
@@ -142,62 +176,109 @@ namespace GXPEngine
                     {
                         if (playerID == 1) //if player is player 1
                         {
-                            if (speedY > 0)
+                            if (speedY > 0) //jump falling
                             {
                                 Gamedata.detectPlatformPlayer1 = false;
-                                y += 40;
+                                y += height / 2;
                                 Gamedata.CheckPlat(1);
-                                y -= 40;
+                                y -= height / 2;
                             }
 
+                            //(this part needed?)
                             else
                             {
                                 Gamedata.detectPlatformPlayer1 = false;
-                                y -= 40;
+                                y -= height / 2;
                                 Gamedata.CheckPlat(1);
-                                y += 40;
-                            }
+                                y += height / 2;
 
 
-                            if (Gamedata.currentPlayer1Platform != null && (oldFlatform != Gamedata.currentPlayer1Platform ||
-                                oldFlatform == null)){
-                                
-                                    oldFlatform = Gamedata.currentPlayer1Platform;
                             }
-                            
+
                             if (Gamedata.currentPlayer1Platform != null)
                             {
                                 
+                                //debug messages
                                 /*
                                 Console.WriteLine("---------------");
-                                Console.WriteLine(!Gamedata.detectPlatformPlayer1);
                                 Console.WriteLine(speedY > 0);
                                 Console.WriteLine(Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
                                     - (y - height / 2)));
                                 */
 
+                                //if detection fails, try again (this might not be needed)
                                 if (Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
-                                    - (y - height / 2)) < 4 == false)
+                                    - (y - height / 2)) < 10 == false)
                                 {
                                     y -= 20;
                                     Gamedata.CheckPlat(1);
                                     y += 20;
-                               //     Console.WriteLine(Gamedata.currentPlayer1Platform.y);
                                 }
 
 
-                                //the condition below check the condition that determine player successfully stands on a platform
-                                //first determine if platform found, if player is falling, and player at specific height relative
-                                //to the determined platform
-                                if (!Gamedata.detectPlatformPlayer1 && speedY > 0
+                                //the conditions below determine if player successfully stands on a platform
+                                //first determine if player is falling, and player at specific height relative
+                                //to the detected platform
+                                if (speedY > 0
                                     && Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
-                                    - (y - height / 2)) < 4)
+                                    - (y - height / 2)) < 10)
                                 {
                                     y += Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
                                         - (y - height / 2)); //ajust y for more accurate landing
 
                                     standsOnPlatform = true;
                                     shouldBeFalling = false;
+                                    oldFlatform = Gamedata.currentPlayer1Platform;
+                                }
+                            }
+                        }
+
+                        if (playerID == 2) //if player is player 1
+                        {
+                            if (speedY > 0) //jump falling
+                            {
+                                Gamedata.detectPlatformPlayer2 = false;
+                                y += height / 2;
+                                Gamedata.CheckPlat(2);
+                                y -= height / 2;
+                            }
+
+                            //(this part needed?)
+                            else
+                            {
+                                Gamedata.detectPlatformPlayer2 = false;
+                                y -= height / 2;
+                                Gamedata.CheckPlat(2);
+                                y += height / 2;
+
+
+                            }
+
+                            if (Gamedata.currentPlayer2Platform != null)
+                            {
+                                //if detection fails, try again (this might not be needed)
+                                if (Math.Abs(Gamedata.currentPlayer2Platform.y - (Gamedata.currentPlayer2Platform.height / 2)
+                                    - (y - height / 2)) < 10 == false)
+                                {
+                                    y -= 20;
+                                    Gamedata.CheckPlat(2);
+                                    y += 20;
+                                }
+
+
+                                //the conditions below determine if player successfully stands on a platform
+                                //first determine if player is falling, and player at specific height relative
+                                //to the detected platform
+                                if (speedY > 0
+                                    && Math.Abs(Gamedata.currentPlayer2Platform.y - (Gamedata.currentPlayer2Platform.height / 2)
+                                    - (y - height / 2)) < 10)
+                                {
+                                    y += Math.Abs(Gamedata.currentPlayer2Platform.y - (Gamedata.currentPlayer2Platform.height / 2)
+                                        - (y - height / 2)); //ajust y for more accurate landing
+
+                                    standsOnPlatform = true;
+                                    shouldBeFalling = false;
+                                    oldFlatform = Gamedata.currentPlayer2Platform;
                                 }
                             }
                         }

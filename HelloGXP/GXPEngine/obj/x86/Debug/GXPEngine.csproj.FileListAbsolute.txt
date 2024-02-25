@@ -17,3 +17,20 @@ C:\Users\Acer\Desktop\Year 1\.3 Project Lift-Off\CrabGame\Crab Game\HelloGXP\GXP
 C:\Users\Acer\Desktop\Year 1\.3 Project Lift-Off\CrabGame\Crab Game\HelloGXP\GXPEngine\obj\x86\Debug\GXPEngine.exe
 C:\Users\Acer\Desktop\Year 1\.3 Project Lift-Off\CrabGame\Crab Game\HelloGXP\GXPEngine\obj\x86\Debug\GXPEngine.pdb
 C:\Users\Acer\Desktop\Year 1\.3 Project Lift-Off\CrabGame\Crab Game\HelloGXP\GXPEngine\bin\Debug\GXPEngine.exe.config
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\GXPEngine.exe.config
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\mscorlib.dll
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\zh-CHT\mscorlib.resources.dll
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\sortkey.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\sorttbls.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\big5.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\bopomofo.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\ksc.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\prc.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\prcp.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\xjis.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\normidna.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\normnfc.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\normnfd.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\normnfkc.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\bin\Debug\normnfkd.nlp
+C:\Users\seanb\Documents\Github Projects\LiftOff\Crab-Game\HelloGXP\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CopyComplete

@@ -20,7 +20,12 @@ namespace GXPEngine
         public static Platform currentPlayer1Platform; //the last platform player1 touched or the next platform player1 will touch
         public static Platform currentPlayer2Platform; //the last platform player2 touched or the next platform player2 will touch
         public static bool detectPlatformPlayer1;
+        public static bool detectPlatformPlayer2;
         //used when the game restarts
+
+        public static int theNumberReached = 0;
+        public static int platformSpawnAmount = 7;
+
         public static void ResetData()
         {
             platformStartFalling = false;
@@ -55,11 +60,14 @@ namespace GXPEngine
                             {
                                 Gamedata.currentPlayer1Platform = thePlatform;
                                 Gamedata.detectPlatformPlayer1 = true;
+                                Console.WriteLine("P1: " + thePlatform.debugString);
                             }
 
                             else
                             {
                                 Gamedata.currentPlayer2Platform = thePlatform;
+                                detectPlatformPlayer2 = true;
+                                Console.WriteLine("P2: " + thePlatform.debugString);
                             }
                         }
                     }
