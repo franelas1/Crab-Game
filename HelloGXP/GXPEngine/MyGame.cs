@@ -1,47 +1,68 @@
 using GXPEngine;                    // GXPEngine contains the engine
 using System;
-using System.Collections.Generic;	// Adding lists
+using System.Collections.Generic;   // Adding lists
+using System.Runtime.Remoting.Activation;
 //using System.IO.Ports;
 
 public class MyGame : Game
 {
-    
 
+    const int PLATFORMSPAWNAMOUNT = 22;
     // Declare variables:
     Player player1, player2;
 
     public bool jumped = false;
 
-    List<Platform> platforms = new List<Platform>();
+    int theNumberSpawn; //decides the 'number' platform will be spawned with
+
+
+    Pivot pivotAll = new Pivot();
+    Pivot platformsPivot = new Pivot();
+    Pivot playerPivot = new Pivot();
+    Pivot backgroundPivot = new Pivot();
+
+    float platformYSpawnValue;
+
+    //Determine the position the player will be displayed in the game camera
+    float boundaryValueX; //Should be width / 2 to display the player at the center of the screen
+    float boundaryValueY; //Should be height / 2 to display the player at the center of the screen
+
+    int restartStage = 0; //0 = game start, 1 = ongoing, 2 = win restart
 
     public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
-        Sprite background = new Sprite("crab_bg.png");
-        AddChild(background);
+        AddChild(pivotAll);
+        pivotAll.AddChild(backgroundPivot);
+        pivotAll.AddChild(playerPivot);
+        pivotAll.AddChild(platformsPivot);
 
+
+        Sprite background = new Sprite("crab_bg.png");
+        backgroundPivot.AddChild(background);
 
         //Spawning and adding players
-        player1 = new Player(1, 200, height - 50, 140);
-        AddChild(player1);
+        player1 = new Player(1, 300, height - 120, 140);
         Gamedata.player1 = player1;
+        playerPivot.AddChild(player1);
 
-        player2 = new Player(2, 200, height - 50, 140);
-        AddChild(player2);
+
+        player2 = new Player(2, 500, height - 120, 140);
         Gamedata.player2 = player2;
+        playerPivot.AddChild(player2);
 
-        platforms.Add(new Platform("square.png", 100, 50, 0, "A"));
-        platforms.Add(new Platform("square.png", 300, 100, 1, "B"));
-        platforms.Add(new Platform("square.png", 325, 100, 1, "B.1"));
-        platforms.Add(new Platform("square.png", 400, 100, 1, "C"));
-        AddChild(platforms[0]);
-        AddChild(platforms[1]);
-        AddChild(platforms[2]);
-        AddChild(platforms[3]);
-        Gamedata.platforms = platforms;
+        platformYSpawnValue += 500;
 
+        //starter platforms
+        Platform spawnPlatform1 = new Platform(300, height - 105, 0, "square.png", 0);
+        Gamedata.platforms.Add(spawnPlatform1);
+        AddChild(spawnPlatform1);
 
-        //test platform
-        //Platform plat1 = new Platform[];
+        Platform spawnPlatform2 = new Platform(500, height - 105, 0, "square.png", 1);
+        Gamedata.platforms.Add(spawnPlatform2);
+        AddChild(spawnPlatform2);
+
+        boundaryValueX = game.width / 2;
+        boundaryValueY = game.height / 2;
     }
 
     void Update()
@@ -54,19 +75,22 @@ public class MyGame : Game
         player1.updatePlayer(Input.GetKey(Key.D), Input.GetKey(Key.A), Input.GetKeyDown(Key.W));
         player2.updatePlayer(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT), Input.GetKeyDown(Key.UP));
 
-     //   if (Input.GetKeyDown(Key.W) || Input.GetKeyDown(Key.UP)) jumped = true;
-
-        /*
-        if (jumped)
-        {
-            foreach (Platform plat in platforms)
-            {
-                plat.updatePlatform();
-            }
-        }
-        */
 
         Gamedata.detectPlatformPlayer1 = false;
+
+        if (Gamedata.platforms.Count < PLATFORMSPAWNAMOUNT && Gamedata.playerMoved == true)
+        {
+            Console.WriteLine("producing");
+            SpawnPlatform();
+            Gamedata.platformSpawnAmount--;
+        }
+
+      //  CheckCamera();
+        //    y++;
+        //    pivotAll.y--;
+
+        //   levelPivot.y--;
+        // playerPivot.y--;
     }
 
     // Main is the first method that's called when the program is run
@@ -74,5 +98,33 @@ public class MyGame : Game
     {
         // Create a "MyGame" and start it:
         new MyGame().Start();
+    }
+    
+    
+    /*
+    void CheckCamera()
+    {
+        Console.WriteLine(y);
+        //handling player moving up
+        if ((player1.y + player2.y) / 2 + y < game.height - boundaryValueY && y < 999999999999)
+        {
+            y = game.height - boundaryValueY - (player1.y + player2.y) / 2;
+        }
+    }
+    */
+ 
+
+    void SpawnPlatform()
+    {
+        theNumberSpawn++;
+        float theYCrood;
+        theYCrood = Utils.Random(100, 101);
+        int theMargin = Utils.Random(50, 101);
+        platformYSpawnValue -= theYCrood;
+        Platform theSpawnPlatform = new Platform("square.png", platformYSpawnValue, theMargin, theNumberSpawn, PLATFORMSPAWNAMOUNT -
+            (PLATFORMSPAWNAMOUNT - Gamedata.platforms.Count));
+
+        Gamedata.platforms.Add(theSpawnPlatform);
+        AddChild(theSpawnPlatform);
     }
 }

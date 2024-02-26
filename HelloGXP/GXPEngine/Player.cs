@@ -52,6 +52,7 @@ namespace GXPEngine
             //If right button pressed 
             if (goRight)
             {
+                Gamedata.playerMoved = true;
                 x += speedX;
                 if (x + width / 2 > game.width - margin)
                 {
@@ -62,6 +63,7 @@ namespace GXPEngine
             //If left button pressed
             if (goLeft)
             {
+                Gamedata.playerMoved = true;
                 x -= speedX;
                 if (x - width / 2 < margin)
                 {
@@ -83,8 +85,14 @@ namespace GXPEngine
             speedY += 0.2f;
             y += speedY;
 
+            if (y > game.height + height / 2)
+            {
+                Destroy();
+                return;
+            }
+
             //If below floor go back, reset falling speed and enable jump again 
-            if ((y > game.height || standsOnPlatform) && !shouldBeFalling)
+            if (standsOnPlatform && !shouldBeFalling)
             {
                 y -= speedY;
                 speedY = 0;
@@ -100,6 +108,7 @@ namespace GXPEngine
             //If able to jump and jump button is pressed, jump
             if (jump && ableToJump)
             {
+                Gamedata.playerMoved = true;
                 speedY = -12;
                 standsOnPlatform = false;
                 Gamedata.currentPlayer1Platform = null;
