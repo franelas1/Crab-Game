@@ -7,7 +7,7 @@ using System.IO.Ports;
 public class MyGame : Game
 {
 
-    const int PLATFORMSPAWNAMOUNT = 7;
+    const int PLATFORMSPAWNAMOUNT = 20;
     // Declare variables:
     Player player1, player2;
 
@@ -19,13 +19,14 @@ public class MyGame : Game
 
     float platformYSpawnValue;
 
-    int theIndex = 2;
 
     int restartTimer;
 
     AnimationSprite water;
 
     TextCanvas winScreenText;
+
+    int theSpawnNumber;
 
     public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
@@ -37,9 +38,9 @@ public class MyGame : Game
         Gamedata.ResetData();
 
         winScreenText = null;
+        theSpawnNumber = 0;
 
-        platformYSpawnValue = 500;
-        theIndex = 2;
+        platformYSpawnValue = 300;
 
         pivotAll = new Pivot();
         playerPivot = new Pivot();
@@ -76,11 +77,11 @@ public class MyGame : Game
         platformYSpawnValue = 500;
 
         //starter platforms
-        Platform spawnPlatform1 = new Platform(300, height - 105, "square.png", 0);
+        Platform spawnPlatform1 = new Platform(300, height - 105, "square.png", 1.5f);
         Gamedata.platforms.Add(spawnPlatform1);
         AddChild(spawnPlatform1);
 
-        Platform spawnPlatform2 = new Platform(500, height - 105, "square.png", 1);
+        Platform spawnPlatform2 = new Platform(500, height - 105, "square.png", 1.5f);
         Gamedata.platforms.Add(spawnPlatform2);
         AddChild(spawnPlatform2);
     }
@@ -108,22 +109,6 @@ public class MyGame : Game
         {
         //    Console.WriteLine("producing");
             SpawnPlatform();
-        }
-
-
-        for (int i = 0; i < Gamedata.platforms.Count; i++)
-        {
-            for (int j = 0; j < Gamedata.platforms.Count; j++)
-            {
-                if (i != j)
-                {
-                    if (Gamedata.platforms[i].theIndex == Gamedata.platforms[j].theIndex)
-                    {
-                        Console.WriteLine("same index. SHOULD NOT APPEAR");
-                    }
-
-                }
-            }
         }
 
         if (Gamedata.restartStage == 2)
@@ -168,16 +153,14 @@ public class MyGame : Game
     }
     void SpawnPlatform()
     {
-        if (theIndex > 22)
-        {
-            theIndex = 0;
-        }
-
+        theSpawnNumber++;
 
         int theYCrood;
-        theYCrood = (int) Utils.Random(65, 110);
+        theYCrood = (int) Utils.Random(80, 110);
         int theMargin = (int) Utils.Random(50, 101);
         platformYSpawnValue -= theYCrood;
+
+        Console.WriteLine(platformYSpawnValue);
         String theImage;
         float theXScale = Utils.Random(1.5f, 3f);
 
@@ -196,9 +179,14 @@ public class MyGame : Game
             theImage = "square.png";
         }
 
-        Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theIndex, theXScale);
+
+        if (theSpawnNumber > PLATFORMSPAWNAMOUNT)
+        {
+            platformYSpawnValue = -100 - theYCrood;
+        }
+
+        Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, Gamedata.platformSpeed);
         Gamedata.platforms.Add(theSpawnPlatform);
         AddChild(theSpawnPlatform);
-        theIndex++;
     }
 }

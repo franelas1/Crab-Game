@@ -28,7 +28,6 @@ namespace GXPEngine
 
         //tempX: X position of player at spawn
         //tempY: Y position of player at spawn
-        //TODO: change to animated sprite 
 
         GameObject[] collisions;
         public Player(int playerID, float tempX, float tempY, int margin, string filename) : base(filename, 1, 1)
@@ -290,9 +289,29 @@ namespace GXPEngine
             //If below floor go back, reset falling speed and enable jump again 
             if (standsOnPlatform && !shouldBeFalling)
             {
+
                 y -= speedY;
                 speedY = 0;
                 ableToJump = true;
+
+                if (Gamedata.playerMoved)
+                {
+                    if (playerID == 1)
+                    {
+                        if (Gamedata.currentPlayer1Platform != null)
+                        {
+                            y += Gamedata.currentPlayer1Platform.theSpeed;
+                        }
+                    }
+
+                    if (playerID == 2)
+                    {
+                        if (Gamedata.currentPlayer2Platform != null)
+                        {
+                            y += Gamedata.currentPlayer2Platform.theSpeed;
+                        }
+                    }
+                }
             }
 
             //Else (if not on the floor) disable jumping
@@ -366,31 +385,17 @@ namespace GXPEngine
                         }
 
                     }
-
-                    /*
-                    if (theCollision is Player)
-                    {
-                        if (playerID == 1 && hasSomeInput && Gamedata.player2.hasSomeInput == false)
-                        {
-                            
-                            Console.WriteLine("collide p1");
-                        }
-
-                        if (playerID == 2 && hasSomeInput && Gamedata.player1.hasSomeInput == false)
-                        {
-
-                            Console.WriteLine("collide p2");
-                        }
-                    }
-                    */
                 }
 
                 if (playerID == 1)
                 {
                     if (checkStandOnPlatform == false || oldFlatform != Gamedata.currentPlayer1Platform) //if this condition is true, this means player falls off the platform
                     {
-                        standsOnPlatform = false;
-                        shouldBeFalling = false;
+                        if (hasSomeInput)
+                        {
+                            standsOnPlatform = false;
+                            shouldBeFalling = false;
+                        }
                     }
                 }
 
@@ -398,14 +403,14 @@ namespace GXPEngine
                 {
                     if (checkStandOnPlatform == false || oldFlatform != Gamedata.currentPlayer2Platform) //if this condition is true, this means player falls off the platform
                     {
-                        standsOnPlatform = false;
-                        shouldBeFalling = false;
+                        if (hasSomeInput)
+                        {
+                            standsOnPlatform = false;
+                            shouldBeFalling = false;
+                        }
                     }
                 }
             }
-
-
-
 
 
             if (!standsOnPlatform) //if player isn't standing on a platform or is floating/jumping
