@@ -267,7 +267,7 @@ namespace GXPEngine
             }
 
             //Always tries to move down
-            speedY += 0.4f;
+            speedY += 0.6f;
             y += speedY;
 
             if (y > game.height + height / 2)
