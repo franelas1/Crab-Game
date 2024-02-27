@@ -6,6 +6,9 @@ namespace GXPEngine
 {
     public class Player : Sprite
     {
+
+        const int DISTTHRESHOLDPLAYERDISTCOMPARE = 99999;
+
         int playerID;                   //determine if player is player 1 or player 2
         bool standsOnPlatform = false;  //check if player stands on the platform (collision logic)
         bool shouldBeFalling = false;   //checks if player falls off the platform (collision logic)
@@ -96,7 +99,8 @@ namespace GXPEngine
                         x -= speedX;
                     }
 
-                    if (hasPlayerCollision == true && Input.GetKey(Key.LEFT))
+                    if (hasPlayerCollision == true && Input.GetKey(Key.LEFT) 
+                        && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) < 2)
                     {
                         Console.WriteLine("player 1 goes right cancel");
                         x -= speedX;
@@ -117,9 +121,10 @@ namespace GXPEngine
                         
                     }
 
-                    if (hasPlayerCollision == true && Input.GetKey(Key.A))
+                    if (hasPlayerCollision == true && Input.GetKey(Key.A)
+                        && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                     {
-                        Console.WriteLine("player 2 goes right cancel");
+                       Console.WriteLine("player 2 goes right cancel");
                         x -= speedX;
                     }
                 }
@@ -142,9 +147,12 @@ namespace GXPEngine
                         x += speedX;
                     }
 
-                    if (hasPlayerCollision == true && Input.GetKey(Key.RIGHT))
+                    
+
+                    if (hasPlayerCollision == true && Input.GetKey(Key.RIGHT) &&
+                        Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                     {
-                        Console.WriteLine("player 1 goes left cancel");
+                       Console.WriteLine("player 1 goes left cancel");
                         x += speedX;
                     }
                 }
@@ -161,9 +169,10 @@ namespace GXPEngine
                         x += speedX;
                     }
 
-                    if (hasPlayerCollision == true && Input.GetKey(Key.D))
+                    if (hasPlayerCollision == true && Input.GetKey(Key.D)
+                        && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                     {
-                        Console.WriteLine("player 2 goes right cancel");
+                       Console.WriteLine("player 2 goes right cancel");
                         x += speedX;
                     }
                 }
@@ -180,7 +189,8 @@ namespace GXPEngine
                             return;
                         }
 
-                        if (Input.GetKey(Key.RIGHT))
+                        if (Input.GetKey(Key.RIGHT) &&
+                            Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
@@ -192,7 +202,8 @@ namespace GXPEngine
                             }
                         }
 
-                        if (Input.GetKey(Key.LEFT))
+                        if (Input.GetKey(Key.LEFT)
+                            && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
@@ -215,7 +226,8 @@ namespace GXPEngine
                             return;
                         }
 
-                        if (Input.GetKey(Key.D))
+                        if (Input.GetKey(Key.D) && 
+                            Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
@@ -227,7 +239,8 @@ namespace GXPEngine
                             }
                         }
 
-                        if (Input.GetKey(Key.A))
+                        if (Input.GetKey(Key.A) && 
+                            Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
@@ -260,7 +273,17 @@ namespace GXPEngine
 
             if (y > game.height + height / 2)
             {
-                Destroy();
+                Gamedata.restartStage = 2;
+
+                if (playerID == 1)
+                {
+                    Gamedata.playerWin = 2;
+                }
+
+                if (playerID == 2)
+                {
+                    Gamedata.playerWin = 1;
+                }
                 return;
             }
 

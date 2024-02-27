@@ -30,6 +30,9 @@ namespace GXPEngine
         public static bool playerMoved = false;
 
         public static int restartStage = 0;
+        public static int playerWin;
+
+
 
         public static void ResetData()
         {
@@ -44,7 +47,7 @@ namespace GXPEngine
             theNumberReached = 0;
      //       platformSpawnAmount = 20;
             playerMoved = false;
-            restartStage = 2;
+            restartStage = 1;
         }
 
         public static void CheckPlat(int thePlayerNumber)

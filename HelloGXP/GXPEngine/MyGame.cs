@@ -13,18 +13,19 @@ public class MyGame : Game
 
 
     //control crood, rotation, render order, etc of certain object groups
-    Pivot pivotAll = new Pivot();
-    Pivot playerPivot = new Pivot();
-    Pivot backgroundPivot = new Pivot();
+    Pivot pivotAll;
+    Pivot playerPivot;
+    Pivot backgroundPivot;
 
     float platformYSpawnValue;
 
     int theIndex = 2;
 
+    int restartTimer;
+
     public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         ResetGame();
-        Gamedata.restartStage = 0;
     }
 
     void ResetGame()
@@ -32,6 +33,11 @@ public class MyGame : Game
         Gamedata.ResetData();
 
         platformYSpawnValue = 500;
+        theIndex = 2;
+
+        pivotAll = new Pivot();
+        playerPivot = new Pivot();
+        backgroundPivot = new Pivot();
 
 
         //destroy all gameobjects
@@ -75,9 +81,13 @@ public class MyGame : Game
         {
             Gamedata.platformStartFalling = true;
         }
-        //Updating player movement with human imput
-        player1.updatePlayer();
-        player2.updatePlayer();
+
+        if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
+        {
+            //Updating player movement with human imput
+            player1.updatePlayer();
+            player2.updatePlayer();
+        }
 
 
         Gamedata.detectPlatformPlayer1 = false;
@@ -87,8 +97,9 @@ public class MyGame : Game
             SpawnPlatform();
         }
 
-        
-        for (int i = 0; i < Gamedata.platforms.Count; i++) { 
+
+        for (int i = 0; i < Gamedata.platforms.Count; i++)
+        {
             for (int j = 0; j < Gamedata.platforms.Count; j++)
             {
                 if (i != j)
@@ -101,16 +112,36 @@ public class MyGame : Game
                 }
             }
         }
-        
 
-        /*
-        Console.WriteLine("--------------------------");
-
-        for (int i = 0; i < Gamedata.platforms.Count; i++)
+        if (Gamedata.restartStage == 2)
         {
-            Console.WriteLine(Gamedata.platforms[i].theIndex);
+            List<GameObject> children = GetChildren();
+            foreach (GameObject child in children)
+            {
+                child.LateDestroy();
+            }
+
+            player1 = null;
+            player2 = null;
+            pivotAll = null;
+            backgroundPivot = null;
+            playerPivot = null;
+
+
+            restartTimer = Time.time;
+            Gamedata.restartStage = 3;
+
         }
-        */
+
+        if (Gamedata.restartStage == 3)
+        {
+            Console.WriteLine("restarting");
+            if (Time.time - restartTimer >= 1000)
+            {
+                ResetGame();
+                Gamedata.restartStage = 0;
+            }
+        }
     }
 
     // Main is the first method that's called when the program is run

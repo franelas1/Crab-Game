@@ -37,5 +37,12 @@ namespace GXPEngine
                 return false;
             }
         }
+
+        public static double GetDistance(Sprite thisObject, Sprite thatObject)
+        {
+            return Math.Sqrt(((thisObject.x - thatObject.x) * (thisObject.x - thatObject.x)) +
+                ((thisObject.y - thatObject.y) * (thisObject.y - thatObject.y))
+                );
+        }
     }
 }
