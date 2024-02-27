@@ -6,9 +6,9 @@ namespace GXPEngine
 {
     public class Player : Sprite
     {
-        int playerID; //determine if player is player 1 or player 2
-        bool standsOnPlatform = false; //check if player stands on the platform (collision logic)
-        bool shouldBeFalling = false; //checks if player falls off the platform (collision logic)
+        int playerID;                   //determine if player is player 1 or player 2
+        bool standsOnPlatform = false;  //check if player stands on the platform (collision logic)
+        bool shouldBeFalling = false;   //checks if player falls off the platform (collision logic)
 
         Platform oldFlatform;
 
@@ -255,7 +255,7 @@ namespace GXPEngine
             }
 
             //Always tries to move down
-            speedY += 0.2f;
+            speedY += 0.4f;
             y += speedY;
 
             if (y > game.height + height / 2)
