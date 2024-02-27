@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using TiledMapParser;
 
@@ -24,15 +25,26 @@ namespace GXPEngine
         //used when the game restarts
 
         public static int theNumberReached = 0;
-        public static int platformSpawnAmount = 20;
+     //   public static int platformSpawnAmount = 20;
 
         public static bool playerMoved = false;
 
-        
+        public static int restartStage = 0;
 
         public static void ResetData()
         {
             platformStartFalling = false;
+            player1 = null;
+            player2 = null;
+            platforms.Clear();
+            currentPlayer1Platform = null;
+            currentPlayer2Platform = null;
+            detectPlatformPlayer1 = false;
+            detectPlatformPlayer2 = false;
+            theNumberReached = 0;
+     //       platformSpawnAmount = 20;
+            playerMoved = false;
+            restartStage = 2;
         }
 
         public static void CheckPlat(int thePlayerNumber)
@@ -64,7 +76,7 @@ namespace GXPEngine
                             {
                                 Gamedata.currentPlayer1Platform = thePlatform;
                                 Gamedata.detectPlatformPlayer1 = true;
-                      //          Console.WriteLine("P1: " + thePlatform.debugString);
+                          //      Console.WriteLine("P1: " + thePlatform.theIndex);
                             }
 
                             else

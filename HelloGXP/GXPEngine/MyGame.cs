@@ -2,7 +2,7 @@ using GXPEngine;                    // GXPEngine contains the engine
 using System;
 using System.Collections.Generic;   // Adding lists
 using System.Runtime.Remoting.Activation;
-//using System.IO.Ports;
+using System.IO.Ports;
 
 public class MyGame : Game
 {
@@ -11,58 +11,62 @@ public class MyGame : Game
     // Declare variables:
     Player player1, player2;
 
-    public bool jumped = false;
 
-    int theNumberSpawn; //decides the 'number' platform will be spawned with
-
-
+    //control crood, rotation, render order, etc of certain object groups
     Pivot pivotAll = new Pivot();
-    Pivot platformsPivot = new Pivot();
     Pivot playerPivot = new Pivot();
     Pivot backgroundPivot = new Pivot();
 
     float platformYSpawnValue;
 
-    //Determine the position the player will be displayed in the game camera
-    float boundaryValueX; //Should be width / 2 to display the player at the center of the screen
-    float boundaryValueY; //Should be height / 2 to display the player at the center of the screen
-
-    int restartStage = 0; //0 = game start, 1 = ongoing, 2 = win restart
+    int theIndex = 2;
 
     public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
+        ResetGame();
+        Gamedata.restartStage = 0;
+    }
+
+    void ResetGame()
+    {
+        Gamedata.ResetData();
+
+        platformYSpawnValue = 500;
+
+
+        //destroy all gameobjects
+        List<GameObject> children = GetChildren();
+        foreach (GameObject child in children)
+        {
+            child.LateDestroy();
+        }
+
         AddChild(pivotAll);
         pivotAll.AddChild(backgroundPivot);
         pivotAll.AddChild(playerPivot);
-        pivotAll.AddChild(platformsPivot);
-
 
         Sprite background = new Sprite("crab_bg.png");
         backgroundPivot.AddChild(background);
 
         //Spawning and adding players
-        player1 = new Player(1, 300, height - 120, 140);
+        player1 = new Player(1, 300, height - 120, 140, "circle.png");
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
 
 
-        player2 = new Player(2, 500, height - 120, 140);
+        player2 = new Player(2, 500, height - 120, 140, "circle1.png");
         Gamedata.player2 = player2;
         playerPivot.AddChild(player2);
-
-        platformYSpawnValue += 500;
+        platformYSpawnValue = 500;
 
         //starter platforms
-        Platform spawnPlatform1 = new Platform(300, height - 105, 0, "square.png", 0);
+        Platform spawnPlatform1 = new Platform(300, height - 105, "square.png", 0);
         Gamedata.platforms.Add(spawnPlatform1);
         AddChild(spawnPlatform1);
 
-        Platform spawnPlatform2 = new Platform(500, height - 105, 0, "square.png", 1);
+        Platform spawnPlatform2 = new Platform(500, height - 105, "square.png", 1);
         Gamedata.platforms.Add(spawnPlatform2);
         AddChild(spawnPlatform2);
-
-        boundaryValueX = game.width / 2;
-        boundaryValueY = game.height / 2;
     }
 
     void Update()
@@ -72,25 +76,41 @@ public class MyGame : Game
             Gamedata.platformStartFalling = true;
         }
         //Updating player movement with human imput
-        player1.updatePlayer(Input.GetKey(Key.D), Input.GetKey(Key.A), Input.GetKeyDown(Key.W));
-        player2.updatePlayer(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT), Input.GetKeyDown(Key.UP));
+        player1.updatePlayer();
+        player2.updatePlayer();
 
 
         Gamedata.detectPlatformPlayer1 = false;
 
         if (Gamedata.platforms.Count < PLATFORMSPAWNAMOUNT && Gamedata.playerMoved == true)
         {
-            Console.WriteLine("producing");
             SpawnPlatform();
-            Gamedata.platformSpawnAmount--;
         }
 
-      //  CheckCamera();
-        //    y++;
-        //    pivotAll.y--;
+        
+        for (int i = 0; i < Gamedata.platforms.Count; i++) { 
+            for (int j = 0; j < Gamedata.platforms.Count; j++)
+            {
+                if (i != j)
+                {
+                    if (Gamedata.platforms[i].theIndex == Gamedata.platforms[j].theIndex)
+                    {
+                        Console.WriteLine("same index. SHOULD NOT APPEAR");
+                    }
 
-        //   levelPivot.y--;
-        // playerPivot.y--;
+                }
+            }
+        }
+        
+
+        /*
+        Console.WriteLine("--------------------------");
+
+        for (int i = 0; i < Gamedata.platforms.Count; i++)
+        {
+            Console.WriteLine(Gamedata.platforms[i].theIndex);
+        }
+        */
     }
 
     // Main is the first method that's called when the program is run
@@ -99,32 +119,22 @@ public class MyGame : Game
         // Create a "MyGame" and start it:
         new MyGame().Start();
     }
-    
-    
-    /*
-    void CheckCamera()
-    {
-        Console.WriteLine(y);
-        //handling player moving up
-        if ((player1.y + player2.y) / 2 + y < game.height - boundaryValueY && y < 999999999999)
-        {
-            y = game.height - boundaryValueY - (player1.y + player2.y) / 2;
-        }
-    }
-    */
- 
-
     void SpawnPlatform()
     {
-        theNumberSpawn++;
-        float theYCrood;
-        theYCrood = Utils.Random(100, 101);
-        int theMargin = Utils.Random(50, 101);
+        if (theIndex > 22)
+        {
+            theIndex = 0;
+        }
+
+
+        int theYCrood;
+        theYCrood = (int) Utils.Random(50, 101);
+        int theMargin = (int) Utils.Random(50, 101);
         platformYSpawnValue -= theYCrood;
-        Platform theSpawnPlatform = new Platform("square.png", platformYSpawnValue, theMargin, theNumberSpawn, PLATFORMSPAWNAMOUNT -
-            (PLATFORMSPAWNAMOUNT - Gamedata.platforms.Count));
+        Platform theSpawnPlatform = new Platform("square.png", platformYSpawnValue, theMargin, theIndex);
 
         Gamedata.platforms.Add(theSpawnPlatform);
         AddChild(theSpawnPlatform);
+        theIndex++;
     }
 }
