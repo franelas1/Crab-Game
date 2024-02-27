@@ -23,8 +23,7 @@ public class MyGame : Game
 
     int restartTimer;
 
-
-
+    AnimationSprite water;
 
     TextCanvas winScreenText;
 
@@ -58,8 +57,12 @@ public class MyGame : Game
         pivotAll.AddChild(backgroundPivot);
         pivotAll.AddChild(playerPivot);
 
-        Sprite background = new Sprite("crab_bg.png");
-        backgroundPivot.AddChild(background);
+        //Sprite background = new Sprite("finalBG.png");
+        //backgroundPivot.AddChild(background);
+
+        water = new AnimationSprite("full-bg.png", 3, 3);
+        water.SetCycle(0, 7, 5);
+        backgroundPivot.AddChild(water);
 
         //Spawning and adding players
         player1 = new Player(1, 300, height - 120, 140, "circle.png");
@@ -84,6 +87,8 @@ public class MyGame : Game
 
     void Update()
     {
+        water.Animate(1);
+
         if (Input.GetKey(Key.M))
         {
             Gamedata.platformStartFalling = true;

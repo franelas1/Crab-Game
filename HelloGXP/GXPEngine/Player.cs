@@ -70,9 +70,9 @@ namespace GXPEngine
             }
 
             //platform collision logic
-            y += 20; //need to move player y temporaly for the collision logic to work
+            y += 15; //need to move player y temporaly for the collision logic to work
             CheckCollisionWithPlatform();
-            y -= 20;
+            y -= 15;
         }
 
         //Player movement Left Right
