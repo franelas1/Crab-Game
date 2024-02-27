@@ -17,9 +17,12 @@ namespace GXPEngine
         float speedX = 4;
         float speedY;
         float oldY;         //Last frame player Y position
+        int oldPower = 0;       //just a temp variable
 
 
         int margin;
+        int divider = 10;  //Input valus from the arduino range from -100 to 100 so we want to divie that to the amount of pixels 
+                            // we want the player to move the fastest (used in movementLR for arduino)
 
         //tempX: X position of player at spawn
         //tempY: Y position of player at spawn
@@ -35,10 +38,18 @@ namespace GXPEngine
         }
 
         //Updating player movement. Takes in 3 inputs (for now) for each right, left and up buttons.
-        public void updatePlayer(bool right, bool left, bool up)
+        //public void updatePlayer(bool right, bool left, bool up)
+        public void updatePlayer(int LR, int up, int power)
         {
-            movementLR(right, left);
+            //movementLR(right, left);
+            movementLR(LR);
             movementUD(up);
+            
+            if(oldPower != power)
+            {
+                if (power == 1) SetColor(Utils.Random(0f, 1f), Utils.Random(0f, 1f), Utils.Random(0f, 1f));
+                oldPower = power;
+            }
             
             //platform collision logic
             y += 20; //need to move player y temporaly for the collision logic to work
@@ -47,7 +58,7 @@ namespace GXPEngine
         }
 
         //Player movement Left Right
-        void movementLR(bool goRight, bool goLeft)
+        /*void movementLR(bool goRight, bool goLeft)
         {
             //If right button pressed 
             if (goRight)
@@ -70,10 +81,15 @@ namespace GXPEngine
                     x += speedX;
                 }
             }
+        }*/
+
+        void movementLR(int moveAmount)
+        {
+            x += (moveAmount) / divider;
         }
 
         //Player movement Up Down
-        void movementUD(bool jump)
+        void movementUD(int jump)
         {
             //Saves last frame's Y coordinate of the player
             if (oldY != y)
@@ -106,7 +122,7 @@ namespace GXPEngine
             }
 
             //If able to jump and jump button is pressed, jump
-            if (jump && ableToJump)
+            if (jump == 1 && ableToJump)
             {
                 Gamedata.playerMoved = true;
                 speedY = -12;

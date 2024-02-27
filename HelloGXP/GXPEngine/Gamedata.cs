@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using TiledMapParser;
 
-namespace GXPEngine
+namespace GXPEngine 
 {
     //for storing, extracting, and using variables all the classes can access
     public static class Gamedata
@@ -27,8 +27,6 @@ namespace GXPEngine
         public static int platformSpawnAmount = 20;
 
         public static bool playerMoved = false;
-
-        
 
         public static void ResetData()
         {

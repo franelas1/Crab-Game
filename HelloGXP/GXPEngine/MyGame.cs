@@ -1,7 +1,5 @@
 using GXPEngine;                    // GXPEngine contains the engine
 using System;
-using System.Collections.Generic;   // Adding lists
-using System.Runtime.Remoting.Activation;
 using System.IO.Ports;
 
 public class MyGame : Game
@@ -21,6 +19,8 @@ public class MyGame : Game
     Pivot playerPivot = new Pivot();
     Pivot backgroundPivot = new Pivot();
 
+    public SerialPort port1 = new SerialPort();
+
     float platformYSpawnValue;
 
     //Determine the position the player will be displayed in the game camera
@@ -28,9 +28,13 @@ public class MyGame : Game
     float boundaryValueY; //Should be height / 2 to display the player at the center of the screen
 
     int restartStage = 0; //0 = game start, 1 = ongoing, 2 = win restart
+    string message;
+    string[] data;
 
     public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
+        Connect(port1, "COM3");
+
         AddChild(pivotAll);
         pivotAll.AddChild(backgroundPivot);
         pivotAll.AddChild(playerPivot);
@@ -67,13 +71,17 @@ public class MyGame : Game
 
     void Update()
     {
+        message = port1.ReadLine();
+        data = message.Split(' ');
+
         if (Input.GetKey(Key.M))
         {
             Gamedata.platformStartFalling = true;
         }
         //Updating player movement with human imput
-        player1.updatePlayer(Input.GetKey(Key.D), Input.GetKey(Key.A), Input.GetKeyDown(Key.W));
-        player2.updatePlayer(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT), Input.GetKeyDown(Key.UP));
+        player1.updatePlayer(int.Parse(data[0]), int.Parse(data[1]), int.Parse(data[2]));
+        Console.WriteLine("{0} {1}", int.Parse(data[0]), int.Parse(data[1]));
+        //player2.updatePlayer(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT), Input.GetKeyDown(Key.UP));
 
 
         Gamedata.detectPlatformPlayer1 = false;
@@ -85,7 +93,7 @@ public class MyGame : Game
             Gamedata.platformSpawnAmount--;
         }
 
-      //  CheckCamera();
+        //  CheckCamera();
         //    y++;
         //    pivotAll.y--;
 
@@ -99,8 +107,8 @@ public class MyGame : Game
         // Create a "MyGame" and start it:
         new MyGame().Start();
     }
-    
-    
+
+
     /*
     void CheckCamera()
     {
@@ -112,7 +120,7 @@ public class MyGame : Game
         }
     }
     */
- 
+
 
     void SpawnPlatform()
     {
@@ -127,4 +135,27 @@ public class MyGame : Game
         Gamedata.platforms.Add(theSpawnPlatform);
         AddChild(theSpawnPlatform);
     }
+
+    void Connect(SerialPort portTemp, string port_nr)
+    {
+        //Arduino input stuff
+        portTemp.PortName = port_nr;
+        portTemp.BaudRate = 9600;
+        portTemp.RtsEnable = true;
+        portTemp.DtrEnable = true;
+        portTemp.Open();
+
+    }
+
+/*    int Read(SerialPort portTemp)
+    {
+        try
+        {
+            int message = int.Parse(portTemp.ReadLine());
+            Console.WriteLine(message);
+            System.Threading.Thread.Sleep(0);
+            return message;
+        }
+        catch (TimeoutException) { return 0; }
+    }*/
 }

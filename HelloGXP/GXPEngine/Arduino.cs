@@ -1,24 +1,25 @@
-﻿using System;
+﻿using GXPEngine;
+using System;
 using System.IO.Ports;
 using System.Threading;
 
-namespace GXPEngine
+namespace System
 {
-    class Arduino
+    public class Arduino
     {
-        static SerialPort _serialPort;
-        public static void Main()
+
+        public void ReadInput(SerialPort port)
         {
-            _serialPort = new SerialPort();
-            _serialPort.PortName = "COM3";//Set your board COM
-            _serialPort.BaudRate = 9600;
-            _serialPort.Open();
-            while (true)
+        string a = port.ReadExisting();
+
+        if (a != "") Console.WriteLine("Read from port: " + a);
+
+            if (Console.KeyAvailable)
             {
-                string a = _serialPort.ReadExisting();
-                Console.WriteLine(a);
-                Thread.Sleep(200);
+                ConsoleKeyInfo key = Console.ReadKey();
+                port.Write(key.KeyChar.ToString());
             }
+        //System.Threading.Thread.Sleep(30);
         }
     }
 }
