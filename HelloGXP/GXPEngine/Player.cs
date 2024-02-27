@@ -4,7 +4,7 @@ using System.IO;
 
 namespace GXPEngine
 {
-    public class Player : Sprite
+    public class Player : AnimationSprite
     {
 
         const int DISTTHRESHOLDPLAYERDISTCOMPARE = 99999;
@@ -31,7 +31,7 @@ namespace GXPEngine
         //TODO: change to animated sprite 
 
         GameObject[] collisions;
-        public Player(int playerID, float tempX, float tempY, int margin, string filename) : base(filename)
+        public Player(int playerID, float tempX, float tempY, int margin, string filename) : base(filename, 1, 1)
         {
             //Setting player origin at the middle of bottom side
             SetOrigin(width / 2, height);

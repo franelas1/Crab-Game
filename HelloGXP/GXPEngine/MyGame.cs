@@ -7,7 +7,7 @@ using System.IO.Ports;
 public class MyGame : Game
 {
 
-    const int PLATFORMSPAWNAMOUNT = 22;
+    const int PLATFORMSPAWNAMOUNT = 7;
     // Declare variables:
     Player player1, player2;
 
@@ -23,6 +23,11 @@ public class MyGame : Game
 
     int restartTimer;
 
+
+
+
+    TextCanvas winScreenText;
+
     public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         ResetGame();
@@ -31,6 +36,8 @@ public class MyGame : Game
     void ResetGame()
     {
         Gamedata.ResetData();
+
+        winScreenText = null;
 
         platformYSpawnValue = 500;
         theIndex = 2;
@@ -94,6 +101,7 @@ public class MyGame : Game
 
         if (Gamedata.platforms.Count < PLATFORMSPAWNAMOUNT && Gamedata.playerMoved == true)
         {
+        //    Console.WriteLine("producing");
             SpawnPlatform();
         }
 
@@ -127,16 +135,19 @@ public class MyGame : Game
             backgroundPivot = null;
             playerPivot = null;
 
-
             restartTimer = Time.time;
             Gamedata.restartStage = 3;
-
+            winScreenText = new TextCanvas("Player X win", "SwanseaBold-D0ox.ttf", 20, 200, 200, 255, 255, 255, false);
+            winScreenText.SetPoint((width / 2) - 100, (height / 2) - 100);
+            winScreenText.ChangeText("Player " + Gamedata.playerWin + " wins");
+            winScreenText.visible = true;
+            AddChild(winScreenText);
         }
 
         if (Gamedata.restartStage == 3)
         {
-            Console.WriteLine("restarting");
-            if (Time.time - restartTimer >= 1000)
+         //   Console.WriteLine("restarting");
+            if (Time.time - restartTimer >= 3000)
             {
                 ResetGame();
                 Gamedata.restartStage = 0;
@@ -159,11 +170,28 @@ public class MyGame : Game
 
 
         int theYCrood;
-        theYCrood = (int) Utils.Random(50, 101);
+        theYCrood = (int) Utils.Random(65, 110);
         int theMargin = (int) Utils.Random(50, 101);
         platformYSpawnValue -= theYCrood;
-        Platform theSpawnPlatform = new Platform("square.png", platformYSpawnValue, theMargin, theIndex);
+        String theImage;
+        float theXScale = Utils.Random(1.5f, 3f);
 
+        if (theXScale > 2)
+        {
+            theImage = "square.png";
+        }
+
+        else if (theXScale > 2.5f)
+        {
+            theImage = "square.png";
+        }
+
+        else
+        {
+            theImage = "square.png";
+        }
+
+        Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theIndex, theXScale);
         Gamedata.platforms.Add(theSpawnPlatform);
         AddChild(theSpawnPlatform);
         theIndex++;
