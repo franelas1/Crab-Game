@@ -104,7 +104,7 @@ public class MyGame : Game
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0) && startButton.checkActivate())
+            if (Input.GetMouseButton(0) && startButton.checkActivate())
             {
                 Gamedata.restartStage = 1;
         //p        Console.WriteLine("activate");
@@ -173,7 +173,7 @@ public class MyGame : Game
 
         if (Gamedata.restartStage == 3)
         {
-         //   Console.WriteLine("restarting");
+
             if (Time.time - restartTimer >= 3000)
             {
                 ResetGame();
