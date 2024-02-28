@@ -107,7 +107,7 @@ public class MyGame : Game
             if (Input.GetMouseButton(0) && startButton.checkActivate())
             {
                 Gamedata.restartStage = 1;
-                Console.WriteLine("activate");
+        //p        Console.WriteLine("activate");
                 ResetGame();
             }
         }
@@ -199,7 +199,7 @@ public class MyGame : Game
         int theMargin = (int) Utils.Random(50, 101);
         platformYSpawnValue -= theYCrood;
 
-        Console.WriteLine(platformYSpawnValue);
+  //      Console.WriteLine(platformYSpawnValue);
         String theImage;
         float theXScale = Utils.Random(1.5f, 3f);
 
