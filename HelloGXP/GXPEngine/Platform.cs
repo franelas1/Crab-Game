@@ -39,7 +39,7 @@ namespace GXPEngine
            
             if (Gamedata.playerMoved)
             {
-                y += Gamedata.platformSpeed;
+                //y += Gamedata.platformSpeed;
                 CheckPlatformOutOfScreen();
             }
         }

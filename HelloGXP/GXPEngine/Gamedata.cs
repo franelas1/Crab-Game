@@ -25,7 +25,7 @@ namespace GXPEngine
         //used when the game restarts
 
         public static int theNumberReached = 0;
-     //   public static int platformSpawnAmount = 20;
+        //public static int platformSpawnAmount = 20;
 
         public static bool playerMoved = false;
 
