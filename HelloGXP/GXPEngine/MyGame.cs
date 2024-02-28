@@ -104,7 +104,7 @@ public class MyGame : Game
                 return;
             }
 
-            if (Input.GetMouseButton(0) && startButton.checkActivate())
+            if (Input.GetMouseButtonDown(0) && startButton.checkActivate())
             {
                 Gamedata.restartStage = 1;
         //p        Console.WriteLine("activate");

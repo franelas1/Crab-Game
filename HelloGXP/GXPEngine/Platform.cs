@@ -15,7 +15,7 @@ namespace GXPEngine
             scaleX = theXScale;
             scaleY = 0.5f;
             this.margin = margin;
-            x = Utils.Random(margin + width, game.width - margin - width);
+            x = Utils.Random(margin + width / 2, game.width - margin - width / 2);
             y = posYStart;
             this.theSpeed = theSpeed;
         }
@@ -39,7 +39,7 @@ namespace GXPEngine
            
             if (Gamedata.playerMoved)
             {
-                //y += Gamedata.platformSpeed;
+                y += Gamedata.platformSpeed;
                 CheckPlatformOutOfScreen();
             }
         }
