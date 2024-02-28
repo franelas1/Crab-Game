@@ -44,18 +44,5 @@ namespace GXPEngine
                 ((thisObject.y - thatObject.y) * (thisObject.y - thatObject.y))
                 );
         }
-
-        //Check if a point is within a rectangle shape
-        public static bool CheckPointWithRect(Vector2 boxCrood, int boxWidth, int boxHeight, Vector2 otherCrood)
-        {
-            if (boxCrood.x - boxWidth / 2 <= otherCrood.x && boxCrood.x + boxWidth / 2 >= otherCrood.x)
-            {
-                if (boxCrood.y - boxHeight / 2 <= otherCrood.y && boxCrood.y + boxHeight / 2 >= otherCrood.y)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }
