@@ -18,6 +18,7 @@ namespace GXPEngine
         public static Player player1;
         public static Player player2;
         public static List<Platform> platforms = new List<Platform> ();
+        public static List<Pickup> pickupList = new List<Pickup>();
         public static Platform currentPlayer1Platform; //the last platform player1 touched or the next platform player1 will touch
         public static Platform currentPlayer2Platform; //the last platform player2 touched or the next platform player2 will touch
         public static bool detectPlatformPlayer1;
@@ -29,7 +30,7 @@ namespace GXPEngine
 
         public static bool playerMoved = false;
 
-        public static int restartStage = 0;
+        public static int restartStage = -1;
         public static int playerWin;
 
         public static float platformSpeed = 2f;

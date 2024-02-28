@@ -23,9 +23,7 @@ public class MyGame : Game
     int restartTimer;
 
     AnimationSprite water;
-
     TextCanvas winScreenText;
-
     int theSpawnNumber;
 
     public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
@@ -76,7 +74,7 @@ public class MyGame : Game
         platformYSpawnValue = height - 150;
 
         //starter platforms
-        Platform spawnPlatform1 = new Platform(width / 2, height - 105, "eggplantTest.png", 8f);
+        Platform spawnPlatform1 = new Platform(width / 2, height - 105, "plat_eggplant.png", 8f);
         Gamedata.platforms.Add(spawnPlatform1);
         AddChild(spawnPlatform1);
 
@@ -87,11 +85,41 @@ public class MyGame : Game
 
     void Update()
     {
+        if (Gamedata.restartStage == -1)
+        {
+
+        }
+
+        if (Gamedata.restartStage == 0)
+        {
+        }
+
         water.Animate(1);
 
-        if (Input.GetKey(Key.M))
+        //detect ighhmçf  player touches a pickup, if touches and the player already has the same effect of the ability of the pickup, the player would not get the pickup
+        foreach (Pickup thePickupUp in Gamedata.pickupList)
         {
-            Gamedata.platformStartFalling = true;
+            if (CustomUtil.hasIntersectionSprites(thePickupUp, player1))
+            {
+                bool theAbilityNotRepeat = true;
+
+                foreach (Ability theAbility in player1.theAbilities)
+                {
+                    if (theAbility.theAbility == thePickupUp.theAbility.theAbility)
+                    {
+                        theAbilityNotRepeat = false;
+                    }
+                }
+
+                if (theAbilityNotRepeat)
+                {
+                    Console.WriteLine("added");
+                    player1.theAbilities.Add(thePickupUp.theAbility);
+                }
+            }
+
+
+            //                        
         }
 
         if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
@@ -100,7 +128,6 @@ public class MyGame : Game
             player1.updatePlayer();
             player2.updatePlayer();
         }
-
 
         Gamedata.detectPlatformPlayer1 = false;
 
@@ -136,7 +163,7 @@ public class MyGame : Game
         if (Gamedata.restartStage == 3)
         {
             Console.Clear();
-            Console.WriteLine("restarting");
+         //   Console.WriteLine("restarting");
             if (Time.time - restartTimer >= 3000)
             {
                 ResetGame();
@@ -155,18 +182,20 @@ public class MyGame : Game
     {
         theSpawnNumber++;
 
-        int theYCrood = (int) Utils.Random(30, 60) + 5 * theSpawnNumber;
+        int theYCrood = (int) Utils.Random(50, 60) + 5 * theSpawnNumber;
         int theMargin = 100; // (int) Utils.Random(50, 100);
         platformYSpawnValue -= theYCrood;
 
         Console.WriteLine(platformYSpawnValue);
         String theImage;
-        float theXScale = Utils.Random(1f, 2f);
+        float theXScale = Utils.Random(0.7f, 1f);
 
-        if(theXScale >= 1f && theXScale < 1.5f)
+        if(theXScale >= 0.7f && theXScale <= 1f)
         {
-            theImage = "eggplantTest.png";
+            theImage = "plat_eggplant.png";
         }
+
+        /*
 
         else if (theXScale >= 1.5f && theXScale < 2f)
         {
@@ -177,10 +206,11 @@ public class MyGame : Game
         {
             theImage = "eggplantTest.png";
         }
+        */
 
         else
         {
-            theImage = "eggplantTest.png";
+            theImage = "plat_corn.png";
         }
 
 
@@ -193,6 +223,14 @@ public class MyGame : Game
 
         Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, platformSpeed);
         Gamedata.platforms.Add(theSpawnPlatform);
+
+        if (theSpawnNumber == 1)
+        {
+            Pickup thePickup = new Pickup(theSpawnPlatform.x, theSpawnPlatform.y - theSpawnPlatform.height,"colors.png", "ability_gralicPiece", 3000);
+            AddChild(thePickup);
+            Gamedata.pickupList.Add(thePickup);
+        }
+
         AddChild(theSpawnPlatform);
     }
 }

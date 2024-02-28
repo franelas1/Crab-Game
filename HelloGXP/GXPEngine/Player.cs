@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GXPEngine
 {
@@ -16,6 +17,7 @@ namespace GXPEngine
         bool ableToJump; //player can jump if true
 
         float speedX = 4;
+        float speedXTemp = 4;
         float speedY;
         float oldY;         //Last frame player Y position
 
@@ -28,6 +30,9 @@ namespace GXPEngine
         //tempY: Y position of player at spawn
 
         GameObject[] collisions;
+
+        public bool isInAbility;
+        public List<Ability> theAbilities = new List<Ability>();
         public Player(int playerID, float tempX, float tempY, int margin, string filename) : base(filename, 1, 1)
         {
             //Setting player origin at the middle of bottom side
@@ -41,6 +46,26 @@ namespace GXPEngine
         //Updating player movement. Takes in 3 inputs (for now) for each right, left and up buttons.
         public void updatePlayer()
         {
+            foreach (Ability theAbility in theAbilities)
+            {
+                theAbility.UpdateAbility();
+
+                if (theAbility.isOver == false)
+                {
+                    switch (theAbility.theAbility)
+                    {
+                        case "ability_gralicPiece":
+                            Console.WriteLine("gralic ability");
+                            break;
+                        case "ability_chiliPepperPiece":
+                            break;
+                        case "lavenderFlower":
+                            break;
+                    }
+                }
+            }
+
+
             hasSomeInput = false;
             hasPlayerCollision = false;
             collisions = GetCollisions();
@@ -88,24 +113,24 @@ namespace GXPEngine
                     //hasPlayerCollision == false
                     hasSomeInput = true;
                     Gamedata.playerMoved = true;
-                    x += speedX;
+                    x += speedXTemp;
 
                     if (x + width / 2 > game.width - margin)
                     {
-                        x -= speedX;
+                        x -= speedXTemp;
                     }
 
                     if (hasPlayerCollision == true && Input.GetKey(Key.LEFT) && Gamedata.player1.x < Gamedata.player2.x 
                         && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) < 2)
                     {
                         Console.WriteLine("player 1 goes right cancel");
-                        x -= speedX;
+                        x -= speedXTemp;
                     }
 
                     else if (hasPlayerCollision == true && Input.GetKey(Key.LEFT) && Gamedata.player1.x > Gamedata.player2.x
                         && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) < 2)
                     { 
-                        Gamedata.player2.x += speedX; 
+                        Gamedata.player2.x += speedXTemp; 
                     }
                 }
 
@@ -113,13 +138,13 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                     Gamedata.playerMoved = true;
-                    x += speedX;
+                    x += speedXTemp;
 
 
                     if (x + width / 2 > game.width - margin)
                     {
 
-                        x -= speedX;
+                        x -= speedXTemp;
 
                     }
 
@@ -127,7 +152,7 @@ namespace GXPEngine
                         && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                     {
                         Console.WriteLine("player 2 goes right cancel");
-                        x -= speedX;
+                        x -= speedXTemp;
                     }
                 }
             }
@@ -139,14 +164,14 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                     Gamedata.playerMoved = true;
-                    x -= speedX;
+                    x -= speedXTemp;
 
 
 
-                    if (x - width / 2 < margin)
+                    if (x - width / 2 < margin * 2)
                     {
 
-                        x += speedX;
+                        x += speedXTemp;
                     }
 
 
@@ -155,7 +180,7 @@ namespace GXPEngine
                         Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                     {
                         Console.WriteLine("player 1 goes left cancel");
-                        x += speedX;
+                        x += speedXTemp;
                     }
                 }
 
@@ -163,19 +188,19 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                     Gamedata.playerMoved = true;
-                    x -= speedX;
+                    x -= speedXTemp;
 
-                    if (x - width / 2 < margin)
+                    if (x - width / 2 < margin * 2)
                     {
 
-                        x += speedX;
+                        x += speedXTemp;
                     }
 
                     if (hasPlayerCollision == true && Input.GetKey(Key.D)
                         && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                     {
                         Console.WriteLine("player 2 goes right cancel");
-                        x += speedX;
+                        x += speedXTemp;
                     }
                 }
             }
@@ -196,11 +221,11 @@ namespace GXPEngine
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
-                            x += speedX;
+                            x += speedXTemp;
                             if (x + width / 2 > game.width - margin)
                             {
-                                x -= speedX;
-                                x -= speedX;
+                                x -= speedXTemp;
+                                x -= speedXTemp;
                             }
                         }
 
@@ -209,11 +234,11 @@ namespace GXPEngine
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
-                            x -= speedX;
+                            x -= speedXTemp;
                             if (x - width / 2 < margin)
                             {
-                                x += speedX;
-                                x += speedX;
+                                x += speedXTemp;
+                                x += speedXTemp;
                             }
                         }
                     }
@@ -233,11 +258,11 @@ namespace GXPEngine
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
-                            x += speedX;
+                            x += speedXTemp;
                             if (x + width / 2 > game.width - margin)
                             {
-                                x -= speedX;
-                                x -= speedX;
+                                x -= speedXTemp;
+                                x -= speedXTemp;
                             }
                         }
 
@@ -246,11 +271,11 @@ namespace GXPEngine
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
-                            x -= speedX;
+                            x -= speedXTemp;
                             if (x - width / 2 < margin)
                             {
-                                x += speedX;
-                                x += speedX;
+                                x += speedXTemp;
+                                x += speedXTemp;
                             }
                         }
                     }

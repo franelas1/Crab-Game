@@ -15,6 +15,13 @@ namespace GXPEngine
             scaleX = theXScale;
             scaleY = 0.5f;
             this.margin = margin;
+
+            /*
+            Console.WriteLine("-------------");
+            Console.WriteLine(margin + width);
+            Console.WriteLine(game.width - margin - width);
+            */
+
             x = Utils.Random(margin + width, game.width - margin - width);
             y = posYStart;
             this.theSpeed = theSpeed;
@@ -50,7 +57,6 @@ namespace GXPEngine
             {
                 Gamedata.platforms.Remove(this);
                 this.Destroy();
-
             }
         }
     }
