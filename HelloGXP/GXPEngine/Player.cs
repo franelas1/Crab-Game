@@ -303,7 +303,7 @@ namespace GXPEngine
                     {
                         if (Gamedata.currentPlayer1Platform != null)
                         {
-                            y += Gamedata.currentPlayer1Platform.theSpeed;
+                            //y += Gamedata.currentPlayer1Platform.theSpeed;
                         }
                     }
 
@@ -311,7 +311,7 @@ namespace GXPEngine
                     {
                         if (Gamedata.currentPlayer2Platform != null)
                         {
-                            y += Gamedata.currentPlayer2Platform.theSpeed;
+                            //y += Gamedata.currentPlayer2Platform.theSpeed;
                         }
                     }
                 }
