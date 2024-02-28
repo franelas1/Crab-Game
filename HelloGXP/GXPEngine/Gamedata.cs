@@ -29,8 +29,8 @@ namespace GXPEngine
 
         public static bool playerMoved = false;
 
-        public static int restartStage = 0;
-        public static int playerWin;
+        public static int restartStage = -1;
+        public static int playerWin = -1;
 
         public static float platformSpeed = 2f;
 

@@ -7,7 +7,7 @@ using System.IO.Ports;
 public class MyGame : Game
 {
 
-    const int PLATFORMSPAWNAMOUNT = 15;
+    const int PLATFORMSPAWNAMOUNT = 20;
     // Declare variables:
     Player player1, player2;
 
@@ -17,20 +17,21 @@ public class MyGame : Game
     Pivot playerPivot;
     Pivot backgroundPivot;
 
+    Button startButton;
+
     float platformYSpawnValue;
 
 
     int restartTimer;
 
     AnimationSprite water;
-
     TextCanvas winScreenText;
 
     int theSpawnNumber;
 
-    public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
-        ResetGame();
+      //  ResetGame();
     }
 
     void ResetGame()
@@ -58,43 +59,71 @@ public class MyGame : Game
         pivotAll.AddChild(backgroundPivot);
         pivotAll.AddChild(playerPivot);
 
+        //Sprite background = new Sprite("finalBG.png");
+        //backgroundPivot.AddChild(background);
+
         water = new AnimationSprite("full-bg.png", 3, 3);
         water.SetCycle(0, 7, 5);
-        water.scaleX = 1.7075f;
-        water.scaleY = 1.28f;
         backgroundPivot.AddChild(water);
 
         //Spawning and adding players
-        player1 = new Player(1, width / 2 - 200, height - 120, 140, "circle.png");
+        player1 = new Player(1, 300, height - 120, 140, "circle.png");
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
 
 
-        player2 = new Player(2, width / 2 + 200, height - 120, 140, "circle1.png");
+        player2 = new Player(2, 500, height - 120, 140, "circle1.png");
         Gamedata.player2 = player2;
         playerPivot.AddChild(player2);
-        platformYSpawnValue = height - 150;
+        platformYSpawnValue = 500;
 
         //starter platforms
-        Platform spawnPlatform1 = new Platform(width / 2, height - 105, "eggplantTest.png", 8f);
+        Platform spawnPlatform1 = new Platform(300, height - 105, "square.png", 1.5f);
         Gamedata.platforms.Add(spawnPlatform1);
         AddChild(spawnPlatform1);
 
-        //Platform spawnPlatform2 = new Platform(width / 2 - 200, height - 105, "square.png", 1.5f);
-        //Gamedata.platforms.Add(spawnPlatform2);
-        //AddChild(spawnPlatform2);
+        Platform spawnPlatform2 = new Platform(500, height - 105, "square.png", 1.5f);
+        Gamedata.platforms.Add(spawnPlatform2);
+        AddChild(spawnPlatform2);
     }
 
     void Update()
     {
-        water.Animate(1);
+
+        if (Gamedata.restartStage == -1)
+        {
+            startButton = new Button(width / 2, height / 2, "colors.png");
+            AddChild(startButton);
+            Gamedata.restartStage = 0;
+        }
+
+        if (Gamedata.restartStage == 0)
+        {
+            if (startButton == null)
+            {
+                return;
+            }
+
+            if (Input.GetMouseButton(0) && startButton.checkActivate())
+            {
+                Gamedata.restartStage = 1;
+        //p        Console.WriteLine("activate");
+                ResetGame();
+            }
+        }
+
+        if (water != null)
+        {
+            water.Animate();
+        }
+        
 
         if (Input.GetKey(Key.M))
         {
             Gamedata.platformStartFalling = true;
         }
 
-        if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
+        if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3 && player1 != null && player2 != null)
         {
             //Updating player movement with human imput
             player1.updatePlayer();
@@ -126,17 +155,25 @@ public class MyGame : Game
 
             restartTimer = Time.time;
             Gamedata.restartStage = 3;
-            winScreenText = new TextCanvas("Player X win", "SwanseaBold-D0ox.ttf", 20, 200, 200, 255, 255, 255, false);
+            winScreenText = new TextCanvas("", "SwanseaBold-D0ox.ttf", 20, 200, 200, 255, 255, 255, false);
             winScreenText.SetPoint((width / 2) - 100, (height / 2) - 100);
-            winScreenText.ChangeText("Player " + Gamedata.playerWin + " wins");
+            if (Gamedata.playerWin == -1)
+            {
+                winScreenText.ChangeText("loading");
+            }
+
+            else
+            {
+                winScreenText.ChangeText("Player " + Gamedata.playerWin + " wins");
+            }
+
             winScreenText.visible = true;
             AddChild(winScreenText);
         }
 
         if (Gamedata.restartStage == 3)
         {
-            Console.Clear();
-            Console.WriteLine("restarting");
+
             if (Time.time - restartTimer >= 3000)
             {
                 ResetGame();
@@ -155,33 +192,32 @@ public class MyGame : Game
     {
         theSpawnNumber++;
 
-        int theYCrood = (int) Utils.Random(30, 60) + 5 * theSpawnNumber;
-        int theMargin = 100; // (int) Utils.Random(50, 100);
+        
+
+        int theYCrood;
+        theYCrood = (int) Utils.Random(80, 110);
+        int theMargin = (int) Utils.Random(50, 101);
         platformYSpawnValue -= theYCrood;
 
-        Console.WriteLine(platformYSpawnValue);
+  //      Console.WriteLine(platformYSpawnValue);
         String theImage;
-        float theXScale = Utils.Random(1f, 2f);
+        float theXScale = Utils.Random(1.5f, 3f);
 
-        if(theXScale >= 1f && theXScale < 1.5f)
+        if (theXScale > 2)
         {
-            theImage = "eggplantTest.png";
+            theImage = "square.png";
         }
 
-        else if (theXScale >= 1.5f && theXScale < 2f)
+        else if (theXScale > 2.5f)
         {
-            theImage = "eggplantTest.png";
-        }
-
-        else if (theXScale >= 2f && theXScale < 2.5f)
-        {
-            theImage = "eggplantTest.png";
+            theImage = "square.png";
         }
 
         else
         {
-            theImage = "eggplantTest.png";
+            theImage = "square.png";
         }
+
 
 
         if (theSpawnNumber > PLATFORMSPAWNAMOUNT)
@@ -189,7 +225,7 @@ public class MyGame : Game
             platformYSpawnValue = -100 - theYCrood;
         }
 
-        float platformSpeed = 1.5f * Math.Max(1f,(theSpawnNumber / 10));
+        float platformSpeed = 1.5f * (theSpawnNumber / 10);
 
         Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, platformSpeed);
         Gamedata.platforms.Add(theSpawnPlatform);
