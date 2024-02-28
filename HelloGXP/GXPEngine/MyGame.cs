@@ -17,20 +17,21 @@ public class MyGame : Game
     Pivot playerPivot;
     Pivot backgroundPivot;
 
+    Button startButton;
+
     float platformYSpawnValue;
 
 
     int restartTimer;
 
     AnimationSprite water;
-
     TextCanvas winScreenText;
 
     int theSpawnNumber;
 
     public MyGame() : base(800, 600, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
-        ResetGame();
+      //  ResetGame();
     }
 
     void ResetGame()
@@ -88,14 +89,41 @@ public class MyGame : Game
 
     void Update()
     {
-        water.Animate(1);
+
+        if (Gamedata.restartStage == -1)
+        {
+            startButton = new Button(width / 2, height / 2, "colors.png");
+            AddChild(startButton);
+            Gamedata.restartStage = 0;
+        }
+
+        if (Gamedata.restartStage == 0)
+        {
+            if (startButton == null)
+            {
+                return;
+            }
+
+            if (Input.GetMouseButton(0) && startButton.checkActivate())
+            {
+                Gamedata.restartStage = 1;
+                Console.WriteLine("activate");
+                ResetGame();
+            }
+        }
+
+        if (water != null)
+        {
+            water.Animate();
+        }
+        
 
         if (Input.GetKey(Key.M))
         {
             Gamedata.platformStartFalling = true;
         }
 
-        if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
+        if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3 && player1 != null && player2 != null)
         {
             //Updating player movement with human imput
             player1.updatePlayer();
@@ -127,9 +155,18 @@ public class MyGame : Game
 
             restartTimer = Time.time;
             Gamedata.restartStage = 3;
-            winScreenText = new TextCanvas("Player X win", "SwanseaBold-D0ox.ttf", 20, 200, 200, 255, 255, 255, false);
+            winScreenText = new TextCanvas("", "SwanseaBold-D0ox.ttf", 20, 200, 200, 255, 255, 255, false);
             winScreenText.SetPoint((width / 2) - 100, (height / 2) - 100);
-            winScreenText.ChangeText("Player " + Gamedata.playerWin + " wins");
+            if (Gamedata.playerWin == -1)
+            {
+                winScreenText.ChangeText("loading");
+            }
+
+            else
+            {
+                winScreenText.ChangeText("Player " + Gamedata.playerWin + " wins");
+            }
+
             winScreenText.visible = true;
             AddChild(winScreenText);
         }
@@ -155,6 +192,8 @@ public class MyGame : Game
     {
         theSpawnNumber++;
 
+        
+
         int theYCrood;
         theYCrood = (int) Utils.Random(80, 110);
         int theMargin = (int) Utils.Random(50, 101);
@@ -178,6 +217,7 @@ public class MyGame : Game
         {
             theImage = "square.png";
         }
+
 
 
         if (theSpawnNumber > PLATFORMSPAWNAMOUNT)
