@@ -20,7 +20,6 @@ namespace GXPEngine
             this.theSpeed = theSpeed;
         }
 
-
         //filename: the image name of the platform's image
         //posYStart: y position of the platform at spawn
         //margin: how many pixels away the walls are from the sides of the screen

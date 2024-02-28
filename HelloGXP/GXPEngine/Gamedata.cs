@@ -32,9 +32,7 @@ namespace GXPEngine
         public static int restartStage = -1;
         public static int playerWin = -1;
 
-        public static float platformSpeed = 1.5f;
-
-
+        public static float platformSpeed = 2f;
 
         public static void ResetData()
         {

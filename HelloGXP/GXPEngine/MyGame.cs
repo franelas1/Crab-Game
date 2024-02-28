@@ -225,7 +225,9 @@ public class MyGame : Game
             platformYSpawnValue = -100 - theYCrood;
         }
 
-        Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, Gamedata.platformSpeed);
+        float platformSpeed = 1.5f * (theSpawnNumber / 10);
+
+        Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, platformSpeed);
         Gamedata.platforms.Add(theSpawnPlatform);
         AddChild(theSpawnPlatform);
     }
