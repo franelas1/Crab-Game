@@ -37,23 +37,30 @@ namespace GXPEngine
         int jumpHeight = 18;
 
         //1 == idle, 2 = jump, 3 = walk
-        int animationStage;
+        int animationStage = 1;
 
         public int animationDelay = 30;
 
-        //idle, jump, walk? 
-        int idleFrame;
-        int idleFrames;
+        //60
+        int idleFrame = 1;
+        int idleFrames = 1;
+        int idleFrameDelay = 60;
 
-        int jumpFrame;
-        int jumpFrames;
+        //5
+        int jumpFrame = 0;
+        int jumpFrames = 7;
+        int jumpFrameDelay = 5;
 
-        int walkFrame;
-        int walkFrames;
+        //10
+        int walkFrame = 9;
+        int walkFrames = 2;
+        int walkFramesDelay = 10;
 
+     //   bool abilityActivated = false;
 
         public Player(int playerID, float tempX, float tempY, float scaleX, float scaleY, int margin, string filename, int columns, int rols,
-            int animationDelay, int idleFrame, int idleFrames) : base(filename, columns, rols)
+            int animationDelay, int idleFrame, int idleFrames, int idleFrameDelay,
+            int jumpFrame, int jumpFrames, int jumpFrameDelay, int walkFrame, int walkFrames, int walkFramesDelay) : base(filename, columns, rols)
         {
             this.scaleX = scaleX;
             this.scaleY = scaleY;
@@ -64,17 +71,48 @@ namespace GXPEngine
             this.playerID = playerID;
             this.margin = margin;
             this.animationDelay = animationDelay;
-            SetCycle(idleFrame, idleFrames, (byte) this.animationDelay);
-            Console.WriteLine(playerID);
-            Console.WriteLine(width);
-            Console.WriteLine(height);
+            this.idleFrame = idleFrame;
+            this.idleFrames = idleFrames;
+            this.jumpFrame = jumpFrame;
+            this.jumpFrames = jumpFrames;
+            this.walkFrame = walkFrame;
+            this.walkFrames = walkFrames;
+            this.idleFrameDelay = idleFrameDelay;
+            this.jumpFrameDelay = jumpFrameDelay;
+            this.walkFramesDelay = walkFramesDelay;
+
+            SetCycle(idleFrame, idleFrames, (byte)idleFrameDelay);
+            animationStage = 1;
 
         }
         //Updating player movement. Takes in 3 inputs (for now) for each right, left and up buttons.
         public void updatePlayer()
         {
+            
+            if (animationStage == 2)
+            {
+                if (playerID == 1)
+                {
+                    if (currentFrame == 6)
+                    {
+                        SetCycle(idleFrame, idleFrames, (byte)idleFrameDelay);
+                        animationStage = 1;
+                    }
+                }
+
+                if (playerID == 2)
+                {
+                    if (currentFrame == 4)
+                    {
+                        SetCycle(idleFrame, idleFrames, (byte)idleFrameDelay);
+                        animationStage = 1;
+                    }
+                }
+            }
+
 
             Animate();
+
 
             foreach (Ability theAbility in theAbilities)
             {
@@ -87,13 +125,25 @@ namespace GXPEngine
             
             foreach (Ability theAbility in theAbilities)
             {
-                theAbility.UpdateAbility();
-
-                if (theAbility.isOver == false)
+                if (theAbility.hasStart == false)
                 {
+                    if (((playerID == 1 && Input.GetKey('F'))) || (playerID == 2 &&
+                    Input.GetKey('G')))
+                    {
+                        theAbility.hasStart = true;
+                    }
+                }
+                
+                if (theAbility.hasStart == true)
+                {
+                    theAbility.UpdateAbility();
+                }
+
+                if (theAbility.isOver == false && theAbility.hasStart == true)
+                {
+               //     Console.WriteLine(theAbility.theAbility);
                     switch (theAbility.theAbility) 
                     {
-                    
                         case "ability_gralicPiece":
                             if (playerID == 1)
                             {
@@ -104,18 +154,22 @@ namespace GXPEngine
                             {
                                 Gamedata.player1.speedXTemp = Gamedata.player1.speedX - (float)(Gamedata.player1.speedX * 0.25);
                             }
+                            Console.WriteLine("gralic piece");
                             break;
                         case "ability_chiliPepperPiece":
+                            Console.WriteLine("chili piece");
                             break;
                         case "ability_lavenderFlower":
+                            Console.WriteLine("lavender flower");
                             break;
                         case "ability_basilLeaf":
+                            Console.WriteLine("basil leaf");
                             Gamedata.inBasilLEffect = true;
                             break;
                     }
                 }
 
-                else
+                else if (theAbility.hasStart == true)
                 {
                     switch (theAbility.theAbility)
                     {
@@ -192,10 +246,18 @@ namespace GXPEngine
                 movementUD(Input.GetKey(Key.UP));
             }
 
+            if (animationStage == 3 && hasSomeInput == false)
+            {
+                SetCycle(idleFrame, idleFrames, (byte) idleFrameDelay);
+                animationStage = 1;
+            }
+
             //platform collision logic
             y += 15; //need to move player y temporaly for the collision logic to work
             CheckCollisionWithPlatform();
             y -= 15;
+
+
         }
 
         public bool hasAbility(string abilityName)
@@ -217,6 +279,12 @@ namespace GXPEngine
             if (goRight && goLeft)
             {
                 return;
+            }
+
+            if ((goRight || goLeft) && standsOnPlatform)
+            {
+                SetCycle(walkFrame, walkFrames, (byte)walkFramesDelay);
+                animationStage = 3;
             }
 
             //If right button pressed 
@@ -469,7 +537,7 @@ namespace GXPEngine
                         {
                             if (Gamedata.inBasilLEffect)
                             {
-                                y += Gamedata.platformSpeed - (float)(Gamedata.platformSpeed * 0.25);
+                              y += Gamedata.platformSpeed - (float)(Gamedata.platformSpeed * 0.25);
                             }
 
                             else
@@ -510,6 +578,8 @@ namespace GXPEngine
             //If able to jump and jump button is pressed, jump
             if (jump && ableToJump)
             {
+                animationStage = 2;
+                SetCycle(jumpFrame, jumpFrames, (byte)jumpFrameDelay);
                 hasSomeInput = true;
                 Gamedata.playerMoved = true;
                 if (hasAbility("ability_chiliPepperPiece"))
@@ -684,6 +754,7 @@ namespace GXPEngine
                                 {
                                     y += Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
                                         - (y - height / Gamedata.currentPlayer1Platform.heightAdjustPlayer1)); //ajust y for more accurate landing
+                                    
 
                                     standsOnPlatform = true;
                                     shouldBeFalling = false;

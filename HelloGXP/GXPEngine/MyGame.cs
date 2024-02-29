@@ -76,12 +76,19 @@ public class MyGame : Game
         backgroundPivot.AddChild(water);
 
         //Spawning and adding players
-        player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 140, "player1.png", 4, 3, 60, 0, 11);
+
+        //0.35, 0.5
+
+        //player 1
+        //jumping: 0 - 6 frame (cycle: 0, 7, 10)
+        //idle: frame 1 (cycle: 1, 1, 60)
+        //walk: (cycle: 9, 2, 10)
+        player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 140, "player1.png", 4, 3, -1, 1, 1, 60, 0, 7, 10, 9, 2, 10);
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
 
 
-        player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, 60, 0, 11);
+        player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, -1, 5, 1, 60, 0, 5, 10, 9, 3, 10);
         Gamedata.player2 = player2;
         playerPivot.AddChild(player2);
         platformYSpawnValue = height - 150;
@@ -195,8 +202,11 @@ public class MyGame : Game
 
                 if (theAbilityNotRepeat)
                 {
-                    player1.theAbilities.Add(thePickupUp.theAbility);
-                    thePickupUp.gotPicked = true;
+                    if (player1.theAbilities.Count == 0)
+                    {
+                        player1.theAbilities.Add(thePickupUp.theAbility);
+                        thePickupUp.gotPicked = true;
+                    }
                 }
             }
 
@@ -215,13 +225,13 @@ public class MyGame : Game
 
                 if (theAbilityNotRepeat)
                 {
-                    player2.theAbilities.Add(thePickupUp.theAbility);
-                    thePickupUp.gotPicked = true;
+                    if (player2.theAbilities.Count == 0)
+                    {
+                        player2.theAbilities.Add(thePickupUp.theAbility);
+                        thePickupUp.gotPicked = true;
+                    }
                 }
-            }
-
-
-            //                        
+            }                   
         }
 
         if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
@@ -268,7 +278,7 @@ public class MyGame : Game
    //     Console.WriteLine(platformYSpawnValue);
         String theImage;
         float theXScale;
-        int thePlatform = (int) Utils.Random(1, 2);
+        int thePlatform = (int) Utils.Random(6, 7);
 
         int detectionValue = 10;
         int heightAdjustPlayer1 = 6;
@@ -347,7 +357,6 @@ public class MyGame : Game
             detectionValue = 20;
             heightAdjustPlayer1 = 6;
             heightAdjustPlayer2 = 3;
-
             //Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
             //-(y - height / 2))
         }
@@ -410,22 +419,26 @@ public class MyGame : Game
 
             if (theAbilityNum == 1)
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "colors2.png", "ability_chiliPepperPiece", 10000);
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "pepper.png", "ability_chiliPepperPiece", 10000);
+                thePickup.scale = 0.22f;
             }
             
             else if (theAbilityNum == 2)
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "colors1.png", "ability_basilLeaf", 15000);
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "basil_leave.png", "ability_basilLeaf", 15000);
+                thePickup.scale = 0.22f;
             }
 
             else if (theAbilityNum == 3)
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "checkers.png", "ability_lavenderFlower", 10000);
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "lavender.png", "ability_lavenderFlower", 10000);
+                thePickup.scale = 0.22f;
             }
 
             else
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "colors.png", "ability_gralicPiece", 10000);
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "garlic.png", "ability_gralicPiece", 10000);
+                thePickup.scale = 0.22f;
             }
 
             AddChild(thePickup);

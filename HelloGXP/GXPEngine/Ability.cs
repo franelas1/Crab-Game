@@ -14,6 +14,8 @@ namespace GXPEngine
         int theTimer = Time.time;
         public bool isOver = false;
 
+        public bool hasStart = false;
+
         public int markedForDeathPrep = 0;
 
         public bool hasRestored = false;

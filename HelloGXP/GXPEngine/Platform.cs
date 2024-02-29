@@ -13,7 +13,7 @@ namespace GXPEngine
         public int detectionValue = 10;
 
         public int heightAdjustPlayer1 = 6;
-        public int heightAdjustPlayer2 = 6;
+        public int heightAdjustPlayer2 = 3;
         public Platform(string filename, float posYStart, int margin, float theXScale, float scaleY, float theSpeed,
             int detectionValue, int heightAdjustPlayer1, int heightAdjustPlayer2) : base(filename)
         {

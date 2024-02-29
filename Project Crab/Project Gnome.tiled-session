@@ -156,8 +156,8 @@
         },
         "crabMap2.tmx": {
             "expandedObjectLayers": [
-                5,
-                4
+                4,
+                5
             ],
             "scale": 1,
             "selectedLayer": 3,
@@ -323,16 +323,16 @@
         },
         "mainMenu.tmx": {
             "expandedObjectLayers": [
-                2,
-                3,
                 4,
-                5
+                5,
+                2,
+                3
             ],
             "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 504,
-                "y": 98
+                "x": 502,
+                "y": 96
             }
         },
         "mainMenu.tmx#Button Look": {
@@ -491,9 +491,9 @@
         },
         "menuLevelSelect.tmx": {
             "expandedObjectLayers": [
-                3,
+                4,
                 2,
-                4
+                3
             ],
             "scale": 0.75,
             "selectedLayer": 2,
@@ -539,8 +539,8 @@
     "project": "Project Gnome.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "crabMap1.tmx",
         "menuLevelSelect.tmx",
+        "crabMap1.tmx",
         "crabMap2.tmx",
         "mainMenu.tmx",
         "levelCompletedMenu.tmx",
