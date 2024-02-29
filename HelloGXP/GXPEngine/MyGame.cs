@@ -59,7 +59,7 @@ public class MyGame : Game
         portTemp.BaudRate = 9600;
         portTemp.RtsEnable = true;
         portTemp.DtrEnable = true;
-    //    portTemp.Open();
+        portTemp.Open();
     }
 
     void ResetGame()
@@ -142,7 +142,7 @@ public class MyGame : Game
         }
         
         //if ((Time.time % 1000) / 60 == 0)
-        // ReadArduinoInput(port);
+        ReadArduinoInput(port);
 
         if (Gamedata.restartStage == -1)
         {
