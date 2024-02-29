@@ -26,6 +26,11 @@ namespace GXPEngine
         public bool hasSomeInput;
         public bool hasPlayerCollision;
 
+        //Arduino input variables 
+        public int moveXAmount;
+        public int jumpButton;
+        public int powerButton;
+
         //tempX: X position of player at spawn
         //tempY: Y position of player at spawn
 
@@ -227,22 +232,22 @@ namespace GXPEngine
 
             if (playerID == 1)
             {
-                if (Input.GetKey(Key.D) || Input.GetKey(Key.A))
+                if (Input.GetKey(Key.D) || Input.GetKey(Key.A) || moveXAmount != 0)
                 {
                     hasSomeInput = true;
                 }
                 movementLR(Input.GetKey(Key.D), Input.GetKey(Key.A));
-                movementUD(Input.GetKey(Key.W));
+                movementUD(Input.GetKey(Key.W), Gamedata.player1.jumpButton);
             }
 
             if (playerID == 2)
             {
-                if (Input.GetKey(Key.RIGHT) || Input.GetKey(Key.LEFT))
+                if (Input.GetKey(Key.RIGHT) || Input.GetKey(Key.LEFT) || moveXAmount != 0)
                 {
                     hasSomeInput = true;
                 }
                 movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
-                movementUD(Input.GetKey(Key.UP));
+                movementUD(Input.GetKey(Key.UP), Gamedata.player2.jumpButton);
             }
 
             if (animationStage == 3 && hasSomeInput == false)
@@ -293,6 +298,7 @@ namespace GXPEngine
                     //hasPlayerCollision == false
                     hasSomeInput = true;
                     Gamedata.playerMoved = true;
+                    //speedXTemp = moveX;
                     x += speedXTemp;
 
                     if (x + width / 2 > game.width - (margin + 100))
@@ -485,7 +491,7 @@ namespace GXPEngine
         }
 
         //Player movement Up Down
-        void movementUD(bool jump)
+        void movementUD(bool jump, int jumpA)
         {
 
             //Saves last frame's Y coordinate of the player
@@ -577,7 +583,7 @@ namespace GXPEngine
             }
 
             //If able to jump and jump button is pressed, jump
-            if (jump && ableToJump)
+            if ((jump || jumpA == 1) && ableToJump)
             {
                 animationStage = 2;
                 SetCycle(jumpFrame, jumpFrames, (byte)jumpFrameDelay);

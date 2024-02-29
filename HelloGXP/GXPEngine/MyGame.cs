@@ -4,6 +4,7 @@ using System.Collections.Generic;   // Adding lists
 using System.Runtime.Remoting.Activation;
 using System.IO.Ports;
 using System.Drawing.Printing;
+using System.Threading;
 
 public class MyGame : Game
 {
@@ -31,12 +32,27 @@ public class MyGame : Game
     int abilityPickupTime;
 
     Sprite theBackgroundEndOrStart;
+    SerialPort port = new SerialPort();
 
     bool inMainMenu = true;
 
+    string message;
+    string[] data;
+
     public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
-     //   ResetGame();
+          ResetGame();
+        OpenConnection(port, "COM11");
+    }
+
+    void OpenConnection(SerialPort portTemp, string portNumber)
+    {
+        //Arduino input stuff 
+        portTemp.PortName = portNumber;
+        portTemp.BaudRate = 9600;
+        portTemp.RtsEnable = true;
+        portTemp.DtrEnable = true;
+        //portTemp.Open();
     }
 
     void ResetGame()
@@ -86,6 +102,7 @@ public class MyGame : Game
         player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 140, "player1.png", 4, 3, -1, 1, 1, 60, 0, 7, 10, 9, 2, 10);
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
+        Console.WriteLine(player1);
 
 
         player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, -1, 5, 1, 60, 0, 5, 10, 9, 3, 10);
@@ -105,13 +122,16 @@ public class MyGame : Game
 
     void Update()
     {
+        //if ((Time.time % 1000) / 60 == 0)
+        //ReadArduinoInput(port);
+
         if (Gamedata.restartStage == -1)
         {
             theBackgroundEndOrStart = null;
             theBackgroundEndOrStart = new Sprite("menu_start.png");
             AddChild(theBackgroundEndOrStart);
             Gamedata.restartStage = 0;
-   
+
         }
 
         if (Gamedata.restartStage == 0)
@@ -231,7 +251,7 @@ public class MyGame : Game
                         thePickupUp.gotPicked = true;
                     }
                 }
-            }                   
+            }
         }
 
         if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
@@ -250,6 +270,24 @@ public class MyGame : Game
 
 
         }
+    }
+
+    void ReadArduinoInput(SerialPort portTemp)
+    {
+        message = portTemp.ReadLine();
+        data = message.Split(' ');
+        try
+        {
+            player1.moveXAmount = int.Parse(data[0]);
+            player1.jumpButton = int.Parse(data[1]);
+            player1.powerButton = int.Parse(data[2]);
+            player2.moveXAmount = int.Parse(data[3]);
+            player2.jumpButton = int.Parse(data[4]);
+            player2.powerButton = int.Parse(data[5]);
+            Console.WriteLine("{0} {1} {2} {3} {4} {5}", data[0], data[1], data[2], data[3], data[4], data[5]);
+        }
+        catch { }
+        
     }
 
     // Main is the first method that's called when the program is run
