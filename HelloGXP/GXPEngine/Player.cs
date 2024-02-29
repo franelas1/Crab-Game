@@ -16,8 +16,8 @@ namespace GXPEngine
 
         bool ableToJump; //player can jump if true
 
-        public float speedX = 8;
-        public float speedXTemp = 8;
+        public float speedX = 10;
+        public float speedXTemp = 10;
         float speedY;
         float oldY;         //Last frame player Y position
 
@@ -132,32 +132,28 @@ namespace GXPEngine
             {
                 if (theAbility.hasStart == false)
                 {
-                    if (((playerID == 1 && Input.GetKey('F'))) || (playerID == 2 &&
-                    Input.GetKey('G')))
+                    if (((playerID == 1 && (Input.GetKey('F') || Gamedata.player1.powerButton == 1))) || 
+                        (playerID == 2 && (Input.GetKey('G') || Gamedata.player2.powerButton == 1)))
                     {
                         theAbility.hasStart = true;
+                        theAbility.UpdateAbility();
                     }
-                }
-                
-                if (theAbility.hasStart == true)
-                {
-                    theAbility.UpdateAbility();
                 }
 
                 if (theAbility.isOver == false && theAbility.hasStart == true)
                 {
-               //     Console.WriteLine(theAbility.theAbility);
+                 //Console.WriteLine(theAbility.theAbility);
                     switch (theAbility.theAbility) 
                     {
                         case "ability_gralicPiece":
                             if (playerID == 1)
                             {
-                                Gamedata.player2.speedXTemp = Gamedata.player2.speedX - (float)(Gamedata.player2.speedX * 0.25);
+                                Gamedata.player2.speedXTemp = Gamedata.player2.speedX  - (float)(Gamedata.player2.speedX * 0.25);
                             }
 
                             if (playerID == 2)
                             {
-                                Gamedata.player1.speedXTemp = Gamedata.player1.speedX - (float)(Gamedata.player1.speedX * 0.25);
+                                Gamedata.player1.speedXTemp = Gamedata.player1.speedX  - (float)(Gamedata.player1.speedX * 0.25);
                             }
                             Console.WriteLine("gralic piece");
                             break;
@@ -237,8 +233,10 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                 }
-                movementLR(Input.GetKey(Key.D), Input.GetKey(Key.A));
+                //movementLR(Input.GetKey(Key.D), Input.GetKey(Key.A));
+                movementLR(Gamedata.player1.moveXAmount);
                 movementUD(Input.GetKey(Key.W), Gamedata.player1.jumpButton);
+
             }
 
             if (playerID == 2)
@@ -247,7 +245,8 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                 }
-                movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
+                //movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
+                movementLR(Gamedata.player2.moveXAmount);
                 movementUD(Input.GetKey(Key.UP), Gamedata.player2.jumpButton);
             }
 
@@ -424,7 +423,7 @@ namespace GXPEngine
                             return;
                         }
 
-                        if (Input.GetKey(Key.RIGHT) &&
+                        if ((Input.GetKey(Key.RIGHT)) &&
                             Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
@@ -437,7 +436,7 @@ namespace GXPEngine
                             }
                         }
 
-                        if (Input.GetKey(Key.LEFT)
+                        if ((Input.GetKey(Key.LEFT))
                             && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
@@ -461,7 +460,7 @@ namespace GXPEngine
                             return;
                         }
 
-                        if (Input.GetKey(Key.D) &&
+                        if ((Input.GetKey(Key.D)) &&
                             Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
@@ -474,7 +473,7 @@ namespace GXPEngine
                             }
                         }
 
-                        if (Input.GetKey(Key.A) &&
+                        if ((Input.GetKey(Key.A)) &&
                             Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
                         {
                             hasSomeInput = true;
@@ -484,6 +483,212 @@ namespace GXPEngine
                             {
                                 x += speedXTemp;
                                 x += speedXTemp;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        void movementLR(int moveX)
+        {
+            if (moveX != 0 && standsOnPlatform)
+            {
+                SetCycle(walkFrame, walkFrames, (byte)walkFramesDelay);
+                animationStage = 3;
+            }
+
+            //If right button pressed 
+            if (moveX > 0)
+            {
+                if (playerID == 1)
+                {
+                    //hasPlayerCollision == false
+                    hasSomeInput = true;
+                    Gamedata.playerMoved = true;
+                    //speedXTemp = moveX;
+                    x -= speedXTemp * (moveX / 100f);
+
+                    if (x + width / 2 > game.width - (margin + 100))
+                    {
+                        x += speedXTemp * (moveX / 100f);
+                    }
+
+                    if (hasPlayerCollision == true && Input.GetKey(Key.LEFT) && Gamedata.player1.x < Gamedata.player2.x
+                        && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) < 2)
+                    {
+                        Console.WriteLine("player 1 goes right cancel");
+                        x += speedXTemp * (moveX / 100f);
+                        if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
+                        {
+                            x += speedXTemp * 0.4f * (moveX / 100f);
+                        }
+                    }
+
+                    else if (hasPlayerCollision == true && Input.GetKey(Key.LEFT) && Gamedata.player1.x > Gamedata.player2.x
+                        && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) < 2)
+                    {
+                        Gamedata.player2.x += speedXTemp * (moveX / 100f);
+                        if (hasAbility("ability_lavenderFlower"))
+                        {
+                            Gamedata.player2.x -= speedXTemp * 0.4f * (moveX / 100f);
+                        }
+                    }
+                }
+
+                if (playerID == 2)
+                {
+                    hasSomeInput = true;
+                    Gamedata.playerMoved = true;
+                    x -= speedXTemp * (moveX / 100f);
+
+
+                    if (x + width / 2 > game.width - (margin + 100))
+                    {
+
+                        x += speedXTemp * (moveX / 100f);
+
+                    }
+
+                    if (hasPlayerCollision == true && Input.GetKey(Key.A)
+                        && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
+                    {
+                        Console.WriteLine("player 2 goes right cancel");
+                        x += speedXTemp * (moveX / 100f);
+                        if (Gamedata.player1.hasAbility("ability_lavenderFlower"))
+                        {
+                            x += speedXTemp * 0.4f * (moveX / 100f);
+                        }
+                    }
+                }
+            }
+
+            //If left button pressed
+            if (moveX < 0)
+            {
+                if (playerID == 1)
+                {
+                    hasSomeInput = true;
+                    Gamedata.playerMoved = true;
+                    x -= speedXTemp * (moveX / 100f);
+
+                    if (x - width / 2 < (margin * 2 - 100))
+                    {
+
+                        x += speedXTemp * (moveX / 100f);
+                    }
+
+
+
+                    if (hasPlayerCollision == true && Input.GetKey(Key.RIGHT) &&
+                        Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
+                    {
+                        Console.WriteLine("player 1 goes left cancel");
+                        x += speedXTemp * (moveX / 100f);
+                        if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
+                        {
+                            x += speedXTemp * 0.4f * (moveX / 100f);
+                        }
+                    }
+                }
+
+                if (playerID == 2)
+                {
+                    hasSomeInput = true;
+                    Gamedata.playerMoved = true;
+                    x -= speedXTemp * (moveX / 100f);
+
+                    if (x - width / 2 < (margin * 2 - 100))
+                    {
+
+                        x += speedXTemp * (moveX / 100f);
+                    }
+
+                    if (hasPlayerCollision == true && Input.GetKey(Key.D)
+                        && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
+                    {
+                        Console.WriteLine("player 2 goes right cancel");
+                        x += speedXTemp * (moveX / 100f);
+                        if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
+                        {
+                            x += speedXTemp * 0.4f * (moveX / 100f);
+                        }
+                    }
+                }
+            }
+
+            if (hasSomeInput == false)
+            {
+                if (playerID == 1)
+                {
+                    if (hasPlayerCollision)
+                    {
+                        if (Gamedata.player1.moveXAmount == 0)
+                        {
+                            return;
+                        }
+
+                        if (Gamedata.player1.moveXAmount > 0 &&
+                            Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
+                        {
+                            hasSomeInput = true;
+                            Gamedata.playerMoved = true;
+                            x -= speedXTemp * (moveX / 100f);
+                            if (x + width / 2 > game.width - margin)
+                            {
+                                x += speedXTemp * (moveX / 100f);
+                                x += speedXTemp * (moveX / 100f);
+                            }
+                        }
+
+                        if (Gamedata.player1.moveXAmount < 0
+                            && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
+                        {
+                            hasSomeInput = true;
+                            Gamedata.playerMoved = true;
+                            x -= speedXTemp * (moveX / 100f);
+                            if (x - width / 2 < margin)
+                            {
+                                x += speedXTemp * (moveX / 100f);
+                                x += speedXTemp * (moveX / 100f);
+                            }
+                        }
+                    }
+                }
+
+                if (playerID == 2)
+                {
+                    if (hasPlayerCollision)
+                    {
+                        if (Gamedata.player2.moveXAmount == 0)
+                        {
+                            return;
+                        }
+
+                        if (Gamedata.player2.moveXAmount > 0 &&
+                            Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
+                        {
+                            hasSomeInput = true;
+                            Gamedata.playerMoved = true;
+                            x -= speedXTemp * (moveX / 100f);
+                            if (x + width / 2 > game.width - margin)
+                            {
+                                x += speedXTemp * (moveX / 100f);
+                                x += speedXTemp * (moveX / 100f);
+                            }
+                        }
+
+                        if (Gamedata.player2.moveXAmount < 0 &&
+                            Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) <= DISTTHRESHOLDPLAYERDISTCOMPARE)
+                        {
+                            hasSomeInput = true;
+                            Gamedata.playerMoved = true;
+                            x -= speedXTemp * (moveX / 100f);
+                            if (x - width / 2 < margin)
+                            {
+                                x += speedXTemp * (moveX / 100f);
+                                x += speedXTemp * (moveX / 100f);
                             }
                         }
                     }

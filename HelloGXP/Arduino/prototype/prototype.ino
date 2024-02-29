@@ -51,22 +51,22 @@ void loop() {
   outputValue2 = map(sensorValue2, 0, 1023, -100, 100);
   
   // threshhold for max & min 
-  // if(outputValue1 > 512 - 50 && smoothedVal < 512 + 50) outputValue1 = 0;
-  // if(outputValue1 > 1023 - 100) outputValue1 = 100;
-  // if(outputValue1 < 0 + 100) outputValue1 = -100;
+  if(sensorValue1 > 512 - 100 && sensorValue1 < 512 + 100) outputValue1 = 0;
+  if(sensorValue1 > 1023 - 100) outputValue1 = 100;
+  if(sensorValue1 < 0 + 100) outputValue1 = -100;
 
-  // if(outputValue2 > 512 - 50 && smoothedVal < 512 + 50) outputValue2 = 0;
-  // if(outputValue2 > 1023 - 100) outputValue2 = 100;
-  // if(outputValue2 < 0 + 100) outputValue2 = -100;
+  if(sensorValue2 > 512 - 100 && sensorValue2 < 512 + 100) outputValue2 = 0;
+  if(sensorValue2 > 1023 - 100) outputValue2 = 100;
+  if(sensorValue2 < 0 + 100) outputValue2 = -100;
 
   if (millis() % timer == 0){
-  Serial.print(sensorValue1);
+  Serial.print(outputValue1);
   Serial.print(" ");
   Serial.print(button11state);
   Serial.print(" ");
   Serial.print(button12state);
   Serial.print(" ");
-  Serial.print(sensorValue2);
+  Serial.print(outputValue2);
   Serial.print(" ");
   Serial.print(button21state);
   Serial.print(" ");

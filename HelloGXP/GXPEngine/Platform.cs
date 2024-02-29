@@ -58,12 +58,12 @@ namespace GXPEngine
             {
                 if (Gamedata.inBasilLEffect)
                 {
-                    y += Gamedata.platformSpeed - (float) (Gamedata.platformSpeed * 0.25);
+                    //y += Gamedata.platformSpeed - (float) (Gamedata.platformSpeed * 0.25);
                 }
 
                 else
                 {
-                    y += Gamedata.platformSpeed;
+                    //y += Gamedata.platformSpeed;
                 }
                 CheckPlatformOutOfScreen();
             }
