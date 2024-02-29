@@ -1,10 +1,7 @@
 using GXPEngine;                    // GXPEngine contains the engine
 using System;
 using System.Collections.Generic;   // Adding lists
-using System.Runtime.Remoting.Activation;
 using System.IO.Ports;
-using System.Drawing.Printing;
-using System.Threading;
 
 public class MyGame : Game
 {
@@ -39,10 +36,10 @@ public class MyGame : Game
     string message;
     string[] data;
 
-    public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(1366, 768, false, false)     // Create a window that's 1366 x 768 and NOT fullscreen
     {
-          ResetGame();
-          OpenConnection(port, "COM11");
+        ResetGame();
+        OpenConnection(port, "COM11");
     }
 
     void OpenConnection(SerialPort portTemp, string portNumber)
@@ -122,8 +119,8 @@ public class MyGame : Game
 
     void Update()
     {
-        //if ((Time.time % 1000) / 60 == 0)
-        ReadArduinoInput(port);
+        if (player1 != null && player2 != null)
+            ReadArduinoInput(port);
 
         if (Gamedata.restartStage == -1)
         {
@@ -147,7 +144,7 @@ public class MyGame : Game
                 Gamedata.restartStage = 1;
                 inMainMenu = false;
                 ResetGame();
-                
+
             }
 
             return;
@@ -191,7 +188,7 @@ public class MyGame : Game
         {
             Console.Clear();
             //   Console.WriteLine("restarting");
-            if (Time.time - restartTimer >= 3000)
+            if (Time.time - restartTimer >= 300000)                                // <-- changed from 3000 to 300000
             {
                 ResetGame();
                 Gamedata.restartStage = 0;
@@ -265,10 +262,7 @@ public class MyGame : Game
 
         if ((Gamedata.platforms.Count < PLATFORMSPAWNAMOUNT && Gamedata.playerMoved == true) || Gamedata.platforms.Count < STARTERPLATFORMS)
         {
-        //    Console.WriteLine("producing");
             SpawnPlatform();
-
-
         }
     }
 
@@ -276,16 +270,16 @@ public class MyGame : Game
     {
         message = portTemp.ReadLine();
         data = message.Split(' ');
-        if (Gamedata.player1 != null && Gamedata.player2 != null)
-        {
-            player1.moveXAmount = int.Parse(data[0]);
-            player1.jumpButton = int.Parse(data[1]);
-            player1.powerButton = int.Parse(data[2]);
-            player2.moveXAmount = int.Parse(data[3]);
-            player2.jumpButton = int.Parse(data[4]);
-            player2.powerButton = int.Parse(data[5]);
-            Console.WriteLine("{0} {1} {2} {3} {4} {5}", data[0], data[1], data[2], data[3], data[4], data[5]);
-        }        
+
+        player1.moveXAmount = int.Parse(data[0]);
+        player1.jumpButton = int.Parse(data[1]);
+        player1.powerButton = int.Parse(data[2]);
+        player2.moveXAmount = int.Parse(data[3]);
+        player2.jumpButton = int.Parse(data[4]);
+        player2.powerButton = int.Parse(data[5]);
+
+        Console.WriteLine("{0} {1} {2} {3} {4} {5}", data[0], data[1], data[2], data[3], data[4], data[5]);
+
     }
 
     // Main is the first method that's called when the program is run
@@ -298,12 +292,12 @@ public class MyGame : Game
     {
         theSpawnNumber++;
 
-        
+
         if (platformYSpawnValue > 52 * (PLATFORMSPAWNAMOUNT - STARTERPLATFORMS) * 2)
         {
             platformYSpawnValue = -100;
         }
-        
+
 
         //(int) Utils.Random(10, 10) + 5 * theSpawnNumber;
         float theYCrood;
@@ -311,16 +305,21 @@ public class MyGame : Game
         float theYScale;
 
 
-   //     Console.WriteLine(platformYSpawnValue);
+        //     Console.WriteLine(platformYSpawnValue);
         String theImage;
         float theXScale;
-        int thePlatform = (int) Utils.Random(1, 7);
+        int thePlatform = (int)Utils.Random(1, 7);
+        if(thePlatform == Gamedata.lastPlatform)
+        {
+            thePlatform = (int)Utils.Random(1, 7);
+        }
+        Gamedata.lastPlatform = thePlatform;
 
         int detectionValue = 10;
         int heightAdjustPlayer1 = 6;
         int heightAdjustPlayer2 = 6;
 
-    //    Console.WriteLine(thePlatform);
+        //    Console.WriteLine(thePlatform);
 
         if (thePlatform == 1)
         {
@@ -340,7 +339,7 @@ public class MyGame : Game
             theMargin = 100;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_broccoli.png";
-            theYScale = 0.4f;
+            theYScale = 0.6f;
             detectionValue = 20;
             heightAdjustPlayer1 = 6; //6
             heightAdjustPlayer2 = 6; //6
@@ -364,7 +363,7 @@ public class MyGame : Game
             theMargin = 100;
             theXScale = Utils.Random(0.33f, 0.7f);
             theImage = "plat_corn.png";
-            theYScale = 0.33f;
+            theYScale = theXScale * 1.2f;
             detectionValue = 20;
             heightAdjustPlayer1 = 4; //4
             heightAdjustPlayer2 = 5; //5
@@ -387,9 +386,9 @@ public class MyGame : Game
         {
             theYCrood = Utils.Random(125, 125);
             theMargin = 100;
-            theXScale = Utils.Random(1f, 1.7f);
+            theXScale = Utils.Random(1f, 1.2f);
             theImage = "plat_eggplant.png";
-            theYScale = 0.7f;
+            theYScale = theXScale;
             detectionValue = 20;
             heightAdjustPlayer1 = 6; //3
             heightAdjustPlayer2 = 3; //6
@@ -430,7 +429,7 @@ public class MyGame : Game
         }
         */
 
-        float platformSpeed = 1.5f * Math.Max(1f,(theSpawnNumber / 10));
+        float platformSpeed = 1.5f * Math.Max(1f, (theSpawnNumber / 10));
 
         Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, theYScale, ((int)platformSpeed),
              detectionValue, heightAdjustPlayer1, heightAdjustPlayer2);
@@ -451,14 +450,14 @@ public class MyGame : Game
             theMargin = 100;
             int theAbilityWidth = 64;
             int theAbilityHeight = 64;
-            
+
 
             if (theAbilityNum == 1)
             {
                 thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "pepper.png", "ability_chiliPepperPiece", 10000);
                 thePickup.scale = 0.22f;
             }
-            
+
             else if (theAbilityNum == 2)
             {
                 thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "basil_leave.png", "ability_basilLeaf", 15000);

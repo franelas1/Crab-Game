@@ -43,7 +43,7 @@ namespace GXPEngine
         {
             SetOrigin(width / 2, 0);
             scaleX = Utils.Random(1.5f, 3f);
-            scaleY = 0.5f;
+            scaleY = 1;
             x = posX;
             y = posY;
             this.theSpeed = theSpeed;

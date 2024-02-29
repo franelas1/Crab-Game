@@ -35,7 +35,7 @@ namespace GXPEngine
 
         public static float platformSpeed = 2f;
 
-
+        public static int lastPlatform;
         public static bool inBasilLEffect;
 
         public static void ResetData()
