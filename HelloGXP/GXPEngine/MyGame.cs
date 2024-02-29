@@ -278,7 +278,7 @@ public class MyGame : Game
    //     Console.WriteLine(platformYSpawnValue);
         String theImage;
         float theXScale;
-        int thePlatform = (int) Utils.Random(6, 7);
+        int thePlatform = (int) Utils.Random(1, 7);
 
         int detectionValue = 10;
         int heightAdjustPlayer1 = 6;
@@ -293,9 +293,9 @@ public class MyGame : Game
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_onion.png";
             theYScale = 1f;
-            detectionValue = 20;
-            heightAdjustPlayer1 = 8;
-            heightAdjustPlayer2 = 10;
+            detectionValue = 25;
+            heightAdjustPlayer1 = 8; //8
+            heightAdjustPlayer2 = 10; //10
         }
 
         else if (thePlatform == 2)
@@ -306,8 +306,8 @@ public class MyGame : Game
             theImage = "plat_broccoli.png";
             theYScale = 0.4f;
             detectionValue = 20;
-            heightAdjustPlayer1 = 6;
-            heightAdjustPlayer2 = 6;
+            heightAdjustPlayer1 = 6; //6
+            heightAdjustPlayer2 = 6; //6
         }
 
         else if (thePlatform == 3)
@@ -318,8 +318,8 @@ public class MyGame : Game
             theImage = "plat_cheese.png";
             theYScale = 0.5f;
             detectionValue = 20;
-            heightAdjustPlayer1 = 6;
-            heightAdjustPlayer2 = 7;
+            heightAdjustPlayer1 = 6; //6
+            heightAdjustPlayer2 = 7; //7
         }
 
         else if (thePlatform == 4)
@@ -330,8 +330,8 @@ public class MyGame : Game
             theImage = "plat_corn.png";
             theYScale = 0.33f;
             detectionValue = 20;
-            heightAdjustPlayer1 = 4;
-            heightAdjustPlayer2 = 5;
+            heightAdjustPlayer1 = 4; //4
+            heightAdjustPlayer2 = 5; //5
         }
 
 
@@ -343,8 +343,8 @@ public class MyGame : Game
             theImage = "plat_carrot.png";
             theYScale = 0.4f;
             detectionValue = 20;
-            heightAdjustPlayer1 = 4;
-            heightAdjustPlayer2 = 2;
+            heightAdjustPlayer1 = 4; //4
+            heightAdjustPlayer2 = 2; //2
         }
 
         else
@@ -353,10 +353,10 @@ public class MyGame : Game
             theMargin = 100;
             theXScale = Utils.Random(1f, 1.7f);
             theImage = "plat_eggplant.png";
-            theYScale = 0.5f;
+            theYScale = 0.7f;
             detectionValue = 20;
-            heightAdjustPlayer1 = 6;
-            heightAdjustPlayer2 = 3;
+            heightAdjustPlayer1 = 6; //3
+            heightAdjustPlayer2 = 3; //6
             //Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
             //-(y - height / 2))
         }

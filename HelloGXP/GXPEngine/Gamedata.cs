@@ -86,7 +86,7 @@ namespace GXPEngine
                             {
                                 Gamedata.currentPlayer1Platform = thePlatform;
                                 Gamedata.detectPlatformPlayer1 = true;
-                          //      Console.WriteLine("P1: " + thePlatform.theIndex);
+                               Console.WriteLine(currentPlayer1Platform.y);
                             }
 
                             else
