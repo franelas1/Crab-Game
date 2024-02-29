@@ -32,6 +32,12 @@ namespace GXPEngine
             */
 
             x = Utils.Random(margin + width, game.width - margin - width);
+
+        //    x = Utils.Random(margin + width, margin + width + 1);
+
+        //   x = Utils.Random(game.width - margin - width, game.width - margin - width + 1);
+
+
             y = posYStart;
             this.theSpeed = theSpeed;
         }
@@ -58,7 +64,7 @@ namespace GXPEngine
             {
                 if (Gamedata.inBasilLEffect)
                 {
-                    //y += Gamedata.platformSpeed - (float) (Gamedata.platformSpeed * 0.25);
+                    y += Gamedata.platformSpeed - (float) (Gamedata.platformSpeed * 0.25);
                 }
 
                 else

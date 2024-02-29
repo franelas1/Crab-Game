@@ -61,7 +61,9 @@ namespace GXPEngine
         int walkFrames = 2;
         int walkFramesDelay = 10;
 
-     //   bool abilityActivated = false;
+        //   bool abilityActivated = false;
+
+        bool abilitySound = false;
 
         public Player(int playerID, float tempX, float tempY, float scaleX, float scaleY, int margin, string filename, int columns, int rols,
             int animationDelay, int idleFrame, int idleFrames, int idleFrameDelay,
@@ -136,12 +138,22 @@ namespace GXPEngine
                     {
                         theAbility.hasStart = true;
                         theAbility.UpdateAbility();
+                        if (playerID == 1)
+                        {
+                            SoundChannel theSound = new Sound("SFX_Power-up_001_Crab.wav", false, false).Play();
+                        }
+                        else
+                        {
+                            SoundChannel theSound = new Sound("SFX_Power-up_001_Lobster.wav", false, false).Play();
+                        }
                     }
                 }
 
                 if (theAbility.isOver == false && theAbility.hasStart == true)
                 {
-                 //Console.WriteLine(theAbility.theAbility);
+
+
+                    //Console.WriteLine(theAbility.theAbility);
                     switch (theAbility.theAbility) 
                     {
                         case "ability_gralicPiece":
@@ -232,8 +244,8 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                 }
-                //movementLR(Input.GetKey(Key.D), Input.GetKey(Key.A));
-                movementLR(Gamedata.player1.moveXAmount);
+                movementLR(Input.GetKey(Key.D), Input.GetKey(Key.A));
+               // movementLR(Gamedata.player1.moveXAmount);
                 movementUD(Input.GetKey(Key.W), Gamedata.player1.jumpButton);
 
             }
@@ -244,8 +256,8 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                 }
-                //movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
-                movementLR(Gamedata.player2.moveXAmount);
+                movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
+              //  movementLR(Gamedata.player2.moveXAmount);
                 movementUD(Input.GetKey(Key.UP), Gamedata.player2.jumpButton);
             }
 
@@ -516,6 +528,7 @@ namespace GXPEngine
                     if (hasPlayerCollision == true && Input.GetKey(Key.LEFT) && Gamedata.player1.x < Gamedata.player2.x
                         && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) < 2)
                     {
+                        SoundChannel theSound = new Sound("SFX_Push_001_Crab.wav", false, false).Play();
                         Console.WriteLine("player 1 goes right cancel");
                         x += speedXTemp * (moveX / 100f);
                         if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
@@ -554,6 +567,7 @@ namespace GXPEngine
                     {
                         Console.WriteLine("player 2 goes right cancel");
                         x += speedXTemp * (moveX / 100f);
+                        SoundChannel theSound = new Sound("SFX_Push_001_Lobster.wav", false, false).Play();
                         if (Gamedata.player1.hasAbility("ability_lavenderFlower"))
                         {
                             x += speedXTemp * 0.4f * (moveX / 100f);
@@ -584,6 +598,7 @@ namespace GXPEngine
                     {
                         Console.WriteLine("player 1 goes left cancel");
                         x += speedXTemp * (moveX / 100f);
+                        SoundChannel theSound1 = new Sound("SFX_Push_001_Crab.wav", false, false).Play();
                         if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
                         {
                             x += speedXTemp * 0.4f * (moveX / 100f);
@@ -608,6 +623,7 @@ namespace GXPEngine
                     {
                         Console.WriteLine("player 2 goes right cancel");
                         x += speedXTemp * (moveX / 100f);
+                        SoundChannel theSound = new Sound("SFX_Push_001_Lobster.wav", false, false).Play();
                         if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
                         {
                             x += speedXTemp * 0.4f * (moveX / 100f);
@@ -632,9 +648,12 @@ namespace GXPEngine
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
+                            SoundChannel theSound = new Sound("SFX_Push_001_Crab.wav", false, false).Play();
                             x -= speedXTemp * (moveX / 100f);
                             if (x + width / 2 > game.width - margin)
                             {
+
+
                                 x += speedXTemp * (moveX / 100f);
                                 x += speedXTemp * (moveX / 100f);
                             }
@@ -645,6 +664,7 @@ namespace GXPEngine
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
+                            SoundChannel theSound = new Sound("SFX_Push_001_Crab.wav", false, false).Play();
                             x -= speedXTemp * (moveX / 100f);
                             if (x - width / 2 < margin)
                             {
@@ -670,6 +690,7 @@ namespace GXPEngine
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
                             x -= speedXTemp * (moveX / 100f);
+                            SoundChannel theSound = new Sound("SFX_Push_001_Lobster.wav", false, false).Play();
                             if (x + width / 2 > game.width - margin)
                             {
                                 x += speedXTemp * (moveX / 100f);
@@ -682,6 +703,7 @@ namespace GXPEngine
                         {
                             hasSomeInput = true;
                             Gamedata.playerMoved = true;
+                            SoundChannel theSound = new Sound("SFX_Push_001_Lobster.wav", false, false).Play();
                             x -= speedXTemp * (moveX / 100f);
                             if (x - width / 2 < margin)
                             {
@@ -790,6 +812,17 @@ namespace GXPEngine
             //If able to jump and jump button is pressed, jump
             if ((jump || jumpA == 1) && ableToJump)
             {
+
+                if (playerID == 1)
+                {
+                    SoundChannel theSound = new Sound("SFX_Jump_001_Crab.wav", false, false).Play();
+                }
+
+                else
+                {
+                    SoundChannel theSound = new Sound("SFX_Jump_001_Lobster.wav", false, false).Play();
+                }
+
                 animationStage = 2;
                 SetCycle(jumpFrame, jumpFrames, (byte)jumpFrameDelay);
                 hasSomeInput = true;
@@ -846,15 +879,19 @@ namespace GXPEngine
                             Gamedata.CheckPlat(1);
                             y -= height / 2;
 
-                            //update the current platform player collides with
-                            if ((x + width / 2) < Gamedata.currentPlayer1Platform.x)
+                            if (Gamedata.currentPlayer1Platform != null)
                             {
-                                x += width / 2;
-                            }
+                                //update the current platform player collides with
+                                if ((x + width / 2) < Gamedata.currentPlayer1Platform.x)
+                                {
+                                    x += width / 2;
+                                }
 
-                            if ((x + width / 2) > Gamedata.currentPlayer1Platform.x)
-                            {
-                                x += width / 2;
+                                if ((x + width / 2) > Gamedata.currentPlayer1Platform.x)
+                                {
+                                    x += width / 2;
+                                }
+
                             }
 
                             Gamedata.detectPlatformPlayer1 = false;
@@ -991,17 +1028,27 @@ namespace GXPEngine
                                 //Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
                                 //     -(y - height / 2)) < Gamedata.currentPlayer1Platform.detectionValue
                                 if (speedY > 0 
-                                    && Math.Abs(y - (height / 2) - (Gamedata.currentPlayer1Platform.y)) < Gamedata.currentPlayer1Platform.detectionValue)
+                                    && Math.Abs(y - (height / 2) - (Gamedata.currentPlayer1Platform.y)) < Gamedata.currentPlayer1Platform.detectionValue
+                                    )
                                 {
                                     //      y += (y - height / 2) - Gamedata.currentPlayer1Platform.y; //ajust y for more accurate landing
-
+                                    float ogY = y;
                                     y = Gamedata.currentPlayer1Platform.y - Gamedata.currentPlayer1Platform.height / 2;
 
+                                    if (y < 0)
+                                    {
+                                        y = ogY;
+                                    }
+
+                                    if (y > 0)
+                                    {
+                                        SoundChannel theSound = new Sound("SFX_Land_001_Crab.wav", false, false).Play();
+                                        standsOnPlatform = true;
+                                        shouldBeFalling = false;
+                                        oldFlatform = Gamedata.currentPlayer1Platform;
+                                    }
 
 
-                                    standsOnPlatform = true;
-                                    shouldBeFalling = false;
-                                    oldFlatform = Gamedata.currentPlayer1Platform;
                                 }
                             }
                         }
@@ -1048,14 +1095,21 @@ namespace GXPEngine
                                     && Math.Abs(y - (height / 2) - (Gamedata.currentPlayer2Platform.y)) < Gamedata.currentPlayer2Platform.detectionValue)
                                 {
                                     //      y += (y - height / 2) - Gamedata.currentPlayer1Platform.y; //ajust y for more accurate landing
-
+                                    float ogY = y;
                                     y = Gamedata.currentPlayer2Platform.y - Gamedata.currentPlayer2Platform.height / 2;
 
+                                    if (y < 0)
+                                    {
+                                        y = ogY;
+                                    }
 
-
-                                    standsOnPlatform = true;
-                                    shouldBeFalling = false;
-                                    oldFlatform = Gamedata.currentPlayer2Platform;
+                                    if (y > 0)
+                                    {
+                                        SoundChannel theSound = new Sound("SFX_Land_001_Lobster.wav", false, false).Play();
+                                        standsOnPlatform = true;
+                                        shouldBeFalling = false;
+                                        oldFlatform = Gamedata.currentPlayer2Platform;
+                                    }
                                 }
                             }
                         }

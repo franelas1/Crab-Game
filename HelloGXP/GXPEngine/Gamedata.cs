@@ -54,7 +54,7 @@ namespace GXPEngine
             theNumberReached = 0;
      //       platformSpawnAmount = 20;
             playerMoved = false;
-            restartStage = 1;
+            restartStage = -1;
         }
 
         public static void CheckPlat(int thePlayerNumber)
