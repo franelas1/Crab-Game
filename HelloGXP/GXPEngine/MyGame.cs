@@ -76,12 +76,12 @@ public class MyGame : Game
         backgroundPivot.AddChild(water);
 
         //Spawning and adding players
-        player1 = new Player(1, width / 2 - 200, height - 120, 140, "circle.png");
+        player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 140, "player1.png", 4, 3, 60, 0, 11);
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
 
 
-        player2 = new Player(2, width / 2 + 200, height - 120, 140, "circle1.png");
+        player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, 60, 0, 11);
         Gamedata.player2 = player2;
         playerPivot.AddChild(player2);
         platformYSpawnValue = height - 150;
@@ -101,7 +101,7 @@ public class MyGame : Game
         if (Gamedata.restartStage == -1)
         {
             theBackgroundEndOrStart = null;
-            theBackgroundEndOrStart = new Sprite("bg_start.png");
+            theBackgroundEndOrStart = new Sprite("menu_start.png");
             AddChild(theBackgroundEndOrStart);
             Gamedata.restartStage = 0;
    
@@ -252,14 +252,15 @@ public class MyGame : Game
     {
         theSpawnNumber++;
 
-
-        if (theSpawnNumber % PLATFORMSPAWNAMOUNT == 0)
+        
+        if (platformYSpawnValue > 52 * (PLATFORMSPAWNAMOUNT - STARTERPLATFORMS) * 2)
         {
-            platformYSpawnValue = 0;
+            platformYSpawnValue = -100;
         }
+        
 
         //(int) Utils.Random(10, 10) + 5 * theSpawnNumber;
-        int theYCrood;
+        float theYCrood;
         int theMargin; // (int) Utils.Random(50, 100);
         float theYScale;
 
@@ -267,20 +268,24 @@ public class MyGame : Game
    //     Console.WriteLine(platformYSpawnValue);
         String theImage;
         float theXScale;
-        int thePlatform = (int) Utils.Random(1, 6);
+        int thePlatform = (int) Utils.Random(1, 2);
 
         int detectionValue = 10;
+        int heightAdjustPlayer1 = 6;
+        int heightAdjustPlayer2 = 6;
 
     //    Console.WriteLine(thePlatform);
 
         if (thePlatform == 1)
         {
-            theYCrood = Utils.Random(85, 100);
+            theYCrood = Utils.Random(125, 126);
             theMargin = 100;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_onion.png";
             theYScale = 1f;
             detectionValue = 20;
+            heightAdjustPlayer1 = 8;
+            heightAdjustPlayer2 = 10;
         }
 
         else if (thePlatform == 2)
@@ -291,16 +296,20 @@ public class MyGame : Game
             theImage = "plat_broccoli.png";
             theYScale = 0.4f;
             detectionValue = 20;
+            heightAdjustPlayer1 = 6;
+            heightAdjustPlayer2 = 6;
         }
 
         else if (thePlatform == 3)
         {
-            theYCrood = Utils.Random(85, 100);
+            theYCrood = Utils.Random(100, 100);
             theMargin = 100;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_cheese.png";
             theYScale = 0.5f;
             detectionValue = 20;
+            heightAdjustPlayer1 = 6;
+            heightAdjustPlayer2 = 7;
         }
 
         else if (thePlatform == 4)
@@ -311,7 +320,10 @@ public class MyGame : Game
             theImage = "plat_corn.png";
             theYScale = 0.33f;
             detectionValue = 20;
+            heightAdjustPlayer1 = 4;
+            heightAdjustPlayer2 = 5;
         }
+
 
         else if (thePlatform == 5)
         {
@@ -321,16 +333,21 @@ public class MyGame : Game
             theImage = "plat_carrot.png";
             theYScale = 0.4f;
             detectionValue = 20;
+            heightAdjustPlayer1 = 4;
+            heightAdjustPlayer2 = 2;
         }
 
         else
         {
-            theYCrood = Utils.Random(75, 100);
+            theYCrood = Utils.Random(125, 125);
             theMargin = 100;
             theXScale = Utils.Random(1f, 1.7f);
             theImage = "plat_eggplant.png";
             theYScale = 0.5f;
             detectionValue = 20;
+            heightAdjustPlayer1 = 6;
+            heightAdjustPlayer2 = 3;
+
             //Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
             //-(y - height / 2))
         }
@@ -347,6 +364,11 @@ public class MyGame : Game
             theImage = "eggplantTest.png";
         }
         */
+
+        if (theSpawnNumber > STARTERPLATFORMS * 2)
+        {
+            theYCrood = theYCrood / 2.5f;
+        }
 
 
         platformYSpawnValue -= theYCrood;
@@ -366,7 +388,7 @@ public class MyGame : Game
         float platformSpeed = 1.5f * Math.Max(1f,(theSpawnNumber / 10));
 
         Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, theYScale, ((int)platformSpeed),
-             detectionValue);
+             detectionValue, heightAdjustPlayer1, heightAdjustPlayer2);
         Gamedata.platforms.Add(theSpawnPlatform);
 
         if (theSpawnNumber == 1 || Time.time - abilityPickupTimer >= abilityPickupTime)

@@ -11,14 +11,19 @@ namespace GXPEngine
         //margin: how many pixels away the walls are from the sides of the screen
 
         public int detectionValue = 10;
+
+        public int heightAdjustPlayer1 = 6;
+        public int heightAdjustPlayer2 = 6;
         public Platform(string filename, float posYStart, int margin, float theXScale, float scaleY, float theSpeed,
-            int detectionValue) : base(filename)
+            int detectionValue, int heightAdjustPlayer1, int heightAdjustPlayer2) : base(filename)
         {
             SetOrigin(width / 2, 0);
             scaleX = theXScale;
             this.scaleY = scaleY;
             this.margin = margin;
             this.detectionValue = detectionValue;
+            this.heightAdjustPlayer1 = heightAdjustPlayer1;
+            this.heightAdjustPlayer2 = heightAdjustPlayer2;
 
             /*
             Console.WriteLine("-------------");
@@ -42,6 +47,7 @@ namespace GXPEngine
             x = posX;
             y = posY;
             this.theSpeed = theSpeed;
+
         }
 
         //Function is called every frame once the platform is created

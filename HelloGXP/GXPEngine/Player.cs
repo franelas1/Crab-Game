@@ -35,18 +35,47 @@ namespace GXPEngine
         public List<Ability> theAbilities = new List<Ability>();
 
         int jumpHeight = 18;
-        public Player(int playerID, float tempX, float tempY, int margin, string filename) : base(filename, 1, 1)
+
+        //1 == idle, 2 = jump, 3 = walk
+        int animationStage;
+
+        public int animationDelay = 30;
+
+        //idle, jump, walk? 
+        int idleFrame;
+        int idleFrames;
+
+        int jumpFrame;
+        int jumpFrames;
+
+        int walkFrame;
+        int walkFrames;
+
+
+        public Player(int playerID, float tempX, float tempY, float scaleX, float scaleY, int margin, string filename, int columns, int rols,
+            int animationDelay, int idleFrame, int idleFrames) : base(filename, columns, rols)
         {
+            this.scaleX = scaleX;
+            this.scaleY = scaleY;
             //Setting player origin at the middle of bottom side
             SetOrigin(width / 2, height);
             x = tempX;
             y = tempY;
             this.playerID = playerID;
             this.margin = margin;
+            this.animationDelay = animationDelay;
+            SetCycle(idleFrame, idleFrames, (byte) this.animationDelay);
+            Console.WriteLine(playerID);
+            Console.WriteLine(width);
+            Console.WriteLine(height);
+
         }
         //Updating player movement. Takes in 3 inputs (for now) for each right, left and up buttons.
         public void updatePlayer()
         {
+
+            Animate();
+
             foreach (Ability theAbility in theAbilities)
             {
                 if (theAbility.markedForDeathPrep != 0)
@@ -62,8 +91,9 @@ namespace GXPEngine
 
                 if (theAbility.isOver == false)
                 {
-                    switch (theAbility.theAbility)
+                    switch (theAbility.theAbility) 
                     {
+                    
                         case "ability_gralicPiece":
                             if (playerID == 1)
                             {
@@ -199,7 +229,7 @@ namespace GXPEngine
                     Gamedata.playerMoved = true;
                     x += speedXTemp;
 
-                    if (x + width / 2 > game.width - margin)
+                    if (x + width / 2 > game.width - (margin + 100))
                     {
                         x -= speedXTemp;
                     }
@@ -233,7 +263,7 @@ namespace GXPEngine
                     x += speedXTemp;
 
 
-                    if (x + width / 2 > game.width - margin)
+                    if (x + width / 2 > game.width - (margin + 100))
                     {
 
                         x -= speedXTemp;
@@ -264,7 +294,7 @@ namespace GXPEngine
 
 
 
-                    if (x - width / 2 < margin * 2)
+                    if (x - width / 2 < (margin * 2 - 100))
                     {
 
                         x += speedXTemp;
@@ -290,7 +320,7 @@ namespace GXPEngine
                     Gamedata.playerMoved = true;
                     x -= speedXTemp;
 
-                    if (x - width / 2 < margin * 2)
+                    if (x - width / 2 < (margin * 2 - 100))
                     {
 
                         x += speedXTemp;
@@ -402,7 +432,7 @@ namespace GXPEngine
             speedY += 0.6f;
             y += speedY;
 
-            if (y < height)
+            if (y < 0)
             {
                 speedY = 0;
             }
@@ -432,6 +462,7 @@ namespace GXPEngine
 
                 if (Gamedata.playerMoved)
                 {
+                    
                     if (playerID == 1)
                     {
                         if (Gamedata.currentPlayer1Platform != null)
@@ -447,7 +478,8 @@ namespace GXPEngine
                             }
                         }
                     }
-
+                    
+                    
                     if (playerID == 2)
                     {
                         if (Gamedata.currentPlayer2Platform != null)
@@ -465,6 +497,7 @@ namespace GXPEngine
                             
                         }
                     }
+                    
                 }
             }
 
@@ -650,7 +683,7 @@ namespace GXPEngine
                                      && Math.Abs(y - Gamedata.currentPlayer1Platform.y) < Gamedata.currentPlayer1Platform.detectionValue)
                                 {
                                     y += Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
-                                        - (y - height / 2)); //ajust y for more accurate landing
+                                        - (y - height / Gamedata.currentPlayer1Platform.heightAdjustPlayer1)); //ajust y for more accurate landing
 
                                     standsOnPlatform = true;
                                     shouldBeFalling = false;
@@ -698,7 +731,7 @@ namespace GXPEngine
                                 if (speedY > 0 && Math.Abs(y - Gamedata.currentPlayer2Platform.y) < Gamedata.currentPlayer2Platform.detectionValue)
                                 {
                                     y += Math.Abs(Gamedata.currentPlayer2Platform.y - (Gamedata.currentPlayer2Platform.height / 2)
-                                        - (y - height / 2)); //ajust y for more accurate landing
+                                        - (y - height / Gamedata.currentPlayer2Platform.heightAdjustPlayer2)); //ajust y for more accurate landing
 
                                     standsOnPlatform = true;
                                     shouldBeFalling = false;
