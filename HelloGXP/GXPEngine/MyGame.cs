@@ -29,14 +29,21 @@ public class MyGame : Game
     int abilityPickupTime;
 
     Sprite theBackgroundEndOrStart;
-    public SerialPort port = new SerialPort();
+    SerialPort port = new SerialPort();
 
     bool inMainMenu = true;
 
     string message;
     string[] data;
 
-    public MyGame() : base(1366, 768, false, false)     // Create a window that's 1366 x 768 and NOT fullscreen
+    SoundChannel deathSound;
+    SoundChannel menuSound;
+    SoundChannel gameSound;
+
+
+    bool deathSoound;
+    bool gameASound;
+    public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         ResetGame();
         OpenConnection(port, "COM11");
@@ -59,7 +66,8 @@ public class MyGame : Game
         abilityPickupTimer = Time.time;
         abilityPickupTime = 0;
 
-
+        deathSoound = true;
+        gameASound = true;
 
         winScreenText = null;
         theSpawnNumber = 0;
@@ -99,7 +107,7 @@ public class MyGame : Game
         player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 140, "player1.png", 4, 3, -1, 1, 1, 60, 0, 7, 10, 9, 2, 10);
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
-        Console.WriteLine(player1);
+   //     Console.WriteLine(player1);
 
 
         player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, -1, 5, 1, 60, 0, 5, 10, 9, 3, 10);
@@ -115,10 +123,21 @@ public class MyGame : Game
         //Platform spawnPlatform2 = new Platform(width / 2 - 200, height - 105, "square.png", 1.5f);
         //Gamedata.platforms.Add(spawnPlatform2);
         //AddChild(spawnPlatform2);
+
+
+
     }
 
     void Update()
     {
+
+        if (Gamedata.restartStage == 1 && gameASound)
+        {
+            gameSound = null;
+            gameSound = new Sound("ENV_Boil-Loop_001.wav", true, false).Play();
+            gameASound = false;
+        }
+        
         if (player1 != null && player2 != null)
             ReadArduinoInput(port);
 
@@ -128,19 +147,28 @@ public class MyGame : Game
             theBackgroundEndOrStart = new Sprite("menu_start.png");
             AddChild(theBackgroundEndOrStart);
             Gamedata.restartStage = 0;
+            
+            menuSound = new Sound("MUSIC_MainMenu_001.wav", true, false).Play(); //this is the level sound, looping
+            menuSound.Volume = 0.8f;
 
         }
 
         if (Gamedata.restartStage == 0)
         {
+            Console.WriteLine("start");
+
+            
             if (inMainMenu == false)
             {
+                menuSound.Stop();
                 ResetGame();
+                Gamedata.restartStage = 1;
                 return;
             }
 
             if (Input.GetKeyDown('G'))
             {
+                menuSound.Stop();
                 Gamedata.restartStage = 1;
                 inMainMenu = false;
                 ResetGame();
@@ -152,6 +180,7 @@ public class MyGame : Game
 
         if (Gamedata.restartStage == 2)
         {
+   
             List<GameObject> children = GetChildren();
             foreach (GameObject child in children)
             {
@@ -186,7 +215,34 @@ public class MyGame : Game
 
         if (Gamedata.restartStage == 3)
         {
-            Console.Clear();
+            if (gameSound != null)
+            {
+                gameSound.Stop();
+            }
+        
+            if (deathSoound)
+            {
+                int theDeathSound = Utils.Random(1, 4);
+                if (theDeathSound == 1)
+                {
+                    SoundChannel theSound = new Sound("SFX_Death_001.wav", false, false).Play();
+                }
+
+                else if (theDeathSound == 2)
+                {
+                    SoundChannel theSound = new Sound("SFX_Death_002.wav", false, false).Play();
+                }
+
+                else
+                {
+                    SoundChannel theSound = new Sound("SFX_Death_003.wav", false, false).Play();
+                }
+
+                deathSoound = false;
+            }
+
+
+
             //   Console.WriteLine("restarting");
             if (Time.time - restartTimer >= 300000)                                // <-- changed from 3000 to 300000
             {
@@ -221,6 +277,7 @@ public class MyGame : Game
                 {
                     if (player1.theAbilities.Count == 0)
                     {
+                        SoundChannel theSound = new Sound("SFX_Pick-up_001_Crab.wav", false, false).Play();
                         player1.theAbilities.Add(thePickupUp.theAbility);
                         thePickupUp.gotPicked = true;
                     }
@@ -244,6 +301,7 @@ public class MyGame : Game
                 {
                     if (player2.theAbilities.Count == 0)
                     {
+                        SoundChannel theSound = new Sound("SFX_Pick-up_001_Lobster.wav", false, false).Play();
                         player2.theAbilities.Add(thePickupUp.theAbility);
                         thePickupUp.gotPicked = true;
                     }
@@ -324,7 +382,7 @@ public class MyGame : Game
         if (thePlatform == 1)
         {
             theYCrood = Utils.Random(125, 126);
-            theMargin = 100;
+            theMargin = 180;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_onion.png";
             theYScale = 1f;
@@ -336,7 +394,7 @@ public class MyGame : Game
         else if (thePlatform == 2)
         {
             theYCrood = Utils.Random(100, 120);
-            theMargin = 100;
+            theMargin = 165;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_broccoli.png";
             theYScale = 0.6f;
@@ -348,7 +406,7 @@ public class MyGame : Game
         else if (thePlatform == 3)
         {
             theYCrood = Utils.Random(100, 100);
-            theMargin = 100;
+            theMargin = 170;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_cheese.png";
             theYScale = 0.5f;
@@ -360,7 +418,7 @@ public class MyGame : Game
         else if (thePlatform == 4)
         {
             theYCrood = Utils.Random(100, 120);
-            theMargin = 100;
+            theMargin = 140;
             theXScale = Utils.Random(0.33f, 0.7f);
             theImage = "plat_corn.png";
             theYScale = theXScale * 1.2f;
@@ -373,7 +431,7 @@ public class MyGame : Game
         else if (thePlatform == 5)
         {
             theYCrood = Utils.Random(100, 120);
-            theMargin = 100;
+            theMargin = 65;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_carrot.png";
             theYScale = 0.4f;
@@ -392,22 +450,8 @@ public class MyGame : Game
             detectionValue = 20;
             heightAdjustPlayer1 = 6; //3
             heightAdjustPlayer2 = 3; //6
-            //Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
-            //-(y - height / 2))
+            
         }
-
-        /*
-
-        else if (theXScale >= 1.5f && theXScale < 2f)
-        {
-            theImage = "eggplantTest.png";
-        }
-
-        else if (theXScale >= 2f && theXScale < 2.5f)
-        {
-            theImage = "eggplantTest.png";
-        }
-        */
 
         if (theSpawnNumber > STARTERPLATFORMS * 2)
         {
@@ -417,19 +461,7 @@ public class MyGame : Game
 
         platformYSpawnValue -= theYCrood;
 
-        /*
-        if (platformYSpawnValue < -100)
-        {
-            platformYSpawnValue = -100;
-        }
-
-        if (theSpawnNumber > PLATFORMSPAWNAMOUNT)
-        {
-            platformYSpawnValue = -100 - theYCrood;
-        }
-        */
-
-        float platformSpeed = 1.5f * Math.Max(1f, (theSpawnNumber / 10));
+        float platformSpeed = 1.5f * Math.Max(1f,(theSpawnNumber / 10));
 
         Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, theYScale, ((int)platformSpeed),
              detectionValue, heightAdjustPlayer1, heightAdjustPlayer2);
@@ -444,37 +476,40 @@ public class MyGame : Game
             abilityPickupTimer = Time.time;
             abilityPickupTime = Utils.Random(10000, 20001);
 
-            int theAbilityNum = Utils.Random(1, 5);
+            int theAbilityNum = Utils.Random(1, 4);
             Pickup thePickup;
 
-            theMargin = 100;
+            theMargin = 174;
             int theAbilityWidth = 64;
             int theAbilityHeight = 64;
 
 
             if (theAbilityNum == 1)
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "pepper.png", "ability_chiliPepperPiece", 10000);
+                 thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth * 2), -theAbilityHeight, "pepper.png", "ability_chiliPepperPiece", 10000);
+               // thePickup = new Pickup(Utils.Random(game.width - theMargin - theAbilityWidth * 2, game.width - theMargin - theAbilityWidth * 2), -theAbilityHeight, "pepper.png", "ability_chiliPepperPiece", 10000);
                 thePickup.scale = 0.22f;
             }
 
             else if (theAbilityNum == 2)
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "basil_leave.png", "ability_basilLeaf", 15000);
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth * 2), -theAbilityHeight, "basil_leave.png", "ability_basilLeaf", 15000);
                 thePickup.scale = 0.22f;
             }
 
             else if (theAbilityNum == 3)
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "lavender.png", "ability_lavenderFlower", 10000);
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth * 2), -theAbilityHeight, "lavender.png", "ability_lavenderFlower", 10000);
                 thePickup.scale = 0.22f;
             }
 
             else
             {
-                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "garlic.png", "ability_gralicPiece", 10000);
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth * 2), -theAbilityHeight, "garlic.png", "ability_gralicPiece", 10000);
                 thePickup.scale = 0.22f;
             }
+
+            SoundChannel theSound = new Sound("SFX_Power-up-Spawn_001.wav", false, false).Play();
 
             AddChild(thePickup);
             Gamedata.pickupList.Add(thePickup);
