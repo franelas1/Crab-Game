@@ -13,7 +13,7 @@ namespace GXPEngine
         //Check if two sprite objects intersect
         public static bool hasIntersectionSprites(Sprite thisObject, Sprite thatObject)
         {
-            if (Math.Abs(thisObject.x - thatObject.x) <= (thisObject.width / 2) + (thatObject.width / 2) &&
+             if (Math.Abs(thisObject.x - thatObject.x) <= (thisObject.width / 2) + (thatObject.width / 2) &&
                 Math.Abs(thisObject.y - thatObject.y) <= (thisObject.height / 2) + (thatObject.height / 2))
             {
                 return true;

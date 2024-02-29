@@ -16,8 +16,8 @@ namespace GXPEngine
 
         bool ableToJump; //player can jump if true
 
-        float speedX = 4;
-        float speedXTemp = 4;
+        public float speedX = 8;
+        public float speedXTemp = 8;
         float speedY;
         float oldY;         //Last frame player Y position
 
@@ -33,6 +33,8 @@ namespace GXPEngine
 
         public bool isInAbility;
         public List<Ability> theAbilities = new List<Ability>();
+
+        int jumpHeight = 18;
         public Player(int playerID, float tempX, float tempY, int margin, string filename) : base(filename, 1, 1)
         {
             //Setting player origin at the middle of bottom side
@@ -42,10 +44,18 @@ namespace GXPEngine
             this.playerID = playerID;
             this.margin = margin;
         }
-
         //Updating player movement. Takes in 3 inputs (for now) for each right, left and up buttons.
         public void updatePlayer()
         {
+            foreach (Ability theAbility in theAbilities)
+            {
+                if (theAbility.markedForDeathPrep != 0)
+                {
+                    theAbilities.Remove(theAbility);
+                    break;
+                }
+            }
+            
             foreach (Ability theAbility in theAbilities)
             {
                 theAbility.UpdateAbility();
@@ -55,12 +65,73 @@ namespace GXPEngine
                     switch (theAbility.theAbility)
                     {
                         case "ability_gralicPiece":
-                            Console.WriteLine("gralic ability");
+                            if (playerID == 1)
+                            {
+                                Gamedata.player2.speedXTemp = Gamedata.player2.speedX - (float)(Gamedata.player2.speedX * 0.25);
+                            }
+
+                            if (playerID == 2)
+                            {
+                                Gamedata.player1.speedXTemp = Gamedata.player1.speedX - (float)(Gamedata.player1.speedX * 0.25);
+                            }
                             break;
                         case "ability_chiliPepperPiece":
                             break;
-                        case "lavenderFlower":
+                        case "ability_lavenderFlower":
                             break;
+                        case "ability_basilLeaf":
+                            Gamedata.inBasilLEffect = true;
+                            break;
+                    }
+                }
+
+                else
+                {
+                    switch (theAbility.theAbility)
+                    {
+                        case "ability_gralicPiece":
+                            if (playerID == 1)
+                            {
+                                Gamedata.player2.speedXTemp = Gamedata.player2.speedX;
+                            }
+
+                            if (playerID == 2)
+                            {
+                                Gamedata.player1.speedXTemp = Gamedata.player1.speedX;
+                            }
+                            break;
+                        case "ability_chiliPepperPiece":
+                            break;
+                        case "ability_lavenderFlower":
+                            break;
+                        case "ability_basilLeaf":
+                            if (playerID == 1)
+                            {
+                                if (Gamedata.player2.hasAbility("ability_basilLeaf") == false)
+                                {
+                                    Gamedata.inBasilLEffect = false;
+                                }
+                            }
+
+                            if (playerID == 2)
+                            {
+                                if (Gamedata.player1.hasAbility("ability_basilLeaf") == false)
+                                {
+                                    Gamedata.inBasilLEffect = false;
+                                }
+                            }
+
+                            break;
+                    }
+
+                    if (playerID == 1)
+                    {
+                            theAbility.markedForDeathPrep = 1;
+                    }
+
+                    if (playerID == 2)
+                    {
+                        theAbility.markedForDeathPrep = 2;
                     }
                 }
             }
@@ -97,6 +168,19 @@ namespace GXPEngine
             y -= 15;
         }
 
+        public bool hasAbility(string abilityName)
+        {
+            bool hasAbility = false;
+            foreach (Ability thAbility in theAbilities)
+            {
+                if (thAbility.theAbility == abilityName)
+                {
+                    hasAbility = true;
+                }
+            }
+            return hasAbility;
+        }
+
         //Player movement Left Right
         void movementLR(bool goRight, bool goLeft)
         {
@@ -125,12 +209,20 @@ namespace GXPEngine
                     {
                         Console.WriteLine("player 1 goes right cancel");
                         x -= speedXTemp;
+                        if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
+                        {
+                            x -= (float)(speedXTemp * 2) * 0.20f;
+                        }
                     }
 
                     else if (hasPlayerCollision == true && Input.GetKey(Key.LEFT) && Gamedata.player1.x > Gamedata.player2.x
                         && Math.Abs(Gamedata.player1.width - CustomUtil.GetDistance(Gamedata.player1, Gamedata.player2)) < 2)
                     { 
-                        Gamedata.player2.x += speedXTemp; 
+                        Gamedata.player2.x += speedXTemp;
+                        if (hasAbility("ability_lavenderFlower"))
+                        {
+                            Gamedata.player2.x += (float)(speedXTemp * 2) * 0.20f;
+                        }
                     }
                 }
 
@@ -153,6 +245,10 @@ namespace GXPEngine
                     {
                         Console.WriteLine("player 2 goes right cancel");
                         x -= speedXTemp;
+                        if (Gamedata.player1.hasAbility("ability_lavenderFlower"))
+                        {
+                            x -= (float) (speedXTemp * 2) * 0.20f;
+                        }
                     }
                 }
             }
@@ -181,6 +277,10 @@ namespace GXPEngine
                     {
                         Console.WriteLine("player 1 goes left cancel");
                         x += speedXTemp;
+                        if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
+                        {
+                            x += (float)(speedXTemp * 2) * 0.20f;
+                        }
                     }
                 }
 
@@ -201,6 +301,10 @@ namespace GXPEngine
                     {
                         Console.WriteLine("player 2 goes right cancel");
                         x += speedXTemp;
+                        if (Gamedata.player2.hasAbility("ability_lavenderFlower"))
+                        {
+                            x += (float)(speedXTemp * 2) * 0.20f;
+                        }
                     }
                 }
             }
@@ -298,6 +402,11 @@ namespace GXPEngine
             speedY += 0.6f;
             y += speedY;
 
+            if (y < height)
+            {
+                speedY = 0;
+            }
+            
             if (y > game.height + height / 2)
             {
                 Gamedata.restartStage = 2;
@@ -317,7 +426,6 @@ namespace GXPEngine
             //If below floor go back, reset falling speed and enable jump again 
             if (standsOnPlatform && !shouldBeFalling)
             {
-
                 y -= speedY;
                 speedY = 0;
                 ableToJump = true;
@@ -328,7 +436,15 @@ namespace GXPEngine
                     {
                         if (Gamedata.currentPlayer1Platform != null)
                         {
-                            //y += Gamedata.currentPlayer1Platform.theSpeed;
+                            if (Gamedata.inBasilLEffect)
+                            {
+                                y += Gamedata.platformSpeed - (float)(Gamedata.platformSpeed * 0.25);
+                            }
+
+                            else
+                            {
+                                y += Gamedata.platformSpeed;
+                            }
                         }
                     }
 
@@ -336,7 +452,17 @@ namespace GXPEngine
                     {
                         if (Gamedata.currentPlayer2Platform != null)
                         {
-                            //y += Gamedata.currentPlayer2Platform.theSpeed;
+                            
+                            if (Gamedata.inBasilLEffect)
+                            {
+                                y += Gamedata.platformSpeed - (float)(Gamedata.platformSpeed * 0.25);
+                            }
+
+                            else
+                            {
+                                y += Gamedata.platformSpeed;
+                            }
+                            
                         }
                     }
                 }
@@ -353,7 +479,16 @@ namespace GXPEngine
             {
                 hasSomeInput = true;
                 Gamedata.playerMoved = true;
-                speedY = -12;
+                if (hasAbility("ability_chiliPepperPiece"))
+                {
+                    Console.WriteLine("jump increase");
+                    speedY = -1 * (jumpHeight + (float) (jumpHeight*0.25));
+                }
+
+                else
+                {
+                    speedY = -1 * jumpHeight;
+                }
                 standsOnPlatform = false;
                 Gamedata.currentPlayer1Platform = null;
 
@@ -477,14 +612,14 @@ namespace GXPEngine
                                 Console.WriteLine(speedY > 0);
                                 Console.WriteLine(Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
                                     - (y - height / 2)));
-                                
+                                Console.WriteLine(Math.Abs(y - Gamedata.currentPlayer1Platform.y));
                                 */
-
+                                
 
 
                                 //if detection fails, try again (this might not be needed)
                                 if (Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
-                                    - (y - height / 2)) < 10 == false)
+                                    - (y - height / 2)) < Gamedata.currentPlayer1Platform.detectionValue == false)
                                 {
                                     int heightt = 25;
                                     if (speedY > 0) //jump falling
@@ -508,9 +643,11 @@ namespace GXPEngine
                                 //the conditions below determine if player successfully stands on a platform
                                 //first determine if player is falling, and player at specific height relative
                                 //to the detected platform
+
+                                //Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
+                           //     -(y - height / 2)) < Gamedata.currentPlayer1Platform.detectionValue
                                 if (speedY > 0
-                                    && Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
-                                    - (y - height / 2)) < 10)
+                                     && Math.Abs(y - Gamedata.currentPlayer1Platform.y) < Gamedata.currentPlayer1Platform.detectionValue)
                                 {
                                     y += Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
                                         - (y - height / 2)); //ajust y for more accurate landing
@@ -558,9 +695,7 @@ namespace GXPEngine
                                 //the conditions below determine if player successfully stands on a platform
                                 //first determine if player is falling, and player at specific height relative
                                 //to the detected platform
-                                if (speedY > 0
-                                    && Math.Abs(Gamedata.currentPlayer2Platform.y - (Gamedata.currentPlayer2Platform.height / 2)
-                                    - (y - height / 2)) < 10)
+                                if (speedY > 0 && Math.Abs(y - Gamedata.currentPlayer2Platform.y) < Gamedata.currentPlayer2Platform.detectionValue)
                                 {
                                     y += Math.Abs(Gamedata.currentPlayer2Platform.y - (Gamedata.currentPlayer2Platform.height / 2)
                                         - (y - height / 2)); //ajust y for more accurate landing

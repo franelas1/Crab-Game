@@ -35,8 +35,14 @@ namespace GXPEngine
 
         public static float platformSpeed = 2f;
 
+
+        public static bool inBasilLEffect;
+
         public static void ResetData()
         {
+            playerWin = 0;
+            platformSpeed = 2f;
+            inBasilLEffect = false;
             platformStartFalling = false;
             player1 = null;
             player2 = null;

@@ -13,6 +13,11 @@ namespace GXPEngine
         int abilityTime;
         int theTimer = Time.time;
         public bool isOver = false;
+
+        public int markedForDeathPrep = 0;
+
+        public bool hasRestored = false;
+
         public Ability(string theAbility, int abilityTime) 
         {
             this.theAbility = theAbility;
@@ -21,11 +26,23 @@ namespace GXPEngine
 
         public void UpdateAbility()
         {
-            Console.WriteLine(Time.time - theTimer);
             if (Time.time - theTimer  >= abilityTime)
             {
                 isOver = true;
             }
+
+            /*
+            if (markedForDeath == 1)
+            {
+                Gamedata.player1.theAbilities.Remove(this);
+            }
+
+            if (markedForDeath == 2)
+            {
+                Gamedata.player2.theAbilities.Remove(this);
+            }
+            */
+
         }
     }
 }

@@ -9,12 +9,16 @@ namespace GXPEngine
         //filename: the image name of the platform's image
         //posYStart: y position of the platform at spawn
         //margin: how many pixels away the walls are from the sides of the screen
-        public Platform(string filename, float posYStart, int margin, float theXScale, float theSpeed) : base(filename)
+
+        public int detectionValue = 10;
+        public Platform(string filename, float posYStart, int margin, float theXScale, float scaleY, float theSpeed,
+            int detectionValue) : base(filename)
         {
             SetOrigin(width / 2, 0);
             scaleX = theXScale;
-            scaleY = 0.5f;
+            this.scaleY = scaleY;
             this.margin = margin;
+            this.detectionValue = detectionValue;
 
             /*
             Console.WriteLine("-------------");
@@ -46,7 +50,15 @@ namespace GXPEngine
            
             if (Gamedata.playerMoved)
             {
-                //y += Gamedata.platformSpeed;
+                if (Gamedata.inBasilLEffect)
+                {
+                    y += Gamedata.platformSpeed - (float) (Gamedata.platformSpeed * 0.25);
+                }
+
+                else
+                {
+                    y += Gamedata.platformSpeed;
+                }
                 CheckPlatformOutOfScreen();
             }
         }

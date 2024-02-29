@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;   // Adding lists
 using System.Runtime.Remoting.Activation;
 using System.IO.Ports;
+using System.Drawing.Printing;
 
 public class MyGame : Game
 {
-
+    const int STARTERPLATFORMS = 7;
     const int PLATFORMSPAWNAMOUNT = 15;
     // Declare variables:
     Player player1, player2;
@@ -26,14 +27,26 @@ public class MyGame : Game
     TextCanvas winScreenText;
     int theSpawnNumber;
 
+    int abilityPickupTimer = Time.time;
+    int abilityPickupTime;
+
+    Sprite theBackgroundEndOrStart;
+
+    bool inMainMenu = true;
+
     public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
-        ResetGame();
+     //   ResetGame();
     }
 
     void ResetGame()
     {
         Gamedata.ResetData();
+
+        abilityPickupTimer = Time.time;
+        abilityPickupTime = 0;
+
+
 
         winScreenText = null;
         theSpawnNumber = 0;
@@ -87,54 +100,30 @@ public class MyGame : Game
     {
         if (Gamedata.restartStage == -1)
         {
-
+            theBackgroundEndOrStart = null;
+            theBackgroundEndOrStart = new Sprite("bg_start.png");
+            AddChild(theBackgroundEndOrStart);
+            Gamedata.restartStage = 0;
+   
         }
 
         if (Gamedata.restartStage == 0)
         {
-        }
-
-        water.Animate(1);
-
-        //detect ighhmçf  player touches a pickup, if touches and the player already has the same effect of the ability of the pickup, the player would not get the pickup
-        foreach (Pickup thePickupUp in Gamedata.pickupList)
-        {
-            if (CustomUtil.hasIntersectionSprites(thePickupUp, player1))
+            if (inMainMenu == false)
             {
-                bool theAbilityNotRepeat = true;
-
-                foreach (Ability theAbility in player1.theAbilities)
-                {
-                    if (theAbility.theAbility == thePickupUp.theAbility.theAbility)
-                    {
-                        theAbilityNotRepeat = false;
-                    }
-                }
-
-                if (theAbilityNotRepeat)
-                {
-                    Console.WriteLine("added");
-                    player1.theAbilities.Add(thePickupUp.theAbility);
-                }
+                ResetGame();
+                return;
             }
 
+            if (Input.GetKeyDown('G'))
+            {
+                Gamedata.restartStage = 1;
+                inMainMenu = false;
+                ResetGame();
+                
+            }
 
-            //                        
-        }
-
-        if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
-        {
-            //Updating player movement with human imput
-            player1.updatePlayer();
-            player2.updatePlayer();
-        }
-
-        Gamedata.detectPlatformPlayer1 = false;
-
-        if (Gamedata.platforms.Count < PLATFORMSPAWNAMOUNT && Gamedata.playerMoved == true)
-        {
-        //    Console.WriteLine("producing");
-            SpawnPlatform();
+            return;
         }
 
         if (Gamedata.restartStage == 2)
@@ -155,20 +144,101 @@ public class MyGame : Game
             Gamedata.restartStage = 3;
             winScreenText = new TextCanvas("Player X win", "SwanseaBold-D0ox.ttf", 20, 200, 200, 255, 255, 255, false);
             winScreenText.SetPoint((width / 2) - 100, (height / 2) - 100);
-            winScreenText.ChangeText("Player " + Gamedata.playerWin + " wins");
-            winScreenText.visible = true;
-            AddChild(winScreenText);
+
+            if (Gamedata.playerWin == 1)
+            {
+                theBackgroundEndOrStart = null;
+                theBackgroundEndOrStart = new Sprite("end_screen_crab_wins.png");
+                AddChild(theBackgroundEndOrStart);
+            }
+
+            else
+            {
+                theBackgroundEndOrStart = null;
+                theBackgroundEndOrStart = new Sprite("end_screen_lobster_win.png");
+                AddChild(theBackgroundEndOrStart);
+            }
         }
 
         if (Gamedata.restartStage == 3)
         {
             Console.Clear();
-         //   Console.WriteLine("restarting");
+            //   Console.WriteLine("restarting");
             if (Time.time - restartTimer >= 3000)
             {
                 ResetGame();
                 Gamedata.restartStage = 0;
             }
+        }
+
+        if (water == null || player1 == null || player2 == null)
+        {
+            return;
+        }
+
+        water.Animate(1);
+
+        //detect if  player touches a pickup, if touches and the player already has the same effect of the ability of the pickup, the player would not get the pickup
+        foreach (Pickup thePickupUp in Gamedata.pickupList)
+        {
+            if (CustomUtil.hasIntersectionSprites(thePickupUp, player1))
+            {
+                bool theAbilityNotRepeat = true;
+
+                foreach (Ability theAbility in player1.theAbilities)
+                {
+                    if (theAbility.theAbility == thePickupUp.theAbility.theAbility)
+                    {
+                        theAbilityNotRepeat = false;
+                    }
+                }
+
+                if (theAbilityNotRepeat)
+                {
+                    player1.theAbilities.Add(thePickupUp.theAbility);
+                    thePickupUp.gotPicked = true;
+                }
+            }
+
+
+            if (CustomUtil.hasIntersectionSprites(thePickupUp, player2))
+            {
+                bool theAbilityNotRepeat = true;
+
+                foreach (Ability theAbility in player2.theAbilities)
+                {
+                    if (theAbility.theAbility == thePickupUp.theAbility.theAbility)
+                    {
+                        theAbilityNotRepeat = false;
+                    }
+                }
+
+                if (theAbilityNotRepeat)
+                {
+                    player2.theAbilities.Add(thePickupUp.theAbility);
+                    thePickupUp.gotPicked = true;
+                }
+            }
+
+
+            //                        
+        }
+
+        if (Gamedata.restartStage != 2 && Gamedata.restartStage != 3)
+        {
+            //Updating player movement with human imput
+            player1.updatePlayer();
+            player2.updatePlayer();
+        }
+
+        Gamedata.detectPlatformPlayer1 = false;
+
+        if ((Gamedata.platforms.Count < PLATFORMSPAWNAMOUNT && Gamedata.playerMoved == true) || Gamedata.platforms.Count < STARTERPLATFORMS)
+        {
+        //    Console.WriteLine("producing");
+            SpawnPlatform();
+
+
         }
     }
 
@@ -182,17 +252,87 @@ public class MyGame : Game
     {
         theSpawnNumber++;
 
-        int theYCrood = (int) Utils.Random(50, 60) + 5 * theSpawnNumber;
-        int theMargin = 100; // (int) Utils.Random(50, 100);
-        platformYSpawnValue -= theYCrood;
 
-        Console.WriteLine(platformYSpawnValue);
-        String theImage;
-        float theXScale = Utils.Random(0.7f, 1f);
-
-        if(theXScale >= 0.7f && theXScale <= 1f)
+        if (theSpawnNumber % PLATFORMSPAWNAMOUNT == 0)
         {
+            platformYSpawnValue = 0;
+        }
+
+        //(int) Utils.Random(10, 10) + 5 * theSpawnNumber;
+        int theYCrood;
+        int theMargin; // (int) Utils.Random(50, 100);
+        float theYScale;
+
+
+   //     Console.WriteLine(platformYSpawnValue);
+        String theImage;
+        float theXScale;
+        int thePlatform = (int) Utils.Random(1, 6);
+
+        int detectionValue = 10;
+
+    //    Console.WriteLine(thePlatform);
+
+        if (thePlatform == 1)
+        {
+            theYCrood = Utils.Random(85, 100);
+            theMargin = 100;
+            theXScale = Utils.Random(0.6f, 0.9f);
+            theImage = "plat_onion.png";
+            theYScale = 1f;
+            detectionValue = 20;
+        }
+
+        else if (thePlatform == 2)
+        {
+            theYCrood = Utils.Random(100, 120);
+            theMargin = 100;
+            theXScale = Utils.Random(0.6f, 0.9f);
+            theImage = "plat_broccoli.png";
+            theYScale = 0.4f;
+            detectionValue = 20;
+        }
+
+        else if (thePlatform == 3)
+        {
+            theYCrood = Utils.Random(85, 100);
+            theMargin = 100;
+            theXScale = Utils.Random(0.6f, 0.9f);
+            theImage = "plat_cheese.png";
+            theYScale = 0.5f;
+            detectionValue = 20;
+        }
+
+        else if (thePlatform == 4)
+        {
+            theYCrood = Utils.Random(100, 120);
+            theMargin = 100;
+            theXScale = Utils.Random(0.33f, 0.7f);
+            theImage = "plat_corn.png";
+            theYScale = 0.33f;
+            detectionValue = 20;
+        }
+
+        else if (thePlatform == 5)
+        {
+            theYCrood = Utils.Random(100, 120);
+            theMargin = 100;
+            theXScale = Utils.Random(0.6f, 0.9f);
+            theImage = "plat_carrot.png";
+            theYScale = 0.4f;
+            detectionValue = 20;
+        }
+
+        else
+        {
+            theYCrood = Utils.Random(75, 100);
+            theMargin = 100;
+            theXScale = Utils.Random(1f, 1.7f);
             theImage = "plat_eggplant.png";
+            theYScale = 0.5f;
+            detectionValue = 20;
+            //Math.Abs(Gamedata.currentPlayer1Platform.y - (Gamedata.currentPlayer1Platform.height / 2)
+            //-(y - height / 2))
         }
 
         /*
@@ -208,25 +348,64 @@ public class MyGame : Game
         }
         */
 
-        else
-        {
-            theImage = "plat_corn.png";
-        }
 
+        platformYSpawnValue -= theYCrood;
+
+        /*
+        if (platformYSpawnValue < -100)
+        {
+            platformYSpawnValue = -100;
+        }
 
         if (theSpawnNumber > PLATFORMSPAWNAMOUNT)
         {
             platformYSpawnValue = -100 - theYCrood;
         }
+        */
 
         float platformSpeed = 1.5f * Math.Max(1f,(theSpawnNumber / 10));
 
-        Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, platformSpeed);
+        Platform theSpawnPlatform = new Platform(theImage, platformYSpawnValue, theMargin, theXScale, theYScale, ((int)platformSpeed),
+             detectionValue);
         Gamedata.platforms.Add(theSpawnPlatform);
 
-        if (theSpawnNumber == 1)
+        if (theSpawnNumber == 1 || Time.time - abilityPickupTimer >= abilityPickupTime)
         {
-            Pickup thePickup = new Pickup(theSpawnPlatform.x, theSpawnPlatform.y - theSpawnPlatform.height,"colors.png", "ability_gralicPiece", 3000);
+            //ability_chiliPepperPiece //10000
+            //ability_basilLeaf //15000
+            //ability_gralicPiece //10000
+
+            abilityPickupTimer = Time.time;
+            abilityPickupTime = Utils.Random(10000, 20001);
+
+            int theAbilityNum = Utils.Random(1, 5);
+            Pickup thePickup;
+
+            theMargin = 100;
+            int theAbilityWidth = 64;
+            int theAbilityHeight = 64;
+            
+
+            if (theAbilityNum == 1)
+            {
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "colors2.png", "ability_chiliPepperPiece", 10000);
+            }
+            
+            else if (theAbilityNum == 2)
+            {
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "colors1.png", "ability_basilLeaf", 15000);
+            }
+
+            else if (theAbilityNum == 3)
+            {
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "checkers.png", "ability_lavenderFlower", 10000);
+            }
+
+            else
+            {
+                thePickup = new Pickup(Utils.Random(theMargin + theAbilityWidth, game.width - theMargin - theAbilityWidth), -theAbilityHeight, "colors.png", "ability_gralicPiece", 10000);
+            }
+
             AddChild(thePickup);
             Gamedata.pickupList.Add(thePickup);
         }
