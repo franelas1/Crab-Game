@@ -32,7 +32,7 @@ public class MyGame : Game
     int abilityPickupTime;
 
     Sprite theBackgroundEndOrStart;
-    SerialPort port = new SerialPort();
+    public SerialPort port = new SerialPort();
 
     bool inMainMenu = true;
 
@@ -42,7 +42,7 @@ public class MyGame : Game
     public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
           ResetGame();
-        OpenConnection(port, "COM11");
+          OpenConnection(port, "COM11");
     }
 
     void OpenConnection(SerialPort portTemp, string portNumber)
@@ -276,7 +276,7 @@ public class MyGame : Game
     {
         message = portTemp.ReadLine();
         data = message.Split(' ');
-        try
+        if (Gamedata.player1 != null && Gamedata.player2 != null)
         {
             player1.moveXAmount = int.Parse(data[0]);
             player1.jumpButton = int.Parse(data[1]);
@@ -285,9 +285,7 @@ public class MyGame : Game
             player2.jumpButton = int.Parse(data[4]);
             player2.powerButton = int.Parse(data[5]);
             Console.WriteLine("{0} {1} {2} {3} {4} {5}", data[0], data[1], data[2], data[3], data[4], data[5]);
-        }
-        catch { }
-        
+        }        
     }
 
     // Main is the first method that's called when the program is run
