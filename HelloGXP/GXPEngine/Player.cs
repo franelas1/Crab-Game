@@ -519,7 +519,7 @@ namespace GXPEngine
                     //speedXTemp = moveX;
                     x -= speedXTemp * (moveX / 100f);
 
-                    if (Gamedata.player1.x + Gamedata.player1.width / 2 + (moveX / 100f) > game.width - margin)
+                    if (x + width / 2 + (moveX / 100f) > game.width - margin)
                     {
                         x += speedXTemp * (moveX / 100f);
                     }
