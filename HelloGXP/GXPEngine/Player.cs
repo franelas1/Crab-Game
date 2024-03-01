@@ -22,7 +22,7 @@ namespace GXPEngine
         float oldY;         //Last frame player Y position
 
 
-        int margin;
+        int margin = 295;
         public bool hasSomeInput;
         public bool hasPlayerCollision;
 
@@ -245,7 +245,7 @@ namespace GXPEngine
                     hasSomeInput = true;
                 }
                 movementLR(Input.GetKey(Key.D), Input.GetKey(Key.A));
-              // movementLR(Gamedata.player1.moveXAmount);
+                movementLR(Gamedata.player1.moveXAmount);
                 movementUD(Input.GetKey(Key.W), Gamedata.player1.jumpButton);
 
             }
@@ -256,8 +256,8 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                 }
-               movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
-                //movementLR(Gamedata.player2.moveXAmount);
+                movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
+                movementLR(Gamedata.player2.moveXAmount);
                 movementUD(Input.GetKey(Key.UP), Gamedata.player2.jumpButton);
             }
 
@@ -519,7 +519,7 @@ namespace GXPEngine
                     //speedXTemp = moveX;
                     x -= speedXTemp * (moveX / 100f);
 
-                    if (x + width / 2 > game.width - (margin + 100))
+                    if (Gamedata.player1.x + Gamedata.player1.width / 2 + (moveX / 100f) > game.width - margin)
                     {
                         x += speedXTemp * (moveX / 100f);
                     }
@@ -554,7 +554,7 @@ namespace GXPEngine
                     x -= speedXTemp * (moveX / 100f);
 
 
-                    if (x + width / 2 > game.width - (margin + 100))
+                    if (x + width / 2 + (moveX / 100f) > game.width - margin)
                     {
 
                         x += speedXTemp * (moveX / 100f);
@@ -584,9 +584,8 @@ namespace GXPEngine
                     Gamedata.playerMoved = true;
                     x -= speedXTemp * (moveX / 100f);
 
-                    if (x - width / 2 < (margin * 2 - 100))
+                    if (x - width / 2  - (moveX / 100f) < margin)
                     {
-
                         x += speedXTemp * (moveX / 100f);
                     }
 
@@ -611,7 +610,7 @@ namespace GXPEngine
                     Gamedata.playerMoved = true;
                     x -= speedXTemp * (moveX / 100f);
 
-                    if (x - width / 2 < (margin * 2 - 100))
+                    if (x - width / 2 - (moveX / 100f) < margin)
                     {
 
                         x += speedXTemp * (moveX / 100f);

@@ -65,7 +65,7 @@ public class MyGame : Game
         portTemp.BaudRate = 9600;
         portTemp.RtsEnable = true;
         portTemp.DtrEnable = true;
-   //     portTemp.Open();
+        portTemp.Open();
     }
 
     void ResetGame()
@@ -126,9 +126,9 @@ public class MyGame : Game
         player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, -1, 5, 1, 60, 0, 5, 10, 9, 3, 10);
         Gamedata.player2 = player2;
         playerPivot.AddChild(player2);
-        platformYSpawnValue = height - 150;
 
         //starter platforms
+        platformYSpawnValue = height - 150;
         Platform spawnPlatform1 = new Platform(width / 2, height - 105, "plat_eggplant.png", 8f);
         Gamedata.platforms.Add(spawnPlatform1);
         AddChild(spawnPlatform1);
@@ -157,7 +157,8 @@ public class MyGame : Game
         }
         
         //if ((Time.time % 1000) / 60 == 0)
-     //   ReadArduinoInput(port);
+        if(player1 != null && player2 != null)
+        ReadArduinoInput(port);
 
         if (Gamedata.restartStage == -1)
         {
@@ -184,7 +185,8 @@ public class MyGame : Game
                 return;
             }
 
-            if (Input.GetKeyDown('G') || Gamedata.player2.powerButton == 1)
+            if (Input.GetKeyDown('G') || Gamedata.player1.jumpButton == 1 || Gamedata.player1.powerButton == 1 || 
+                                         Gamedata.player2.jumpButton == 1 || Gamedata.player2.powerButton == 1)
             {
                 menuSound.Stop();
                 Gamedata.restartStage = 1;
@@ -291,7 +293,8 @@ public class MyGame : Game
             }
             */
 
-            if (Input.GetKeyDown('G') || Gamedata.player2.powerButton == 1)
+            if (Input.GetKeyDown('G') || Gamedata.player1.jumpButton == 1 || Gamedata.player1.powerButton == 1 || 
+                                         Gamedata.player2.jumpButton == 1 || Gamedata.player2.powerButton == 1)
             {
                 
                 Gamedata.restartStage = 0;
