@@ -46,7 +46,11 @@ public class MyGame : Game
     bool deathSoound;
     bool gameASound;
 
-    //TextCanvas player1AbilityDisplay = new TextCanvas("The the", "SwanseaBold-D0ox.ttf")
+    TextCanvas player1AbilityDisplay;
+
+
+    SoundChannel theSoundDEatth;
+
     public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         ResetGame();
@@ -65,6 +69,9 @@ public class MyGame : Game
 
     void ResetGame()
     {
+        player1AbilityDisplay = null;
+        player1AbilityDisplay = new TextCanvas("The", "SwanseaBold-D0ox.ttf", 15, 200, 200, 255, 255, 255, false);
+        
         Gamedata.ResetData();
 
         abilityPickupTimer = Time.time;
@@ -131,6 +138,10 @@ public class MyGame : Game
 
         countdownTimer = Time.time;
 
+        AddChild(player1AbilityDisplay);
+        player1AbilityDisplay.x = 50;
+        player1AbilityDisplay.y = 20;
+
     }
 
     void Update()
@@ -171,7 +182,7 @@ public class MyGame : Game
                 return;
             }
 
-            if (Input.GetKeyDown('G'))
+            if (Input.GetKeyDown('G') || Gamedata.player2.powerButton == 1)
             {
                 menuSound.Stop();
                 Gamedata.restartStage = 1;
@@ -215,14 +226,25 @@ public class MyGame : Game
             {
                 theBackgroundEndOrStart = null;
                 theBackgroundEndOrStart = new Sprite("end_screen_crab_wins.png");
+                Sprite theCon = new Sprite("press_button_to_continue.png");
+                theCon.scale = 0.8f;
+                theCon.x = width / 2 - theCon.width / 2;
+                theCon.y = height - 110 - theCon.height / 2;
+
                 AddChild(theBackgroundEndOrStart);
+                AddChild(theCon);
             }
 
             else
             {
                 theBackgroundEndOrStart = null;
                 theBackgroundEndOrStart = new Sprite("end_screen_lobster_win.png");
+                Sprite theCon = new Sprite("press_button_to_continue.png");
+                theCon.scale = 0.8f;
+                theCon.x = width / 2 - theCon.width / 2;
+                theCon.y = height - 110 - theCon.height / 2;
                 AddChild(theBackgroundEndOrStart);
+                AddChild(theCon);
             }
         }
 
@@ -236,31 +258,41 @@ public class MyGame : Game
             if (deathSoound)
             {
                 int theDeathSound = Utils.Random(1, 4);
+                theSoundDEatth = null;
                 if (theDeathSound == 1)
                 {
-                    SoundChannel theSound = new Sound("SFX_Death_001.wav", false, false).Play();
+                    theSoundDEatth = new Sound("SFX_Death_001.wav", false, false).Play();
                 }
 
                 else if (theDeathSound == 2)
                 {
-                    SoundChannel theSound = new Sound("SFX_Death_002.wav", false, false).Play();
+                    theSoundDEatth = new Sound("SFX_Death_002.wav", false, false).Play();
                 }
-
+                
                 else
                 {
-                    SoundChannel theSound = new Sound("SFX_Death_003.wav", false, false).Play();
+                    theSoundDEatth = new Sound("SFX_Death_003.wav", false, false).Play();
                 }
 
                 deathSoound = false;
             }
 
 
-
+            /*
             //   Console.WriteLine("restarting");
             if (Time.time - restartTimer >= 300000)                                // <-- changed from 3000 to 300000
             {
                 ResetGame();
                 Gamedata.restartStage = 0;
+            }
+            */
+
+            if (Input.GetKeyDown('G') || Gamedata.player2.powerButton == 1)
+            {
+                
+                Gamedata.restartStage = 0;
+                theSoundDEatth.Stop();
+                ResetGame();
             }
         }
 

@@ -256,8 +256,8 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                 }
-               //movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
-                movementLR(Gamedata.player2.moveXAmount);
+               movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
+                //movementLR(Gamedata.player2.moveXAmount);
                 movementUD(Input.GetKey(Key.UP), Gamedata.player2.jumpButton);
             }
 
@@ -374,7 +374,6 @@ namespace GXPEngine
                     hasSomeInput = true;
                     Gamedata.playerMoved = true;
                     x -= speedXTemp;
-
 
 
                     if (x - width / 2 < (margin * 2 - 100))
@@ -650,6 +649,7 @@ namespace GXPEngine
                             Gamedata.playerMoved = true;
                             SoundChannel theSound = new Sound("SFX_Push_001_Crab.wav", false, false).Play();
                             x -= speedXTemp * (moveX / 100f);
+
                             if (x + width / 2 > game.width - margin)
                             {
 
@@ -705,6 +705,8 @@ namespace GXPEngine
                             Gamedata.playerMoved = true;
                             SoundChannel theSound = new Sound("SFX_Push_001_Lobster.wav", false, false).Play();
                             x -= speedXTemp * (moveX / 100f);
+
+
                             if (x - width / 2 < margin)
                             {
                                 x += speedXTemp * (moveX / 100f);
@@ -762,7 +764,7 @@ namespace GXPEngine
                 if (Gamedata.playerMoved)
                 {
                     
-                    if (playerID == 1)
+                    if (playerID == 1 && Gamedata.countdownOver)
                     {
                         if (Gamedata.currentPlayer1Platform != null)
                         {
@@ -782,7 +784,7 @@ namespace GXPEngine
                     }
                     
                     
-                    if (playerID == 2)
+                    if (playerID == 2 && Gamedata.countdownOver)
                     {
                         if (Gamedata.currentPlayer2Platform != null)
                         {
