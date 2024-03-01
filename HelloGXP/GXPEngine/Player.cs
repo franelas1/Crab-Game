@@ -245,7 +245,7 @@ namespace GXPEngine
                     hasSomeInput = true;
                 }
                 movementLR(Input.GetKey(Key.D), Input.GetKey(Key.A));
-              // movementLR(Gamedata.player1.moveXAmount);
+                movementLR(Gamedata.player1.moveXAmount);
                 movementUD(Input.GetKey(Key.W), Gamedata.player1.jumpButton);
 
             }
@@ -256,8 +256,8 @@ namespace GXPEngine
                 {
                     hasSomeInput = true;
                 }
-               movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
-                //movementLR(Gamedata.player2.moveXAmount);
+                movementLR(Input.GetKey(Key.RIGHT), Input.GetKey(Key.LEFT));
+                movementLR(Gamedata.player2.moveXAmount);
                 movementUD(Input.GetKey(Key.UP), Gamedata.player2.jumpButton);
             }
 

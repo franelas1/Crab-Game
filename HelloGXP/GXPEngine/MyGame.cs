@@ -64,7 +64,7 @@ public class MyGame : Game
         portTemp.BaudRate = 9600;
         portTemp.RtsEnable = true;
         portTemp.DtrEnable = true;
-   //     portTemp.Open();
+        portTemp.Open();
     }
 
     void ResetGame()
@@ -154,7 +154,8 @@ public class MyGame : Game
         }
         
         //if ((Time.time % 1000) / 60 == 0)
-     //   ReadArduinoInput(port);
+        if(player1 != null && player2 != null)
+        ReadArduinoInput(port);
 
         if (Gamedata.restartStage == -1)
         {
@@ -287,7 +288,8 @@ public class MyGame : Game
             }
             */
 
-            if (Input.GetKeyDown('G') || Gamedata.player2.powerButton == 1)
+            if (Input.GetKeyDown('G') || Gamedata.player1.jumpButton == 1 || Gamedata.player1.powerButton == 1 || 
+                                         Gamedata.player2.jumpButton == 1 || Gamedata.player2.powerButton == 1)
             {
                 
                 Gamedata.restartStage = 0;
