@@ -25,18 +25,7 @@ namespace GXPEngine
             this.heightAdjustPlayer1 = heightAdjustPlayer1;
             this.heightAdjustPlayer2 = heightAdjustPlayer2;
 
-            /*
-            Console.WriteLine("-------------");
-            Console.WriteLine(margin + width);
-            Console.WriteLine(game.width - margin - width);
-            */
-
             x = Utils.Random(margin + width, game.width - margin - width);
-
-        //    x = Utils.Random(margin + width, margin + width + 1);
-
-        //   x = Utils.Random(game.width - margin - width, game.width - margin - width + 1);
-
 
             y = posYStart;
             this.theSpeed = theSpeed;

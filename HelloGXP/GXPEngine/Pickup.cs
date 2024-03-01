@@ -9,7 +9,6 @@ namespace GXPEngine
     public class Pickup : Sprite
     {
         public Ability theAbility;
-        Platform thePlatform;
         //since pickup is always on top of platform, we will need the reference of the platform
         public bool gotPicked;
         public Pickup(float posX, float posY, string filename, string theAbilityName, int theAbilityTime) : base(filename)

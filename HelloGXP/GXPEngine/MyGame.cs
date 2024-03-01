@@ -115,18 +115,17 @@ public class MyGame : Game
         //jumping: 0 - 6 frame (cycle: 0, 7, 10)
         //idle: frame 1 (cycle: 1, 1, 60)
         //walk: (cycle: 9, 2, 10)
-        player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 140, "player1.png", 4, 3, -1, 1, 1, 60, 0, 7, 10, 9, 2, 10);
+        player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 295, "player1.png", 4, 3, -1, 1, 1, 60, 0, 7, 10, 9, 2, 10);
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
    //     Console.WriteLine(player1);
 
-
-        player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, -1, 5, 1, 60, 0, 5, 10, 9, 3, 10);
+        player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 295, "player2.png", 4, 4, -1, 5, 1, 60, 0, 5, 10, 9, 3, 10);
         Gamedata.player2 = player2;
         playerPivot.AddChild(player2);
-        platformYSpawnValue = height - 150;
 
         //starter platforms
+        platformYSpawnValue = height - 150;
         Platform spawnPlatform1 = new Platform(width / 2, height - 105, "plat_eggplant.png", 8f);
         Gamedata.platforms.Add(spawnPlatform1);
         AddChild(spawnPlatform1);
@@ -182,7 +181,8 @@ public class MyGame : Game
                 return;
             }
 
-            if (Input.GetKeyDown('G') || Gamedata.player2.powerButton == 1)
+            if (Input.GetKeyDown('G') || Gamedata.player1.jumpButton == 1 || Gamedata.player1.powerButton == 1 || 
+                                         Gamedata.player2.jumpButton == 1 || Gamedata.player2.powerButton == 1)
             {
                 menuSound.Stop();
                 Gamedata.restartStage = 1;
