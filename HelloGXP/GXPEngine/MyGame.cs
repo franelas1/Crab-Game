@@ -39,6 +39,7 @@ public class MyGame : Game
     SoundChannel deathSound;
     SoundChannel menuSound;
     SoundChannel gameSound;
+    SoundChannel gameThemeSiund;
 
     int countdownTimer;
 
@@ -46,7 +47,7 @@ public class MyGame : Game
     bool deathSoound;
     bool gameASound;
 
-    TextCanvas player1AbilityDisplay;
+   // TextCanvas player1AbilityDisplay;
 
 
     SoundChannel theSoundDEatth;
@@ -69,8 +70,8 @@ public class MyGame : Game
 
     void ResetGame()
     {
-        player1AbilityDisplay = null;
-        player1AbilityDisplay = new TextCanvas("The", "SwanseaBold-D0ox.ttf", 15, 200, 200, 255, 255, 255, false);
+     //   player1AbilityDisplay = null;
+     //   player1AbilityDisplay = new TextCanvas("The", "SwanseaBold-D0ox.ttf", 15, 200, 200, 255, 255, 255, false);
         
         Gamedata.ResetData();
 
@@ -115,12 +116,13 @@ public class MyGame : Game
         //jumping: 0 - 6 frame (cycle: 0, 7, 10)
         //idle: frame 1 (cycle: 1, 1, 60)
         //walk: (cycle: 9, 2, 10)
+         player1 = null;
         player1 = new Player(1, width / 2 - 200, height - 120, 0.35f, 0.5f, 140, "player1.png", 4, 3, -1, 1, 1, 60, 0, 7, 10, 9, 2, 10);
         Gamedata.player1 = player1;
         playerPivot.AddChild(player1);
-   //     Console.WriteLine(player1);
+        //     Console.WriteLine(player1);
 
-
+        player2 = null;
         player2 = new Player(2, width / 2 + 200, height - 120, 0.35f, 0.39f, 140, "player2.png", 4, 4, -1, 5, 1, 60, 0, 5, 10, 9, 3, 10);
         Gamedata.player2 = player2;
         playerPivot.AddChild(player2);
@@ -138,9 +140,9 @@ public class MyGame : Game
 
         countdownTimer = Time.time;
 
-        AddChild(player1AbilityDisplay);
-        player1AbilityDisplay.x = 50;
-        player1AbilityDisplay.y = 20;
+     //   AddChild(player1AbilityDisplay);
+       // player1AbilityDisplay.x = 50;
+      //  player1AbilityDisplay.y = 20;
 
     }
 
@@ -171,12 +173,12 @@ public class MyGame : Game
 
         if (Gamedata.restartStage == 0)
         {
-            Console.WriteLine("start");
 
-            
             if (inMainMenu == false)
             {
+
                 menuSound.Stop();
+                gameThemeSiund = new Sound("MUSIC_MainTheme_001.wav", true, false).Play(); 
                 ResetGame();
                 Gamedata.restartStage = 1;
                 return;
@@ -254,7 +256,9 @@ public class MyGame : Game
             {
                 gameSound.Stop();
             }
-        
+
+            gameThemeSiund.Stop();
+
             if (deathSoound)
             {
                 int theDeathSound = Utils.Random(1, 4);
@@ -438,11 +442,12 @@ public class MyGame : Game
 
         else if (thePlatform == 2)
         {
+            menuSound.Stop();
             theYCrood = Utils.Random(100, 120);
             theMargin = 165;
             theXScale = Utils.Random(0.6f, 0.9f);
             theImage = "plat_broccoli.png";
-            theYScale = 0.6f;
+            theYScale = 0.4f;
             detectionValue = 20;
             heightAdjustPlayer1 = 6; //6
             heightAdjustPlayer2 = 6; //6
@@ -450,6 +455,7 @@ public class MyGame : Game
 
         else if (thePlatform == 3)
         {
+           
             theYCrood = Utils.Random(100, 100);
             theMargin = 170;
             theXScale = Utils.Random(0.6f, 0.9f);
@@ -466,7 +472,7 @@ public class MyGame : Game
             theMargin = 140;
             theXScale = Utils.Random(0.33f, 0.7f);
             theImage = "plat_corn.png";
-            theYScale = theXScale * 1.2f;
+            theYScale = 0.33f;
             detectionValue = 20;
             heightAdjustPlayer1 = 4; //4
             heightAdjustPlayer2 = 5; //5
@@ -489,9 +495,9 @@ public class MyGame : Game
         {
             theYCrood = Utils.Random(125, 125);
             theMargin = 100;
-            theXScale = Utils.Random(1f, 1.2f);
+            theXScale = Utils.Random(1f, 1.7f);
             theImage = "plat_eggplant.png";
-            theYScale = theXScale;
+            theYScale = 0.7f;
             detectionValue = 20;
             heightAdjustPlayer1 = 6; //3
             heightAdjustPlayer2 = 3; //6
