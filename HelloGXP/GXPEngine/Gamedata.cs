@@ -13,7 +13,7 @@ namespace GXPEngine
         //this class has no contructor since it is a static class (we will use the class itself as an object)
         //since we want every class to use it, everything may need to be public static
 
-        public static bool platformStartFalling = false;
+      //  public static bool platformStartFalling = false;
 
         public static Player player1;
         public static Player player2;
@@ -38,12 +38,15 @@ namespace GXPEngine
 
         public static bool inBasilLEffect;
 
+        public static bool countdownOver = false;
+
         public static void ResetData()
         {
+            countdownOver = false;
             playerWin = 0;
             platformSpeed = 2f;
             inBasilLEffect = false;
-            platformStartFalling = false;
+         //   platformStartFalling = false;
             player1 = null;
             player2 = null;
             platforms.Clear();

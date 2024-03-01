@@ -43,9 +43,13 @@ public class MyGame : Game
     SoundChannel menuSound;
     SoundChannel gameSound;
 
+    int countdownTimer;
+
 
     bool deathSoound;
     bool gameASound;
+
+    //TextCanvas player1AbilityDisplay = new TextCanvas("The the", "SwanseaBold-D0ox.ttf")
     public MyGame() : base(1366, 768, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
           ResetGame();
@@ -59,7 +63,7 @@ public class MyGame : Game
         portTemp.BaudRate = 9600;
         portTemp.RtsEnable = true;
         portTemp.DtrEnable = true;
-        portTemp.Open();
+   //     portTemp.Open();
     }
 
     void ResetGame()
@@ -128,6 +132,7 @@ public class MyGame : Game
         //AddChild(spawnPlatform2);
 
 
+        countdownTimer = Time.time;
 
     }
 
@@ -142,7 +147,7 @@ public class MyGame : Game
         }
         
         //if ((Time.time % 1000) / 60 == 0)
-        ReadArduinoInput(port);
+     //   ReadArduinoInput(port);
 
         if (Gamedata.restartStage == -1)
         {
@@ -179,6 +184,14 @@ public class MyGame : Game
             }
 
             return;
+        }
+
+        if (Gamedata.restartStage == 1)
+        {
+            if (Time.time - restartTimer >= 3000)
+            {
+                Gamedata.countdownOver = true;
+            }
         }
 
         if (Gamedata.restartStage == 2)
@@ -357,6 +370,11 @@ public class MyGame : Game
     void SpawnPlatform()
     {
         theSpawnNumber++;
+
+        if (theSpawnNumber % 15 == 0)
+        {
+            Gamedata.platformSpeed += 0.2f;
+        }
 
         
         if (platformYSpawnValue > 52 * (PLATFORMSPAWNAMOUNT - STARTERPLATFORMS) * 2)

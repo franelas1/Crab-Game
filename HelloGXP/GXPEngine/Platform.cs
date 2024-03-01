@@ -60,7 +60,7 @@ namespace GXPEngine
         public void Update()
         {
            
-            if (Gamedata.playerMoved)
+            if (Gamedata.playerMoved && Gamedata.countdownOver)
             {
                 if (Gamedata.inBasilLEffect)
                 {
